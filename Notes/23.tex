@@ -1,0 +1,101 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 23: 10/17/22}
+\begin{lemma}[Derivatives of sums, products, quotients]
+    Let $U\subseteq \RR^n$ be open and $\vf, \vec{g} : U\to \RR^m$ be differentiable at $\va\in U$. Then
+    \begin{enumerate}
+        \item $\vf + \vec{g} : U\to \RR^m$ is differentiable at $\va$ with $\mathcal{D}\parens{\vf + \vec{g}}\parens{\va} = \mathcal{D}\vf\parens{\va} + \mathcal{D}\vec{g}\parens{\va}$.
+        \item If $m = 1$, then $fg : A\to \RR^m$ is differentiable at $\va$ with $\mathcal{D}\parens{fg}\parens{\vx} = g\parens{\va}\mathcal{D}f\parens{\vx} + f\parens{\va}\mathcal{D}g\parens{\vx}$.
+        \item If $m = 1$ and $g\parens{\vx}\neq 0$ for all $\vx\in A$, then $\frac{f}{g} : A\to \RR^m$ has $\mathcal{D}\parens{\frac{f}{g}}\parens{\vx} = \frac{g\parens{\va}\mathcal{D}f\parens{\vx} - f\parens{\va}\mathcal{D}g\parens{\vx}}{g\parens{\va}^2}$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    We'll only prove the first and second parts.
+    \begin{enumerate}
+        \item We want to show
+        \[\limv{a} \frac{\norm{\parens{\vf + \vg}\parens{\vx} - \parens{\vf + \vg}\parens{\va} - \parens{\mathcal{D}\vf\parens{\va} + \mathcal{D}\vg\parens{\va}}\parens{\vx - \va}}}{\norm{\vx - \va}} = 0;\]
+        denote this statement by $\spadesuit$. For all $\vx\in U\setminus \braces{\va}$, we have
+        \begin{align*}
+            0 &\le \frac{\norm{\vf\parens{\vx} + \vg\parens{\vx} - \vf\parens{\va} - \vg\parens{\va} - \mathcal{D}\vf\parens{\va}\parens{\vx - \va} - \mathcal{D}\vg\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} \\
+            &\le \frac{\norm{\vf\parens{\vx} - \vf\parens{\va} + \mathcal{D}\vf\parens{\va}}}{\parens{\vx - \va}} + \frac{\norm{\vg\parens{\vx} - \vg\parens{\va} + \mathcal{D}\vg\parens{\va}}}{\parens{\vx - \va}};
+        \end{align*}
+        the first and second terms both go to $0$ as $\vx \to \va$ since $\vf$ has derivative $\mathcal{D}\vf\parens{\va}$ at $\va$ and $\vg$ has derivative $\mathcal{D}\vg\parens{\va}$ at $\va$, respectively. Thus, by the Sandwich Theorem we know that $\spadesuit$ is true, so we're done.
+        \item We want to show 
+        \[\limv{a} \frac{\norm{f\parens{\vx}g\parens{\vx} - f\parens{\va}g\parens{\va} - \parens{g\parens{\va}\mathcal{D}f\parens{\va} + f\parens{\va}\mathcal{D}g\parens{\va}}\parens{\vx - \va}}}{\norm{\vx - \va}} = 0;\]
+        denote this statement by $\spadesuit$. For all $\vx\in U \setminus \braces{\va}$, we have
+        \begin{align*}
+            &\tfrac{\norm{f\parens{\vx}g\parens{\vx} \begingroup\color{red}+ f\parens{\vx}g\parens{\va} - f\parens{\vx}g\parens{\va}\endgroup - f\parens{\va}g\parens{\va} - \parens{g\parens{\va}\mathcal{D}f\parens{\va} \begingroup\color{red}+ f\parens{\vx}\mathcal{D}g\parens{\va} - f\parens{\vx}\mathcal{D}g\parens{\va}\endgroup + f\parens{\va}\mathcal{D}g\parens{\va}}\parens{\vx - \va}}}{\norm{\vx - \va}} \\
+            &\le \tfrac{\norm{g\parens{\va}\parens{f\parens{\vx} - f\parens{\va} - \mathcal{D}f\parens{\va}\parens{\vx - \va}}}}{\norm{\vx - \va}} + \tfrac{\norm{f\parens{\vx}\parens{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}}{\norm{\vx - \va}}\\
+            &+ \tfrac{\norm{\parens{f\parens{\vx} - f\parens{\va}}\mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} \\
+            &= \tfrac{\abs{g\parens{\va}}\norm{f\parens{\vx} - f\parens{\va} - \mathcal{D}f\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} + \tfrac{\abs{f\parens{\vx} \begingroup\color{red} - f\parens{\va} + f\parens{\va}\endgroup}\norm{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} \\
+            &+ \tfrac{\abs{f\parens{\vx} - f\parens{\va}}\norm{\mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} \\
+            &\le \tfrac{\abs{g\parens{\va}}\norm{f\parens{\vx} - f\parens{\va} - \mathcal{D}f\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} + \tfrac{\abs{f\parens{\vx} - f\parens{\va}}\norm{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} \\
+            &+ \tfrac{\abs{f\parens{\va}}\norm{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} + \tfrac{\abs{f\parens{\vx} - f\parens{\va}}\norm{\mathcal{D}g\parens{\va}}\cancel{\norm{\vx - \va}}}{\cancel{\norm{\vx - \va}}}.
+        \end{align*}
+        Observe that as $\vx\to \va$, the functions $\tfrac{\norm{f\parens{\vx} - f\parens{\va} - \mathcal{D}f\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}}$, $\tfrac{\norm{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}}$, $\abs{f\parens{\vx} - f\parens{\va}}$ all go to $0$ because $f$ has derivative $\mathcal{D}f\parens{\va}$ at $\va$, $g$ has derivative $\mathcal{D}g\parens{\va}$ at $\va$, and $f\parens{\vx}$ is continuous at $\va$ (since it is differentiable), respectively. Obviously the first line is nonnegative; thus, by the Sandwich Theorem we know that $\spadesuit$ is true, so we're done.\qedhere
+    \end{enumerate}
+\end{proof}
+
+Here are some basic properties of differentiation:
+\begin{enumerate}
+    \item Constant functions are differentiable with derivative $O$.
+    \item By successively applying the previous lemma with one modification, polynomials are differentiable.
+\end{enumerate}
+
+Our next goal is to bring in single-variable derivatives to make computation of derivatives easier.
+
+\begin{example}
+    Let $\vf : \RR^3 \to \RR^2$ be defined by
+    \[\vf\begin{pmatrix}
+        x \\ y \\ z
+    \end{pmatrix} = \begin{pmatrix}
+        e^xy \\ y^2 + z
+    \end{pmatrix}.\]
+    Then
+    \[\mathcal{D}\vf\begin{pmatrix}
+        x \\ y \\ z
+    \end{pmatrix} = \begin{pmatrix}
+        e^xy & e^x & 0 \\
+        0 & 2y & 1
+    \end{pmatrix}.\]
+\end{example}
+
+Observe that the first row consists of the derivatives of $e^xy$ with respect to $x$, $y$, and $z$ holding the other two variables constant, and that the second row consists of the derivatives of $y^2 + z$ with respect to $x$, $y$, and $z$ holding the other two variables constant. As we will come to see, these are the ``partial derivatives" of $\vf$.
+
+\begin{proposition}
+    Let $A\subseteq \RR^n$, $f_1, \ldots , f_m : A \to \RR$, $\vf = (f_1, \ldots , f_m)^\top : A \to \RR^m$, $\va \in \RR^n$ be an accumulation point of $A$, and $\vy = (y_1, \ldots , y_m)^\top\in \RR^m$. Then
+    \[\limv{a} \vf\parens{\vx} = \vy \iff \limv{a} f_j\parens{\vx} = y_j\]
+    for every $j\in \braces{1, \ldots , m}$.
+\end{proposition}
+
+\begin{proof}
+    $(\implies)$: Fix $j\in \braces{1, \ldots , m}$. Then for all $\vx\in A\setminus \braces{\va}$, we have
+    \[0 \le \abs{f_j\parens{\vx} - y_j} \le \norm{\vf\parens{\vx} - \vy}\]
+    and $\limv{a}\vf\parens{\vx} = \vy$ by assumption, so the Sandwich Theorem implies that we have $\limv{a} \abs{f_j\parens{\vx} - y_j} = 0 \iff \limv{a} f_j\parens{\vx} = y_j$ as desired.
+
+    $(\impliedby)$: Let $\varepsilon > 0$ be arbitrary and $j\in \braces{1, \ldots , m}$. By the definition of $\limv{a} f_j\parens{\vx} = y_j$ with $\frac{\varepsilon}{m}$ in place of $\varepsilon$, there exists a $\delta_j > 0$ such that $\abs{f_j\parens{\vx} - y_j} < \frac{\varepsilon}{m}$
+    for all $\vx\in A$ satisfying $0 < \norm{\vx - \va} < \delta_j$. Let $\delta = \min\braces{\delta_1, \ldots , \delta_m}$. For all $\vx\in A$ with $0 < \norm{\vx - \va} < \delta$, we then have
+    \begin{align*}
+        \norm{\vf\parens{\vx} - \vy}^2 &= \sum_{i = 1}^m \abs{f_i\parens{\vx} - y_i}^2 \\
+        &< m\cdot \frac{\varepsilon^2}{m^2} \\
+        &\le \varepsilon^2,
+    \end{align*}
+    so $\norm{\vf\parens{\vx} - \vy} < \varepsilon$. Thus, $\limv{a} \norm{\vf\parens{\vx} - \vy} = 0 \iff \limv{a} \vf\parens{\vx} = \vy$ as desired.
+\end{proof}
+
+This implies the following important corollary:
+
+\begin{corollary}
+    Let $A\subseteq \RR^n$, $f_1 , \ldots , f_m : A \to \RR$, $\vf = (f_1, \ldots , f_m)^\top : A \to \RR^m$, $\va\in A$. Then:
+    \begin{enumerate}
+        \item $\vf$ is continuous at $\va$ if and only if $f_1, \ldots , f_m$ are all continuous at $\va$.
+        \item $\vf$ is differentiable at $\va$ if and only if $f_1, \ldots , f_m$ are all differentiable at $\va$, in which case
+        \[\mathcal{D}\vf\parens{\va} = \begin{pmatrix}
+            \mathcal{D}f_1\parens{\va} \\
+            \vdots \\
+            \mathcal{D}f_m\parens{\va}
+        \end{pmatrix}.\]
+    \end{enumerate}
+\end{corollary}
+\end{document}

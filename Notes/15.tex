@@ -1,0 +1,142 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 15: 9/26/22}
+
+\subsubsection{Row Echelon Form}
+
+Consider a linear system with $m$ equations and $n$ unknowns:
+\[\left\{\begin{aligned}
+    &a_{11}x_1 + \ldots + a_{1n}x_n = b_1 \\
+    &\phantom{hey guys}\vdots \\
+    &a_{m1}x_1 + \ldots + a_{mn}x_n = b_m
+\end{aligned}\right.\]
+Recall that this is equivalent to the following matrix product:
+\[A\vec{x} = \vec{b} \iff \begin{pmatrix}
+    a_{11} & \cdots & a_{1n} \\
+    \vdots & \ddots & \vdots \\
+    a_{m1} & \cdots & a_{mn}
+\end{pmatrix}\begin{pmatrix}
+x_1 \\ \vdots \\ x_m\end{pmatrix} = \begin{pmatrix} b_1 \\ \vdots \\ b_m\end{pmatrix}.
+\]
+We define the \vocab{augmented matrix} of this system as combining $A$ and $\vec{b}$ in the following manner:
+\[\parens{\begin{array}{@{}c c c | c@{}}
+    a_{11} & \cdots & a_{1n} & b_1 \\
+    \vdots & \ddots & \vdots & \vdots \\
+    a_{m1} & \cdots & a_{mn} & b_m
+\end{array}}\]
+% \[
+%   \begin{array}{c}
+%     a
+%   \end{array}
+% \]
+Let's go through the steps of Gaussian elimination with a motivating example:
+\begin{example}
+    We will solve the homogeneous system
+    \[\left\{\begin{aligned}
+        &2x_1 + 4x_2 + 8x_3 = 0 \\
+        &4x_1 + 6x_2 + 12x_3 = 0 \\
+        &6x_1 + 8x_2 + 16x_3 = 0
+    \end{aligned}\right. \iff \left(\begin{array}{@{}c c c | c@{}}
+    2 & 4 & 8 & 0 \\
+    4 & 6 & 12 & 0 \\
+    6 & 8 & 16 & 0
+\end{array}
+\right).\]
+\end{example}
+By applying $R_1\to \frac{1}{2}R_1\implies R_2\to R_2 - 4R_1\implies R_3\to R_3 - 6R_1$, we get
+\[\left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 4 & 0 \\
+    4 & 6 & 12 & 0 \\
+    6 & 8 & 16 & 0
+\end{array}
+\right) = \left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 4 & 0 \\
+    0 & -2 & -4 & 0 \\
+    6 & 8 & 16 & 0
+\end{array}
+\right) = \left(\begin{array}{@{}c c c | c@{}}
+    \boxed{1} & 2 & 4 & 0 \\
+    0 & -2 & -4 & 0 \\
+    0 & -4 & -8 & 0
+\end{array}
+\right),\]
+which is the first stage of Gaussian Elimination we explored previously.
+\begin{definition}
+Notably, we call $a_{11}$ a \vocab{pivot} because it is a $1$ with an unbroken string of $0$s before it in its row; we the first column a \vocab{pivot column} because it contains the pivot followed by $0$s for the rest of the entries below it.
+\end{definition}
+Then in \textbf{Stage 2}, the goal is to ``simplify" the second column without changing the first column, i.e. turning all terms in all rows without pivots to 0 except the next row after the previous pivot. We can achieve this by $R_2\to -\frac{1}{2}R_2\implies R_1\to R_1 - 2R_2\implies R_3\to R_3 + 4R_2$ to get
+\[\left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 4 & 0 \\
+    0 & -2 & -4 & 0 \\
+    0 & -4 & -8 & 0
+\end{array}
+\right) = \left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 4 & 0 \\
+    0 & 1 & 2 & 0 \\
+    6 & 8 & 16 & 0
+\end{array}
+\right) = \left(\begin{array}{@{}c c c | c@{}}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 2 & 0 \\
+    0 & -4 & -8 & 0
+\end{array}
+\right) = \left(\begin{array}{@{}c c c | c@{}}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 2 & 0 \\
+    0 & 0 & 0 & 0
+\end{array}
+\right).\]
+Finally in \textbf{Stage 3}, there is nothing more to be done because we cannot destroy the pivots; thus, we get that
+\[\left(\begin{array}{@{}c c c | c@{}}
+    \boxed{1} & 0 & 0 & 0 \\
+    0 & \boxed{1} & 2 & 0 \\
+    0 & 0 & 0 & 0
+\end{array}
+\right) \iff
+\left\{\begin{aligned}
+    &x_1 = 0 \\
+    &x_2 = -2x_3 \\
+    &0 = 0
+\end{aligned}\right. ,\]
+which has solution set
+\[\left\{x_3\begin{pmatrix}0 \\ -2 \\ 1\end{pmatrix} : x_3\in \RR\right\} = \vspan\left\{\begin{pmatrix}0 \\ -2 \\ 1\end{pmatrix}\right\};\]
+the solution set is a span because the system was homogeneous.
+
+Discussing Gaussian Elimination on a matrix in general, there are three stages:
+
+\textbf{Stage 1:} Use row operations to simplify column 1. The goal is to make column 1 contain the first pivot (i.e. it should equal $\vec{e}_1$); otherwise, clear it.
+
+\textbf{Stage 2:} Use row operations to simplify column 2. The goal is to make column 2 contain the next pivot (in row 1 or row 2); otherwise, clear all rows except those with pivots (i.e. column 2 should be $\vec{e}_1$ if column 1 isn't already or $\vec{e}_2$ with a free first entry if column 1 is).
+
+\textbf{Stage 3 - $n$:} For the columns $3, 4, \ldots , n$, use row operations to simplify and make them contain the next pivot, or clear all rows except those with pivots. 
+
+By the end of this process, we turn our augmented matrix into \vocab{row echelon form}, which looks like the following:
+\[\left(\begin{array}{@{}c c c | c | c c c | c | c c c | c | c c c@{}}
+    0 & \cdots & 0 & \boxed{1} & * & \cdots & * & * & * & \cdots & * & * & * & \cdots & *  \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & * & \boxed{1} & * & \cdots & * & * & * & \cdots & *  \\
+    \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & \boxed{1} & * & \cdots & *  \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0  \\
+    \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0
+\end{array}\right)\]
+We know that this form can always be achieved by induction; the base case is trivial, whereas for $n\ge 2$ rows the hypothesis for $n - 1$ columns solves all columns except the first, which can then be resolved with Stage 1.
+
+Supposing that there are $Q\le \min\{m, n\}$ pivots (and pivot columns), we can note that there are exactly $Q$ nonzero rows (and $m - Q$ rows of zeroes following), and that each successive nonzero row has strictly more leading zeroes than the previous before reaching the pivot; this implies that the pivot columns $j_1, j_2, \ldots , j_Q$ satisfy $j_1 < j_2 < \ldots < j_Q\le n$. Using further row operations (i.e. subtracting multiples of each pivot row from the rows above, we can further remove all the $*$s above each pivot to achieve \vocab{reduced row echelon form} (denoted by $\rref$):
+\[\left(\begin{array}{@{}c c c | c | c c c | c | c c c | c | c c c@{}}
+    0 & \cdots & 0 & \boxed{1} & * & \cdots & * & 0 & * & \cdots & * & 0 & * & \cdots & *  \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & * & \boxed{1} & * & \cdots & * & 0 & * & \cdots & *  \\
+    \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & \boxed{1} & * & \cdots & *  \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0  \\
+    \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0
+\end{array}\right)\]
+After Gaussian Elimination on an augmented matrix $(A\mid \vec{b})$, we transform it into $(\rref A\mid \vec{c})$, so the system represented by $A\vec{x} = \vec{b}\iff \rref A\vec{x} = \vec{c}$ is consistent if and only if $c_{Q + 1} = \ldots = c_M = 0$. Assuming that the system is consistent and letting $\rref A = (r_{ij})$, its solutions then must be
+\begin{align*}
+    x_{j_1} &= c_1 - \sum_{j \neq j_1, \ldots , j_Q} r_{1j}x_j \\
+    &\vdots \\
+    x_{j_Q} &= c_Q - \sum_{j\neq j_1, \ldots , j_Q} r_{Qj}x_j,
+\end{align*}
+where $x_j\in \RR$ is arbitrary for all $j\neq j_1, \ldots , j_Q$. Heuristically, this means that all variables except the pivots are arbitrary, and that the pivots are determined from the other variables.
+\end{document}

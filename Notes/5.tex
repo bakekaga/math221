@@ -1,0 +1,143 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 5: 8/31/22}
+
+\begin{theorem}
+    Suppose $\vec{v}_1, \ldots , \vec{v}_m\in \RR^n$ with $m \ge 2$. Then $\vec{v}_1, \ldots , \vec{v}_m$ are linearly dependent if and only if there exists some $j\in \{1, \ldots , m\}$ such that $d_1, \ldots , d_{j - 1}, d_{j + 1}, \ldots d_m\in \RR$ such that
+    \[\vec{v}_j = d_1\vec{v}_1 + \ldots + d_{j - 1}\vec{v}_{j - 1} + d_{j + 1}\vec{v}_{j + 1} + \ldots d_m\vec{v}_m,\]
+    i.e. one of the vectors can be written as a linear combination of the others.
+\end{theorem}
+
+\begin{proof}
+$(\implies)$: We are assuming that the vectors are linearly dependent, which means that we can find a nontrivial linear combination $c_1\vec{v}_1 + \ldots + c_m\vec{v}_m = \vec{0}$ such that $(c_1, \ldots , c_m)\neq \vec{0}\in\RR^m$. In particular, there must be some $j\in \{1, \ldots , m\}$ such that $c_j \neq 0$. Then it follows that
+\[\vec{v}_j = -\frac{c_1}{c_j}\vec{v}_1 - \ldots - \frac{c_{j - 1}}{c_j}\vec{v}_j - \frac{c_{j + 1}}{c_j}\vec{v}_j - \ldots - \frac{c_m}{c_j}\vec{v}_m,\]
+so we have found our constants $d_1, \ldots , d_{j - 1}, d_{j + 1}, \ldots , d_m\in \RR$ as desired.
+
+$(\impliedby)$: We are assuming that the vector $\vec{v}_j$ can be expressed as
+\[d_1\vec{v}_1 + \ldots + d_{j - 1}\vec{v}_{j - 1} + d_{j + 1}\vec{v}_{j + 1} + \ldots d_m\vec{v}_m.\]
+Rearranging, we obtain
+\[d_1\vec{v}_1 + \ldots + d_{j - 1}\vec{v}_{j - 1} + (-1)\vec{v}_j + d_{j + 1}\vec{v}_{j + 1} + \ldots d_m\vec{v}_m = 0,\]
+which is a nontrivial linear combination because the coefficient of $\vec{v}_j$ is $-1\neq 0$.
+\end{proof}
+
+\subsubsection{Linear Systems and Gaussian Elimination}
+
+Suppose $m, n\in \NN$. Let $a_{ij}\in \RR$, where $i = 1, \ldots , m$ and $j = 1, \ldots , n$. Also consider $b_{i}\in \RR$ and $x_j\in \RR$, where the indices run over the same sets. Consider the system:
+\[\left\{\begin{aligned}
+    &a_{11}x_1 + \ldots + a_{1n}x_n = b_1 \\
+    &a_{21}x_1 + \ldots + a_{2n}x_n = b_2 \\
+    &\phantom{hey guys}\vdots \\
+    &a_{m1}x_1 + \ldots + a_{mn}x_n = b_m
+\end{aligned}\right.\]
+of $m$ equations with $n$ unknowns. Denote this by $\spadesuit$.
+
+\begin{definition}
+    A choice of $x_1, \ldots , x_n\in \RR$ that satisfies all $m$ equations of $\spadesuit$ is called a \vocab{solution} of $\spadesuit$, and the vector $(x_1, \ldots , x_n)\in \RR^n$ is called a \vocab{solution vector} of $\spadesuit$. The set consisting of all solution vectors of $\spadesuit$ is called the \vocab{solution set} of $\spadesuit$.
+\end{definition}
+
+\begin{definition}[Homogeneousness]
+    The system $\spadesuit$ is \vocab{homogeneous} if all the $b_j = 0$.
+\end{definition}
+
+Here is a useful lemma, which we will prove in Problem Set 2:
+
+\begin{lemma}
+    If a linear system of equations is homogeneous, then its solution set is a subspace of $\RR^n$.
+\end{lemma}
+
+First, observe that the following operations on $\spadesuit$ do not affect the solution set:
+\begin{enumerate}
+    \item Interchange the order of 2 equations.
+    \item Multiply an equation by a nonzero constant.
+    \item Add a multiple of one equation to another equation.
+\end{enumerate}
+
+Let's give a motivating example for Gaussian elimination:
+
+\begin{example}
+    Solve the following system:
+    \[\left\{\begin{aligned}
+        &\frac{1}{2}x_1 + x_2 + x_3 = 1 \\
+        &2x_1 + 5x_2 + x_3 = 2
+    \end{aligned}\right.\]
+\end{example}
+
+\begin{soln}
+    Using the second operation by multiplying the first equation by $2$, we get
+    \[\left\{\begin{aligned}
+        &\boxed{1}\,x_1 + 2x_2 + 2x_3 = 2 \\
+        &2x_1 + 5x_2 + x_3 = 2
+    \end{aligned}\right.\]
+    Then, we use the third operation, adding $-2$ times the first equation to the second:
+    \[\left\{\begin{aligned}
+        &\boxed{1}\,x_1 + 2x_2 + 2x_3 = 2 \\
+        &0x_1 + \boxed{1}\,x_2 - 3x_3 = -2
+    \end{aligned}\right.\]
+    From here, we can determine any solution based on $x_3$:
+    \[\left\{\begin{aligned}
+        x_3 &= t\in \RR \\
+        x_2 &= -2 + 3t \\
+        x_1 &= 2 - 2(-2 + 3t) - 25 = 6 - 8t
+    \end{aligned}\right.,\]
+    which is equivalent to the vector $(x_1, x_2, x_3) = \boxed{(6, -2, 0) + t(-8, 3, 1)}$.
+\end{soln}
+
+We want to make this process systematic through \vocab{Gaussian elimination}. Let's begin with \textbf{Stage 1}, where we convert the coefficient of $x_1$ in the first equation to $1$ and then use that to kill every coefficient of $x_1$ below it.
+
+There are two cases: either all the $a_{i1} = 0$ for all $i = 1, \ldots , m$ or $a_{i1} \neq 0$ for some $i\in \{1, \ldots , m\}$. In the former case, we get a system of $m$ equations in $n - 1$ variables which we will study later. In the latter case, we can follow the procedure described.
+\begin{enumerate}
+    \item First, swap the $1$st and the $i$th row. This results in a new system:
+    \[\left\{\begin{aligned}
+        &\hat{a}_{11}x_1 + \ldots + \hat{a}_{1n}x_n = \hat{b}_1 \\
+        &\hat{a}_{21}x_1 + \ldots + \hat{a}_{2n}x_n = \hat{b}_2 \\
+        &\phantom{hello guys}\vdots \\
+        &\hat{a}_{m1}x_1 + \ldots + \hat{a}_{mn}x_n = \hat{b}_m
+    \end{aligned}\right.\]
+    Notably, $\hat{a}_{11}\neq 0$.
+    \item Then, divide the first row by $\hat{a}_{11}$ to get the following system:
+    \[\left\{\begin{aligned}
+        &\boxed{1}\,x_1 + \ldots + \tilde{a}_{1n}x_n = \tilde{b}_1 \\
+        &\hat{a}_{21}x_1 + \ldots + \hat{a}_{2n}x_n = \hat{b}_2 \\
+        &\phantom{hello guys}\vdots \\
+        &\hat{a}_{m1}x_1 + \ldots + \hat{a}_{mn}x_n = \hat{b}_m
+    \end{aligned}\right.\]
+    \item Then, clear out the rest of the $m - 1$ rows by subtracting $\hat{a}_{21}$ times the first row from the second, $\hat{a}_{31}$ times the first row from the second, and so on. This results in the following new system:
+    \[\left\{\begin{aligned}
+        &\boxed{1}\,x_1 + \ldots + \tilde{a}_{1n}x_n = \tilde{b}_1 \\
+        &\boxed{0}\,x_1 + \ldots + \tilde{a}_{2n}x_n = \tilde{b}_2 \\
+        &\phantom{hello guys}\vdots \\
+        &\boxed{0}\,x_1 + \ldots + \tilde{a}_{mn}x_n = \tilde{b}_m
+    \end{aligned}\right.\]
+\end{enumerate}
+
+In particular, by the end of Stage 1 we should have one of two cases: either we have
+\[\left\{\begin{aligned}
+    &\boxed{0}\,x_1 + \ldots + a_{1n}x_n = b_1 \\
+    &\boxed{0}\,x_1 + \ldots + a_{2n}x_n = b_2 \\
+    &\phantom{hello guys}\vdots \\
+    &\boxed{0}\,x_1 + \ldots + a_{mn}x_n = b_m
+\end{aligned}\right.\]
+or we have
+\[\left\{\begin{aligned}
+    &\boxed{1}\,x_1 + \ldots + \tilde{a}_{1n}x_n = \tilde{b}_1 \\
+    &\boxed{0}\,x_1 + \ldots + \tilde{a}_{2n}x_n = \tilde{b}_2 \\
+    &\phantom{hello guys}\vdots \\
+    &\boxed{0}\,x_1 + \ldots + \tilde{a}_{mn}x_n = \tilde{b}_m
+\end{aligned}\right.\]
+
+Let's use this to prove the following lemma:
+
+\begin{lemma}[Underdetermined System Lemma]
+    If $\spadesuit$ is homogeneous and underdetermined ($m < n$) then it has at least one nontrivial solution $(x_1, \ldots , x_m) \neq \vec{0}$. In fact, there are actually infinitely many since $\spadesuit$ being homogeneous allows all multiples of our solution vector to work as well.
+\end{lemma}
+
+\begin{proof}
+    Denote the proposition by $P(m)$; we will prove it with induction on $m$.
+
+    \textbf{Base Case}: We wish to show $P(1)$, which states that there exists a nontrivial solution to $a_{11}x_1 + \ldots + a_{1n}x_n = 0$ for some $n\ge 2$. By Gaussian Elimination Stage 1, there are two cases: either we have
+    \[0x_1 + \ldots + a_{12}x_2 + \ldots + a_{1n}x_n = 0\]
+    or we have
+    \[1x_1 + \ldots + \tilde{a}_{12}x_2 + \ldots + \tilde{a}_{1n}x_n = 0.\]
+    In the first case, $e_1\in \RR^n$ is a nontrivial solution already, and in the second case, $(x_1, x_2, \ldots , x_n) = (-\tilde{a}_{12} - \ldots - \tilde{a}_{1n}, 1, 1, \ldots , 1)$ is a nontrivial solution so the base case has been completed.
+\end{proof}
+\end{document}

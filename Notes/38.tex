@@ -1,0 +1,75 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 38: 11/21/22}
+Today we will prove the following:
+\begin{theorem}[Spectral Theorem]
+    Suppose $A$ is a symmetric $n\times n$ matrix. Then there exists an orthonormal basis of $\RR^n$ consisting of eigenvectors of $A$.
+\end{theorem}
+
+\begin{proof}
+    We will prove by induction on $k = 1, \ldots , n$ that there exists orthonormal eigenvectors $u_1, \ldots , u_k$ of $A$.
+
+    \textbf{Base Case:} Consider the function $\vx \mapsto A\vx\cdot\vx$; by Problem Set 13, this function is continuous, so it must attain a maximum on the nonempty, closed, bounded set $\mathbf{S}^{n - 1} = \set*{\vx\in \RR^n \mid \norm{\vx} = 1}$. Call the maximum value $\lambda_1$ and let $\vec{u}_1 \in \mathbf{S}^{n - 1}$ attain this maximum, i.e. $A\vec{u}_1\cdot\vec{u}_1 = \lambda_1$. The goal is to show that $\vec{u}_1$ is an eigenvector of $A$.
+
+    \begin{claim}
+        For all $\vy\in \RR^n$, we have $\parens{A\vec{u}_1 - \lambda\vec{u}_1} \cdot \vy = 0$. By Problem Set 1, this implies $A\vec{u}_1 - \lambda\vec{u}_1 = \vec{0}\iff A\vec{u}_1 = \lambda\vec{u}_1\iff \vec{u}_1$ is a unit-length eigenvector.
+    \end{claim}
+
+    \begin{proof}
+        Suppose that $\vy \neq \vec{0}$, since otherwise the statement is trivial. Consider the function $h : \parens{-\frac{1}{\norm{\vy}}, \frac{1}{\norm{\vy}}}\to \RR$ defined by $h(t) = \boxed{A\frac{\vec{u}_1 + t\vy}{\norm{\vec{u}_1 + t\vy}} \cdot \frac{\vec{u}_1 + t\vy}{\norm{\vec{u}_1 + t\vy}}}$. This is well-defined because when $\abs{t} < \frac{1}{\norm{\vy}}$, we have $\vec{u}_1 + t\vy \neq \vec{0}$; otherwise,
+        \[\vec{u}_1 + t\vy = \vec{0}\implies -\vec{u}_1 = t\vy \implies 1 = \norm{-\vec{u}_1} = \abs{t}\norm{\vy}\implies \abs{t} = \frac{1}{\norm{\vy}},\]
+        contradicting $\abs{t} < \frac{1}{\norm{\vy}}$.
+
+        Also, we have $\norm{\frac{\vec{u}_1 + t\vy}{\norm{\vec{u}_1 + t\vy}}} = 1\implies \frac{\vec{u}_1 + t\vy}{\norm{\vec{u}_1 + t\vy}}\in \mathbf{S}^{n - 1}$ (this is the point of dividing by the norms), so for all $\abs{t} < \frac{1}{\norm{\vy}}$, we have
+        \[h(t) = A\frac{\vec{u}_1 + t\vy}{\norm{\vec{u}_1 + t\vy}} \cdot \frac{\vec{u}_1 + t\vy}{\norm{\vec{u}_1 + t\vy}} \le \max\set*{A\vx\cdot\vx \mid \vx \in \mathbf{S}^{n - 1}} = \lambda_1 = A\vec{u}_1 \cdot \vec{u}_1 = h(0),\]
+        so $t = 0$ is a global maximum for $h$. By Problem Set 14, $h$ is differentiable at $t = 0$, so
+        \[0 = h'(0) = \parens{\underbrace{\parens{A + A^\top}}_{2A}\vec{u}_1 - 2\underbrace{A\parens{\vec{u}_1 \cdot \vec{u}_1}}_{\lambda}\vec{u}_1}\cdot \vy = 2\parens{A\vec{u}_1 - \lambda_1\vec{u}_1}\cdot \vy\]
+        because $t = 0$ is a global maximum. Thus, $\parens{A\vec{u}_1 - \lambda_1\vec{u}_1}\cdot \vy = 0$ as desired.
+    \end{proof}
+    
+    This completes the base case.
+
+    \textbf{Inductive Step:} Suppose we've constructed $k\le n - 1$ orthonormal eigenvectors $\vec{u}_1, \ldots , \vec{u}_k$ with eigenvalues $\lambda_1, \ldots , \lambda_k\in \RR$. Our goal is to construct another eigenvector $\vec{u}_{k + 1}$ with magnitude $1$ and orthogonal to all the other $\vec{u}_j$ for $j \in \braces{1, \ldots , k}$. Consider the subspace $V = \parens{\vspan\braces{\vec{u}_1 ,\ldots , \vec{u}_k}}^\perp$.
+
+    \begin{claim}
+        $\mathbf{S}^{n - 1} \cap V$ is nonempty, closed, and bounded.
+    \end{claim}
+
+    \begin{proof}
+        Nonemptiness and closedness are proved in Problem Set 14. For boundedness, observe that $\vx\in \mathbf{S}^{n - 1} \cap V \implies \norm{\vx} = 1$, so $1$ is a bound.
+    \end{proof}
+
+    Thus, the continuous function $A\vx\cdot\vx$ must attain a maximum value $\lambda_{k + 1}\in \RR$ on $\mathbf{S}^{n - 1} \cap V$, so that there exists some $\vec{u}_{k + 1}\in \mathbf{S}^{n - 1} \cap V$ such that $A\vec{u}_{k + 1}\cdot\vec{u}_{k + 1} = \lambda_{k + 1}$.
+
+    \begin{claim}
+        For all $\vy \in V$, $\parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \vy = 0$.
+    \end{claim}
+
+    \begin{proof}
+        The previous argument applies with $h(t) = A\frac{\vec{u}_{k + 1} + t\vy}{\norm{\vec{u}_{k + 1} + t\vy}} \cdot \frac{\vec{u}_{k + 1} + t\vy}{\norm{\vec{u}_{k + 1} + t\vy}}$ to give
+        \[h(t) = A\frac{\vec{u}_{k + 1} + t\vy}{\norm{\vec{u}_{k + 1} + t\vy}} \cdot \frac{\vec{u}_{k + 1} + t\vy}{\norm{\vec{u}_{k + 1} + t\vy}} \le \max\set*{A\vx\cdot\vx \mid \vx\in \mathbf{S}^{n - 1} \cap V} = \lambda_{k + 1} = h(0)\]
+        and we get $\parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \vy = 0$ by differentiating $h$ and plugging in $t = 0$.
+    \end{proof}
+
+    \begin{claim}
+        For all $\vy \in \RR^n$, $\parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \vy = 0$.
+    \end{claim}
+
+    \begin{proof}
+        Let $\vy\in \RR^n$ be arbitrary. Set $\vec{z} = \vy - \sum_{i = 1}^k \parens{\vy - \vec{u}_i}\vec{u}_i$. We know that $\vec{z}\in \parens{\vspan\braces{\vec{u}_1, \ldots , \vec{u}_k}}^\perp = V$ by last time's orthonormal basis proposition, so we have $\parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \vec{z} = 0$ by the previous claim. Let $i\in \braces{1, \ldots , k}$. We have
+        \begin{align*}
+        \parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \vec{u}_i &= A\vec{u}_{k + 1}\cdot \vec{u}_i - \cancel{\lambda_{k + 1}\vec{u}_{k + 1}\cdot \vec{u}_i} \\
+        &= \parens{A\vec{u}_{k + 1}}^\top \vec{u}_i \\
+        &= \vec{u}_{k + 1}^\top A^\top\vec{u}_i \\
+        &= \vec{u}_{k + 1}\cdot \parens{A\vec{u}_i} \\
+        &= \vec{u}_{k + 1}\cdot \lambda_i\vec{u}_i \\
+        &= \lambda_i\parens{\vec{u}_{k + 1}\cdot \vec{u}_i} \\
+        &= 0.
+        \end{align*}
+        Then,
+        \[\parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \vy = \parens{A\vec{u}_{k + 1} - \lambda_{k + 1}\vec{u}_{k + 1}}\cdot \parens{\vec{z} + \sum_{i = 1}^n \parens{\vy \cdot \vec{u}_i}\vec{u}_i} = 0.\]
+    \end{proof}
+    By Problem Set 1, this implies $A\vec{u}_{k + 1} - \lambda\vec{u}_{k + 1} = \vec{0}\iff A\vec{u}_{k + 1} = \lambda\vec{u}_{k + 1}$, so we're done since $\vec{u}_{k + 1}\in \mathbf{S}^{n - 1} \cap V$.
+\end{proof}
+
+\end{document}

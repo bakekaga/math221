@@ -1,0 +1,158 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 5}
+
+\subsection{Problem 1}
+\begin{claim}
+    Let $\vec{v}_1, \ldots , \vec{v}_N \in \RR^n$. Prove, for $\vec{x} \in \RR^n$, that
+    \[\vx \cdot \vec{v}_1 = \ldots = \vx \cdot \vec{v}_N = 0 \iff \vx \cdot \vec{v} = 0 \text{ for every } \vec{v} \in \vspan\braces{\vec{v}_1, \ldots , \vec{v}_N}.\]
+\end{claim}
+
+\begin{soln}
+    We prove both directions separately.
+
+    $(\implies)$: Suppose that $\vec{x}\cdot \vec{v}_1 = \ldots = \vec{x}\cdot \vec{v}_N = 0$. Let $\vec{v} = \sum_{i = 1}^N c_i\vec{v}_i\in \vspan\{\vec{v}_1, \ldots , \vec{v}_N\}$ for some $c_1, \ldots, c_N\in \RR$. Then 
+    \[\vec{x}\cdot \vec{v} = \vec{x}\cdot \sum_{i = 1}^N c_i\vec{v}_i = \sum_{i = 1}^N \vec{x}\cdot (c_i\vec{v}_i) = \sum_{i = 1}^N c_i(\vec{x}\cdot \vec{v}_i) = \sum_{i = 1}^N c_i(0) = 0\]
+    as desired.
+
+    $(\impliedby)$: Suppose that $\vec{x}\cdot \vec{v} = 0$ for every $\vec{v}\in \vspan\{\vec{v}_1, \ldots , \vec{v}_N\}$. Since $\vec{v}_1, \ldots , \vec{v}_N\in \vspan\{\vec{v}_1, \ldots , \vec{v}_N\}$, we have $\vec{x}\cdot \vec{v}_1 = \ldots = \vec{x}\cdot \vec{v}_N = 0$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Solve using any method you like the linear system
+    \[\left\{\begin{aligned}
+        &x_1 + 2x_2 - x_3 = 0, \\
+        &x_1 - 2x_2 = 0.
+    \end{aligned}\right.\]
+    Write its solution set as the span of a single vector.
+\end{claim}
+
+\begin{soln}
+    Observe that the solution set to
+    \[\left\{\begin{aligned}
+    &x_1 + 2x_2 - x_3 = 0 \\
+    &x_1 - 2x_2 = 0
+    \end{aligned}\right.\]
+    is the same as the solution set to
+    \[\left\{\begin{aligned}
+    &x_1 - 2x_2 = 0 \\
+    &4x_2 - x_3 = 0
+    \end{aligned}\right.\]
+    by subtracting the second equation from the first and swapping the order of the two equations. Letting $x_3 = t$, we then get $x_2 = \frac{t}{4}$ from rearranging the second equation, and plugging this value of $x_2$ into the first equation, we get $x_1 = \frac{t}{2}$. Thus, all solutions to the system of equations must then be of the parametrized form $(x_1, x_2, x_3) = t\left(\frac{1}{2}, \frac{1}{4}, 1\right)$ for $t\in \RR$. This solution set can also be expressed as $\boxed{\vspan\left\{\left(\frac{1}{2}, \frac{1}{4}, 1\right)^\top\right\}}$.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Combining Problems 1 and 2, determine a basis for
+    \[W = \parens{\vspan\braces{(1, 2, -1)^\top , (1, -2, 0)^\top }}^\perp\]
+    and, from this basis, deduce $\dim W$.
+\end{claim}
+
+\begin{soln}
+    Let $V = \vspan\left\{\left(\frac{1}{2}, \frac{1}{4}, 1\right)^\top\right\}$ for brevity. From Problem 2, we found that $V$ contained all vectors $\vec{v} = (x_1, x_2, x_3)^\top\in \RR^3$ satisfying $(x_1 + 2x_2 - x_3, x_1 - 2x_2) = (0, 0)\iff (\vec{v}\cdot (1, 2, -1)^\top, \vec{v}\cdot (1, -2, 0)^\top) = (0, 0)$. Combining this with Problem 1, we then have that $\vec{v}\in V$ if and only if $\vec{v}$ is orthogonal with every vector in $\vspan\{(1, 2, -1)^\top, (1, -2, 0)^\top\}$, so $W = V$. Since $\left\{\left(\frac{1}{2}, \frac{1}{4}, 1\right)^\top\right\}$ is a set of only a single vector, it must be linearly independent, so it is a basis of $W$ and $\dim W = 1$.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Find another way to deduce $\dim W$ without ever having to find a basis for $W$.
+\end{claim}
+
+\begin{soln}
+    Consider $c_1, c_2\in \RR$; then $c_1(1, 2, -1)^\top + c_2(1, -2, 0)^\top = (c_1 + c_2, 2c_1 - 2c_2, -c_1)^\top$. The third component equals zero if and only if $c_1 = 0$, which implies that the other two components equal zero if and only if $c_2 = 0$ as well; thus, $(1, 2, -1)^\top$ and $(1, -2, 0)^\top$ are linearly independent. Since
+    \[W^\perp = \left(\left(\vspan\left\{(1, 2, -1)^\top, (1, -2, 0)^\top\right\}\right)^\perp\right)^\perp = \vspan\left\{(1, 2, -1)^\top, (1, -2, 0)^\top\right\}\subseteq \RR^3,\]
+    we have $\dim W + \dim W^\perp = 3$, but $W^\perp$ is spanned by two linearly independent vectors so $\dim W^\perp = 2 \implies \dim W = 3 - \dim W^\perp = 3 - 2 = 1$.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Suppose $V \subseteq W$ are subspaces of $\RR^n$. Prove that $W^\perp \subseteq V^\perp$.
+\end{claim}
+
+\begin{soln}
+    By definition, we have $W^\perp = \{\vec{x}\in \RR^n : \vec{x}\cdot \vec{v} = 0\,\forall\, \vec{v}\in W\}$. Consider an arbitrary $\vec{w}\in W^\perp$. Then since $V\subseteq W$, we have $\vec{w}\cdot \vec{v} = 0$ for every $\vec{v}\in V$ as well. Thus, $\vec{w} \in \{\vec{x}\in \RR^n : \vec{x}\cdot \vec{v} = 0\,\forall\, \vec{v}\in V\} = V^\perp$, so $W^\perp\subseteq V^\perp$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    First, prove $2^n > n$ for all $n \in \NN$ using induction. Then, use it together with $\limn \frac{1}{n} = 0$ (which you can take for granted for this problem) to prove $\limn \frac{1}{2^n} = 0$.
+\end{claim}
+
+\begin{soln}
+    First, I will show that $2^n > n$ for all $n\in \NN$ with induction on $n$.
+
+    \textbf{Base Case:} Suppose $n = 1$; then obviously $2^1 = 2 > 1$.
+
+    \textbf{Inductive Step:} Suppose $2^k > k$ for some $k\in \NN$. Then
+    \[2^{k + 1} = 2^k + 2^k > k + k \ge k + 1,\]
+    so the inductive step is complete.
+
+    Since we've proven both the base case and the inductive step, we know that $2^n > n$ for all $n\in \NN$; thus, $\frac{1}{n} > \frac{1}{2^n}$ for all $n\in \NN$. Now, consider the sequences $\{a_n\}, \{b_n\}, $ and $\{c_n\}$, respectively defined by $a_n = 0, b_n = \frac{1}{2^n},$ and $c_n = \frac{1}{n}$ for all $n\in \NN$. Since $1, n > 0\implies \frac{1}{n} > 0$ for all $n > 0$, we have that $a_n\le b_n\le c_n$ for all $n\in \NN$. On the other hand, we also know that $\limn a_n = 0 = \limn c_n$, so the Sandwich Theorem guarantees that $\limn b_n = 0$ as well.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Suppose $\braces{a_{n_k}}_{k = 1, 2, \ldots}$ is a subsequence of a convergent sequence $\braces{a_n}_{n = 1, 2, \ldots}$. Prove that $\braces{a_{n_k}}_{k = 1, 2, \ldots}$ also converges and $\limk a_{n_k} = \limn a_n$.
+\end{claim}
+
+\begin{soln}
+    Let $\ell = \limn a_n$. Let $\varepsilon > 0$. By the definition of the limit, we can find an $N\in \NN$ such that $\abs{a_n - \ell} < \varepsilon$ for any $n\ge N$. In particular, for any index $n_k\ge N$ in the subsequence $\{a_{n_k}\}$, we also have $\abs{a_{n_k} - \ell} < \varepsilon$. Thus, letting $k_1$ be the smallest index such that $n_{k_1}\ge N$ (which exists because of the Archimedean Property and the fact that $\{n_k\}$ is an increasing sequence of natural numbers), we've found that the limit of $\{a_{n_k}\}$ as $k\to\infty$ is also $\ell$ because we have $\abs{a_{n_k} - \ell} < \varepsilon$ for any $k\ge k_1\in \NN$.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Prove that $\braces{(-1)^n}_{n = 1, 2, \ldots}$ is bounded but $\limn (-1)^n$ does not exist.
+\end{claim}
+
+\begin{soln}
+    First, I claim that $(-1)^n = \begin{cases}
+        -1 & 2\nmid n \\
+        1 & 2\mid n
+    \end{cases}$. To see why, observe that if $2\nmid n\implies n = 2k + 1$ for some $k \in \ZZ$, then $(-1)^n = (-1)(-1)^{2k} = (-1)(1)^k = -1$, and if $2\mid n\implies n = 2k$ for some $k\in \ZZ$, then $(-1)^n = (-1)^{2k} = 1^k = 1$ as desired.
+    
+    To prove that $\{(-1)^n\}$ is bounded, it suffices to show that it has both an upper and lower bound. I claim that $1$ is an upper bound of $\{(-1)^n\}$; this must be the case because $(-1)^n$ can only equal $1$ or $-1$ , both of which are $\le 1$. On the other hand, $-1$ is a lower bound of $\{(-1)^n\}$ because both $1$ and $-1$ are $\ge -1$.
+
+    Now suppose that $\ell = \limn (-1)^n$ exists. Then for any $\varepsilon > 0$, there must exist some $N\in \NN$ such that $\abs{(-1)^n - \ell} < \varepsilon$ for all $n\ge N$. There are three cases:
+
+    \textbf{Case 1:} $\ell = 1$. Then taking $\varepsilon = 1 > 0$, there cannot exist any $N$ such that $\abs{(-1)^n - \ell} < \varepsilon$ for all $n \ge N$ because if $2\mid N$ then $\abs{(-1)^{N + 1} - \ell} = \abs{-1 - 1} = 2 > \varepsilon$, and on the other hand if $2\nmid N$ then immediately $\abs{(-1)^N - \ell} = \abs{-1 - 1} = 2 > \varepsilon$.
+
+    \textbf{Case 2:} $\ell = -1$. Then taking $\varepsilon = 1 > 0$, there cannot exist any $N$ such that $\abs{(-1)^n - \ell} < \varepsilon$ for all $n \ge N$ because if $2\mid N$ then $\abs{(-1)^N - \ell} = \abs{1 + 1} = 2 > \varepsilon$, and on the other hand if $2\nmid N$ then immediately $\abs{(-1)^{N + 1} - \ell} = \abs{1 + 1} = 2 > \varepsilon$.
+    
+    \textbf{Case 3:} $\ell \neq 1, -1$. Then since $1 - \ell, 1 + \ell \neq 0$, there must exist some $\varepsilon\in \RR$ satisfying $0 < \varepsilon < \min\{\abs{1 - \ell}, \abs{1 + \ell}\}$; in particular, we then have $\abs{(-1)^n - \ell} > \varepsilon$ for all $n \in \NN$.
+    In all three cases, we showed it was impossible to find an $N\in \NN$ such that $\abs{(-1)^n - \ell} < \varepsilon$ for all $n\ge N$, so $\ell$ does not exist and we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Suppose $\braces{a_n}_{n = 1, 2, \ldots}$ and $\braces{b_n}_{n = 1, 2, \ldots}$ are bounded. Prove that there exists a common choice of $n_1 < n_2 < \ldots$ such that $\braces{a_{n_k}}_{k = 1, 2, \ldots}, \braces{b_{n_k}}_{k=1,2,\ldots}$ are both convergent.
+\end{claim}
+
+\begin{soln}
+    According to Bolzano-Weierstrass on $\{a_n\}_{n = 1, 2, \ldots}$, we can find natural numbers $n_1 < n_2 < \ldots $ such that the subsequence $\{a_{n_k}\}_{k = 1, 2, \ldots}$ is convergent. Since all numbers in the subsequence $\{b_{n_k}\}_{k = 1, 2, \ldots}$ with the same indices as $\{a_{n_k}\}$ are contained within $\{b_n\}_{n = 1, 2, \ldots}$, the sequence $\{b_{n_k}\}_{k = 1, 2, \ldots}$ is bounded as well; thus, by Bolzano-Weierstrass there exists some natural numbers $n_{k_1} < n_{k_2} < \ldots$ such that the subsequence $\{b_{n_{k_\ell}}\}_{\ell = 1, 2, \ldots}$ of $\{b_{n_k}\}_{k = 1, 2, \ldots}$ is convergent. Since the sequence $\{a_{n_{k_\ell}}\}_{\ell = 1, 2, \ldots}$ with the same indices as $\{b_{n_{k_\ell}}\}_{\ell = 1, 2, \ldots}$ is a subsequence of the convergent sequence $\{a_{n_k}\}_{k = 1, 2, \ldots}$, Problem 7 tells us that it must be convergent as well. In particular, this implies that the natural numbers $n_{k_1} < n_{k_2} < \ldots$ are common indices of convergent subsequences of $\{a_n\}$ and $\{b_n\}$, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    One can generalize the above statement and proof to handle any number $m \in \NN$ of bounded sequences. How would you write down the generalized statement, and how would your proof notation and outline change? Do not write a full proof!
+\end{claim}
+
+\begin{soln}
+    The generalized statement is as follows:
+    \begin{claim}
+        Suppose $\{a_{n, 1}\}_{n = 1, 2, \ldots}, \{a_{n, 2}\}_{n = 1, 2, \ldots}, \ldots, \{a_{n, m}\}_{n = 1, 2, \ldots}$ are bounded, where $m\in \NN$. Then there exists natural numbers $n_1 < n_2 < \ldots$ such that $\{a_{n_k, 1}\}_{k = 1, 2, \ldots}, \{a_{n_k, 2}\}_{k = 1, 2, \ldots}, \ldots , \{a_{n_k, m}\}_{k = 1, 2, \ldots}$ are convergent.
+    \end{claim}
+
+    To extend my proof of 9 to arbitrary $m$, I would use induction; then according to the inductive hypothesis (assuming that the first $m\ge 1$ sequences have convergent subsequences with common indices $n_1 < n_2 < \ldots $), the base case would give some nonempty, infinite subset of $\{n_1, n_2, \ldots\}$ such that the subsequence of the $m + 1$th sequence with those indices was convergent (since subsequences of bounded sequences are also bounded). Then it would be possible to show that the subsequences of the previous $m$ convergent subsequences with these indices were also convergent by repeatedly applying Problem 7, which would then finish the problem.
+\end{soln}
+\eject
+
+\end{document}

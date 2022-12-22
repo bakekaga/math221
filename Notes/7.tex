@@ -1,0 +1,83 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 7: 9/7/22}
+Continuing, recall the Linear Dependence Lemma:
+
+\begin{theorem}[Linear Dependence Lemma]
+    Suppose $\vec{v}_1, \ldots , \vec{v}_m\in \RR^n$, $\vec{w}_1, \ldots , \vec{w}_{m + 1} \in \vspan\{\vec{v}_1, \ldots , \vec{v}_m\}$. Then $\vec{w}_1, \ldots , \vec{w}_{m + 1}$ must be linearly dependent.
+\end{theorem}
+
+\begin{proof}
+    For each $j = 1, \ldots , m + 1$, let $\vec{w}_j = a_{1j}\vec{v}_1 + \ldots + a_{mj}\vec{v}_m$; this is because $\vec{w}_j \in \vspan\{\vec{v}_1, \ldots , \vec{v}_m\}$. Consider the system:
+    \[\left\{\begin{aligned}
+        &a_{11}x_1 + \ldots + a_{1(m + 1)}x_{m + 1} = 0 \\
+        &\phantom{hey guys}\vdots \\
+        &a_{m1}x_1 + \ldots + a_{m(m + 1)}x_{m + 1} = 0
+    \end{aligned}\right.\]
+    This system is both homogeneous (all the RHSs are $0$) and underdetermined ($m + 1$ unknowns, $m$ equations), so there must exist $(x_1^*, \ldots , x^*_{m + 1})\neq \vec{0}$ satisfying the system. Then consider 
+    \begin{align*}
+    &x^*_1\vec{w}_1 + \ldots + x^*_{m + 1}\vec{w}_{n + 1} \\
+    &= x^*_1*(a_{11}\vec{v}_1 + \ldots + a_{m1}\vec{v}_m) + \ldots \\
+    &+ x^*_{m + 1}(a_{1(m + 1)}\vec{v}_1 + \ldots + a_{m(m + 1)}\vec{v}_m) \\
+    &= (a_{11}x^*_1 + \ldots + a_{1(m + 1)}x^*_{m + 1})\vec{v}_1 + \ldots \\
+    &+ (a_{m1}x^*_1 + \ldots + a_{m(m + 1)}x^*_{m + 1})\vec{v}_m \\
+    &= \vec{0}
+    \end{align*}
+    because all the coefficients turn into $0$.
+\end{proof}
+
+As a corollary, \textit{any} choice of $\vec{w}_1, \ldots , \vec{w}_{n + 1}\in \RR^n$ must be linearly dependent because $\RR^n$ itself is the span of the $n$ vectors $\vec{e}_1, \vec{e}_2, \ldots , \vec{e}_n$.
+
+\subsubsection{The Basis Theorem}
+
+\begin{proposition}
+    Suppose $\vec{v}_1, \ldots , \vec{v}_k\in \RR^n$ are linearly independent. Let $\vec{v}\in \RR^n\setminus \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$. Then $\vec{v}_1, \ldots , \vec{v}_k, \vec{v}$ are linearly independent as well.
+\end{proposition}
+
+\begin{proof}
+    Suppose for contradiction that $\vec{v}_1, \ldots \vec{v}_k, \vec{v}$ are linearly dependent, i.e. we have
+    \begin{align*}
+        &c_1\vec{v}_1 + \ldots + c_k\vec{v}_k + c\vec{v} = \vec{0} \in \RR^n && (\spadesuit) \\
+        &(c_1, \ldots , c_k, c)\neq \vec{0}\in \RR^{k + 1} && (\diamondsuit)
+    \end{align*}
+    There are two possibilities:
+
+    \textbf{Case 1}: $c = 0$. Then $\spadesuit$ implies that $c_1\vec{v}_1 + \ldots + c_k\vec{v}_k = \vec{0}$, whereas $\diamondsuit$ implies $(c_1, \ldots , c_k)\neq \vec{0}\in \RR^k$, whence $\vec{v}_1, \ldots , \vec{v}_k$ are linearly dependent, contradiction!
+
+    \textbf{Case 2}: $c \neq 0$. Then $\spadesuit$ implies $\vec{v} = \left(-\frac{c_1}{c}\right)\vec{v}_1 + \ldots + \left(-\frac{c_k}{c}\right)\vec{v}_k\in \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$, which is also a contradiction of how we defined $\vec{v}$.
+
+    Thus, $\vec{v}_1, \ldots , \vec{v}_k, \vec{v}$ have to be linearly independent.
+\end{proof}
+
+\begin{definition}[Bases]
+    Let $V$ be a nontrivial subspace of $\RR^n$. A collection of vectors $\vec{v}_1, \ldots , \vec{v}_q\in V$ is called a \vocab{basis} for $V$ if:
+    \begin{enumerate}[(i)]
+        \item $\vec{v}_1, \ldots , \vec{v}_q$ are linearly independent.
+        \item $\vspan\{\vec{v}_1, \ldots, \vec{v}_q\} = V$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Basis Theorem]
+    Suppose $V$ is a nontrivial subspace of $\RR^n$. Then:
+    \begin{enumerate}[label = (\alph*)]
+        \item $V$ has a basis.
+        \item If $\vec{u}_1, \ldots , \vec{u}_k\in V$ are linearly independent, then there exists $q\ge k$ and a basis $\vec{v}_1, \ldots , \vec{v}_q$ for $V$ such that $\vec{u}_1 = \vec{v}_1, \ldots , \vec{u}_k = \vec{v}_k$. In other words, $\vec{u}_1, \ldots , \vec{u}_k$ must be contained within a basis.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Define:
+    \[S = \{\ell \in \{1, \ldots , n\} : \exists \text{ linearly independent } \vec{v}_1, \ldots , \vec{v}_\ell\in V.\}\]
+    Clearly $S$ is finite, and it also must be nonempty because if $\ell = 1$ then any vector $\vec{v}\in V\setminus \{\vec{0}\}$ (which is possible because $V$ is nontrivial) is linearly independent by itself. Thus, $q = \max S$ exists. Since $q\in S$, we can find $\vec{v}_1, \ldots , \vec{v}_q \in V$ that are linearly independent. 
+    
+    We now need to show that $\vspan\{\vec{v}_1, \ldots , \vec{v}_q\} = V$. We can do this through dual containment; the claim that $\vspan\{\vec{v}_1, \ldots , \vec{v}_q\}\subseteq V$ will be in the problem set, while we will prove that $V\subseteq \vspan\{\vec{v}_1, \ldots \vec{v}_q\}$ now. Let $\vec{v}\in V$ be arbitrary. Let's first show that $\vec{v}_1, \ldots , \vec{v}_q, \vec{v}$ are linearly dependent. There are two cases:
+
+    \textbf{Case 1}: $q < n$. Then $q + 1\in \{ 1, \ldots , n\}$ but $q + 1 \not\in S$ since $q = \max S$. Thus, no collection of $q + 1$ vectors can be linearly independent, i.e. $\vec{v}_1 , \ldots , \vec{v}_q, \vec{v}$ are linearly dependent.
+
+    \textbf{Case 2}: $q = n$. Then $q + 1 = n + 1$, so $\vec{v}_1, \ldots , \vec{v}_q, \vec{v}$ are linearly dependent by the corollary of the Linear Dependence Lemma.
+
+    Either way, $\vec{v}_1, \ldots , \vec{v}_q, \vec{v}$ are linearly dependent, but we also have $\vec{v}_1, \ldots , \vec{v}_q$ are linearly independent, so according to our earlier proposition, $\vec{v}\in \vspan \{ \vec{v}_1, \ldots , \vec{v}_q\}$. Since $\vec{v} \in V$ was arbitrary, $V\subseteq \vspan \{\vec{v}_1, \ldots , \vec{v}_q\}$ as desired.
+
+    Thus, it follows that $\vec{v}_1, \ldots , \vec{v}_q$ are a basis for $V$ as desired. Part (b) is covered in the book with a slight modification to this proof.
+\end{proof}
+\end{document}

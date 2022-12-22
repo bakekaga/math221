@@ -1,0 +1,173 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 7}
+\subsection{Problem 1}
+\begin{claim}
+    Suppose $\braces{a_n}_{n=1,2,\ldots}$ is a sequence in $\RR$ with $\limn a^2_n = 0$. Prove that $\limn a_n = 0$ with the $\varepsilon$-$N$ definition of limits and without making use of roots.
+\end{claim}
+
+\begin{soln}
+    Let $\varepsilon > 0$. By the definition of $\limn a^2_n = 0$, we have  $a^2_n = \abs{a^2_n} < \varepsilon^2$. Observe that $\abs{a_n} \ge \varepsilon\implies a^2_n \ge \varepsilon^2$, which is impossible, so we must have $\abs{a_n} < \varepsilon$; thus, by definition of convergence we also have $\limn a_n = 0$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Suppose that $\braces{\vseq{x}}_{k=1,2,\ldots}$ is a sequence of vectors in $\RR^n, \vec{y} \in \RR^n$, and that their components are $\vseq{x} = \parens{\rseq{x}_1, \ldots , \rseq{x}_n}^\top , \vec{y} = \parens{y_1,\ldots ,y_n}^\top$. Prove that
+    \[\limk \vseq{x} = \vec{y} \iff \limk \rseq{x}_j = y_j\text{ for every }j = 1,\ldots ,n,\]
+    by using the elementary fact $\parens{\rseq{x}_j - y_j}^2 \le \norm{\vseq{x} - \vec{y}}^2 = \parens{\rseq{x}_1 - y_1}^2 + \ldots + \parens{\rseq{x}_n - y_n}^2$. Continue to avoid using square roots, relying instead on Problem 1.
+\end{claim}
+
+\begin{soln}
+    We will prove the two directions separately.
+
+    $(\implies)$: Let $\varepsilon > 0$ be arbitrary. Then 
+    \begin{align*}
+        \limk \vseq{x} = \vec{y}&\implies \limk \norm{\vseq{x} - \vec{y}} = 0& \\
+        &\implies \limk\norm{\vseq{x} - \vec{y}}^2 = \parens{\limk\norm{\vseq{x} - \vec{y}}}^2 = 0^2 = 0\\
+        &\implies \parens{\rseq{x}_j - y_j}^2 \le \norm{\vseq{x} - \vec{y}}^2 < \varepsilon^2 \text{ for every }j = 1,\ldots ,n\\
+        &\text{ and }k \ge N\text{ for some }N\in \NN \\
+        &\implies \abs{\rseq{x}_j - y_j} < \varepsilon \text{ for every }j = 1,\ldots ,n\text{ and }k \ge N \\
+        &\implies \limk \rseq{x}_j = y_j\text{ for every }j = 1,\ldots ,n,
+    \end{align*}
+    so this direction is completed.
+
+    $(\impliedby)$: Let $\varepsilon > 0$ be arbitrary and suppose that for every $j = 1,\ldots ,n$, we have
+    \[\limk \rseq{x}_j = y_j\implies \limk \parens{\rseq{x}_j - y_j} = 0\implies \limk \parens{\rseq{x}_j - y_j}^2 = 0,\]
+    so for every $j = 1, \ldots , n$, there exists $N_j\in \NN$ such that $\parens{\rseq{x}_j - y_j}^2 < \frac{\varepsilon}{n}$ for all $k\ge N_j$. This means that for all $k \ge \max\braces{N_1, \ldots , N_n}$, we have $\norm{\vseq{x} - \vec{y}}^2 = \parens{\rseq{x}_1 - y_1}^2 + \ldots + \parens{\rseq{x}_n - y_n}^2 < \varepsilon$, so $\limk\norm{\vseq{x} - \vec{y}}^2 = 0$. Thus, by Problem 1 we have $\limk\norm{\vseq{x} - \vec{y}} = 0\iff \limk \vseq{x} = \vec{y}$, so this direction is completed.
+
+    We've proven both directions of the statement, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$ and $\vf : A \to \RR^m$. Suppose $\vec{y} \in A$ has the following property: for every sequence $\braces{\vseq{x}}_{k=1,2,\ldots}$ with values in $A$ and $\limk \vseq{x} = \vec{y}$, we have $\limk \vf\parens{\vseq{x}} = \vf(\vec{y}).$ Prove that $\vf$ is continuous at $\vec{y}$.
+\end{claim}
+
+\begin{soln}
+    We will prove the contrapositive, i.e. that if $\vf$ is not continuous at $\vec{y}$, then there exists an $A$-valued sequence $\braces{\vseq{x}}$ that converges to $\vec{y}$, but does not satisfy $\limk \vf\parens{\vseq{x}} = \vf(\vec{y})$.
+    
+    If $\vf$ is not continuous at $\vec{y}$, then this means that there exists an $\varepsilon_0 > 0$ such that for every $\delta > 0$, there exists $\vec{x} \in A \cap B_\delta\parens{\vec{y}}$ satisfying $\vf\parens{\vec{x}} \not\in B_{\varepsilon_0}\parens{\vf\parens{\vec{y}}}$. In particular, we can define a sequence $\braces{\vseq{x}}$ with the $k$th element being any vector $\vseq{x}\in \set*{\vec{x} \in A\cap B_{\frac{1}{k}}\parens{\vec{y}} \mid \vf\parens{\vec{x}} \not\in B_{\frac{1}{k}}\parens{\vec{y}}}$ (which is a nonempty set by applying the previous observation with $\delta = \frac{1}{k}$). Then for any $\varepsilon > 0$, we know by the Archimedean Property that there exists $N\in \NN$ such that 
+    \[N > \frac{1}{\varepsilon}\implies \varepsilon > \frac{1}{N}\ge \frac{1}{k} > \norm{\vseq{x} - \vec{y}} = \abs{\norm{\vseq{x} - \vec{y}} - 0}\]
+    for all $k\ge N$, so $\limk\norm{\vseq{x} - \vec{y}} = 0\iff \limk \vseq{x} = \vec{y}$.
+
+    Next, I claim that the sequence $\braces{\vf\parens{\vseq{x}}}$ does not converge to $\vec{y}$. Observe that by definition of the original sequence $\braces{\vseq{x}}$, none of the $\vf\parens{\vseq{x}}$ lie in $B_{\varepsilon_0}\parens{\vf\parens{\vec{y}}}$, i.e. $\norm{\vf\parens{\vseq{x}} - \vf\parens{\vec{y}}}\ge \varepsilon_0$ for all $k\in \NN$. Thus, $\limk \norm{\vf\parens{\vseq{x}} - \vf\parens{\vec{y}}}$ does not exist, so $\braces{\vf\parens{\vseq{x}}}$ cannot possibly converge to $\vf\parens{\vec{y}}$, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Check the claim made above that $U_1, \ldots ,U_N$ open $\implies \bigcap^N_{j=1}U_j$ is open.
+\end{claim}
+
+\begin{soln}
+    Consider some element $\vec{y}\in \bigcap^N_{j=1}U_j$. Since $\vec{y}\in U_j$ for each $j = 1, 2, \ldots , N$, we know that there exists corresponding $\rho_j$ such that $B_{\rho_j}\parens{\vec{y}}\subseteq U_j$ for each $j = 1, 2, \ldots , N$. Take $\rho = \min\braces{\rho_1, \ldots , \rho_N}$; then if $\vec{x}\in B_\rho(\vec{y})$, we have by the definitions of the minimum and open ball that for each $j = 1, 2, \ldots , N$, we have $\norm{\vec{x} - \vec{y}} < \rho \le \rho_j\implies \vec{x}\in B_{\rho_j}\parens{\vec{y}}$, so $B_\rho\parens{\vec{y}}\subseteq B_{\rho_j}\parens{\vec{y}}\subseteq U_j$. Thus, for every $\vec{y}\in \bigcap^N_{j=1}U_j$ there must exist a $\rho > 0$ such that $B_\rho\parens{\vec{y}}\subseteq \bigcap^N_{j=1}U_j$, so $\bigcap^N_{j=1}U_j$ is open as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Prove the first De Morgan law mentioned above; that is, if $\braces{A_\alpha}_{\alpha\in\Gamma}$ is any collection of subsets of $\RR^n$, then $\RR^n \setminus \parens{\bigcup_{\alpha\in\Gamma}A_\alpha} = \bigcap_{\alpha\in\Gamma}\parens{\RR^n \setminus A_\alpha}$.
+\end{claim}
+
+\begin{soln}
+    Suppose $\vec{x}\in \RR^n \setminus \parens{\bigcup_{\alpha\in\Gamma}A_\alpha}$. This is equivalent to saying that $\vec{x}$ is a vector from $\RR^n$ that is not contained within any of the $A_\alpha$s, with $\alpha\in \Gamma$. This is equivalent to saying that for each $\alpha\in \Gamma$, $\vec{x}\in\RR^n$ is contained in each of the $\RR^n\setminus A_\alpha$ (otherwise $\vec{x}$ is in at least one of the $A_\alpha$), which occurs if and only if $\vec{x}\in \bigcap_{\alpha\in\Gamma}\parens{\RR^n \setminus A_\alpha}$. Since $\vec{x}$ was arbitrary, $\RR^n \setminus \parens{\bigcup_{\alpha\in\Gamma}A_\alpha} = \bigcap_{\alpha\in\Gamma}\parens{\RR^n \setminus A_\alpha}$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Prove that
+    \begin{itemize}
+        \item $\RR^n$ and $\emptyset$ are both closed.
+        \item If $C_1, \ldots , C_N$ is any finite collection of closed sets, then $\bigcup_{j = 1}^N C_j$ is closed.
+        \item If $\braces{C_\alpha}_{\alpha\in \Gamma}$ ($\Gamma$ any nonempty indexing set) is any collection of closed sets then $\bigcap_{\alpha\in\Gamma} C_\alpha$ is closed.
+    \end{itemize}
+    using the three bullet points of p. 31, Lemma 2.1.3, Corollary 2.1.4, and De Morgan’s law from Problem 5.
+\end{claim}
+
+\begin{soln}
+    For the first claim, observe that $\RR^n = \RR^n \setminus \emptyset$ and $\emptyset = \RR^n \setminus \RR^n$; since $\emptyset, \RR^n$ are open by the first bullet point of p. 31, Lemma 2.1.3 implies that $\RR^n$ and $\emptyset$ are closed.
+
+    For the second claim, if $C_1, \ldots , C_N$ are closed, then $\RR^n \setminus C_1, \ldots , \RR^n \setminus C_N$ are open by Corollary 2.1.4. Then according to Problem 5 on $\{1, 2, \ldots , N\}$, we have $\RR^n \setminus \parens{\bigcup_{j = 1}^N C_j} = \bigcap_{j = 1}^N \parens{\RR^n \setminus C_j}$, which necessarily must be open due to the second bullet point of p. 32. Thus, applying Corollary 2.1.4 again, $\bigcup_{j = 1}^N C_j$ is closed as desired.
+
+    For the third claim, if $C_\alpha$ is closed for every $\alpha\in \Gamma$, then $\RR^n \setminus C_\alpha$ is open for every $\alpha\in\Gamma$ by Corollary 2.1.4. Then according to Problem 5, we have $\RR^n \setminus \parens{\bigcup_{\alpha\in\Gamma} C_\alpha} = \bigcap_{\alpha\in\Gamma} \parens{\RR^n \setminus C_\alpha}$, which necessarily must be open due to the second bullet point of p. 32. Thus, applying Corollary 2.1.4 again, $\bigcup_{\alpha\in\Gamma} C_\alpha$ is closed as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Prove that an open interval in $\RR$ is an open subset of $\RR$ directly, i.e., without invoking the result about open balls in $\RR^n$. Don’t forget about the intervals $(-\infty,a), (a,\infty), (-\infty,\infty)$.
+\end{claim}
+
+\begin{soln}
+    There are four cases of open intervals in $\RR$:
+    
+    \textbf{Case 1}: The interval is of the form $(-\infty, \infty)$. Recall from the first bullet point of p. 31 in the book that $\RR^n$ is open, so in particular $\RR = (-\infty, \infty)$ is open.
+
+    \textbf{Case 2}: The interval is of the form $(a, \infty)$ for some $a\in \RR$. Suppose that $x\in (a, \infty)\implies x > a$; then if $k = \frac{x - a}{2} > 0$, we have $a < \frac{x + a}{2} = x - k < x$ and obviously $a < x < x + k$, so in particular $B_{k}(x) = (x - k, x + k)$ is contained within $(a, \infty)$. Since $x$ was arbitrary, and we've found a $\rho > 0$ such that $B_\rho(x)\subseteq (a, \infty)$, this interval must be an open subset of $\RR$.
+
+    \textbf{Case 3}: The interval is of the form $(-\infty, a)$ for some $a\in \RR$. Suppose that $x\in (-\infty, a)\implies x < a$; then if $k = \frac{a - x}{2} > 0$, we have $x < \frac{x + a}{2} = x + k < a$ and obviously $x - k < x < a$, so in particular $B_{k}(x) = (x - k, x + k)$ is contained within $(-\infty, a)$. Since $x$ was arbitrary, and we've found a $\rho > 0$ such that $B_\rho(x)\subseteq (-\infty, a)$, this interval must be an open subset of $\RR$.
+
+    \textbf{Case 4}: The interval is of the form $(a, b)$ for some $a\in \RR$. Note that this is equivalent to the open ball $B_R\parens{\frac{a + b}{2}}$, where $R = \frac{b - a}{2}$. Let $y\in B_R\parens{\frac{a + b}{2}}$. Then define $\rho = R - \abs{y - \frac{a + b}{2}} > 0$ by definition of an open ball. Let $x\in B_\rho\parens{y}$ be arbitrary. Then
+    \begin{align*}
+        \abs{x - \frac{a + b}{2}} &= \abs{(x - y) + \parens{y - \frac{a + b}{2}}} \\
+        &\le \abs{x - y} + \abs{y - \frac{a + b}{2}} && \text{(Triangle Inequality)}\\
+        &< \rho + \abs{y - \frac{a + b}{2}} && \parens{x\in B_\rho\parens{y}} \\
+        &= R,
+    \end{align*}
+    so $x \in B_R\parens{\frac{a + b}{2}}\implies B_\rho\parens{y}\subseteq B_R\parens{\frac{a + b}{2}}$ as desired.
+
+    Since we've dealt with all cases of open intervals in $\RR$ and shown that they always must be open subsets of $\RR$, we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Prove that $[-1,1]$ is \textit{not} an open subset of $\RR$.
+\end{claim}
+
+\begin{soln}
+    Suppose there exists a $\rho > 0$ such that $B_\rho(-1) \subseteq [-1, 1]$, or in other words that all elements in $B_\rho(-1) = (-1 - \rho, -1 + \rho)$ are contained in $[-1, 1]$. However, since $\rho > 0\implies -1 - \rho < -1$, we know that $(-1 - \rho, -1)$ is a nonempty set (for instance by taking $\frac{(-1 - \rho) + (-1)}{2}$), which in particular is disjoint from $[-1, 1]$ and also contained in $B_\rho(-1)$, contradiction! Thus, there does not exist a $\rho > 0$ such that $B_\rho(-1)\subseteq [-1, 1]$, or in other words $[-1, 1]$ is not open.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Prove that $\bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}} = [-1,1]$.
+\end{claim}
+
+\begin{soln}
+    First, suppose $x\in [-1, 1]$; then for any $n\in \NN$, we have 
+    \[\frac{1}{n} > 0 \implies -1 - \frac{1}{n} < -1 \le x \le 1 < 1 + \frac{1}{n}\implies x\in \parens{-1 - \frac{1}{n},1 + \frac{1}{n}},\]
+    so $\vec{x}\in \bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}\implies [-1, 1]\subseteq \bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}$.
+
+    Now, we'll show that $x\in \bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}\implies x\in [-1, 1]$; it suffices to show the contrapositive, i.e. that $x\not\in[-1, 1]\implies \bigcap_{n\in N}\parens{-1 - \frac{1}{n}, 1 + \frac{1}{n}}\not\subseteq [-1, 1]$. In particular, suppose that $\abs{x} > 1$. By the Archimedean Principle, there exists $m\in \NN$ such that 
+    \[m > \frac{1}{\abs{x} - 1} > 0\implies \abs{x} > 1 + \frac{1}{m} > 1\implies x\not\in \parens{-1 - \frac{1}{m}, 1 + \frac{1}{m}},\]
+    so $x\not\in \bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}$ as desired. Thus, we have $\bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}\subseteq [-1, 1]$.
+
+    We've shown that $[-1, 1]\subseteq \bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}$ and $\bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}}\subseteq [-1, 1]$, so in fact we have $\bigcap_{n\in N}\parens{-1 - \frac{1}{n},1 + \frac{1}{n}} = [-1, 1]$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    If $f : [0, 1]\to \RR$ is defined by
+    \[f(x) = \begin{cases}
+        1 & \text{if }x\in[0, 1]\text{ is a rational number} \\
+        0 & \text{if }x\in[0, 1]\text{ is not rational}
+    \end{cases}.\]
+    Prove that $f$ is continuous at no point of $[0, 1]$.
+\end{claim}
+
+\begin{soln}
+    Let $\varepsilon = \frac{1}{2}$. Then for any $x \in [0, 1]$, we know by Problem Set 3 Problems 9 and 10 that there respectively exists a rational number $a$ and an irrational number $b$ in $\parens{\max\braces{0, x - \delta}, \min\braces{1, x + \delta}}\subseteq B_\delta\parens{x}\cap [0, 1] $; in particular, this means that both $f(a) = 1$ and $f(b) = 0$ are in $f\parens{B_\delta\parens{x}\cap [0, 1]}$, but
+    \[B_\varepsilon\parens{f(x)} = \begin{cases}
+        \parens{\frac{1}{2}, \frac{3}{2}} & \text{if }x\in[0, 1]\text{ is a rational number} \\
+        \parens{-\frac{1}{2}, \frac{1}{2}} & \text{if }x\in[0, 1]\text{ is not rational}
+    \end{cases}\]
+    does not contain both $1$ and $0$ in either case, so $f$ cannot be continuous at $x$, and since $x$ was arbitrary, we're done.
+\end{soln}
+\eject
+\end{document}

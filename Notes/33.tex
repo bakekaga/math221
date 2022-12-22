@@ -1,0 +1,84 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 33: 11/9/22}
+
+Recall the statement of the second derivative test, which we can finally prove now:
+
+\begin{theorem}[Multi-variable Second Derivative Test]
+    Suppose $U\subseteq \RR^n$, $f : U \to \RR$ is $C^2$, $\va \in U$.
+    \begin{itemize}
+        \item If the error function $\mathrm{E} : \RR^n \to \RR$ is
+        \[\mathrm{E}\parens{\vx} = f\parens{\vx} - f\parens{\va} - \nabla f\parens{\va}\cdot\parens{\vx - \va} - \frac{1}{2}\Hessf{\vx - \va},\]
+        then $\limv{a} \frac{\mathrm{E}\parens{\vx}}{\norm{\vx - \va}^2} = 0$.
+        \item If $\nabla f\parens{\va} = \vec{0}$ and the Hessian of $f$ at $\va$ is positive/negative definite, then $\va$ is a strict local minimum/maximum for $f$.
+    \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $\varepsilon > 0$ be arbitrary. Our goal is to find a $\delta > 0$ such that $\abs{\mathrm{E}\parens{\vx}} < \varepsilon\norm{\vx - \va}^2$ for all $\vx\in U\cap B_\delta\parens{\va}\setminus\braces{\va}$. Since $\va\in U$ and $U$ is open, there exists $\rho > 0$ such that $B_\rho\parens{\va}\subseteq U$. From the continuity of $\mathcal{D}_i\mathcal{D}_jf$ at $\va$ with $\frac{2\varepsilon}{n}$ in place of $\varepsilon$, there exists $\delta_{ij} > 0$ such that
+        \[\abs{\mathcal{D}_i\mathcal{D}_jf\parens{\vy} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}} < \frac{2\varepsilon}{n}\]
+        for all $\vy\in U$ with $\norm{\vy - \va} < \delta_{ij}$. Define $\delta$ as the minimum of $\rho$ and all the $\delta_{ij}$s; then recalling the definition of the matrix norm, we have for all $\vy\in B_\delta\parens{\va}\subseteq U$ that
+        \begin{align*}
+            &\abs{\mathcal{D}_i\mathcal{D}_jf\parens{\vy} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}} < \frac{2\varepsilon}{n} \\
+            &\implies \norm{\nabla^2 f\parens{\vy} - \nabla^2f\parens{\va}}^2 = \sum_{i, j = 1}^n \abs{\mathcal{D}_i\mathcal{D}_jf\parens{\vy} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}}^2 < \sum_{i, j = 1}^n \frac{4\varepsilon^2}{n^2} < 4\varepsilon^2\\
+            &\implies \norm{\nabla^2 f\parens{\vy} - \nabla^2f\parens{\va}} < 2\varepsilon.
+        \end{align*}
+        Let $\vx\in B_\delta\parens{\va} \setminus\braces{\va}$ be arbitrary, and consider the function $h : \parens{-\frac{\delta}{\norm{\vx - \va}}, \frac{\delta}{\norm{\vx - \va}}}\to \RR$ defined by $h(t) = f\parens{\va + t\parens{\vx - \va}}$. In particular, note that $\va + t\parens{\vx - \va}\in B_\delta\parens{\va}$ for all $t\in \parens{-\frac{\delta}{\norm{\vx - \va}}, \frac{\delta}{\norm{\vx - \va}}}$. Differentiating with the Chain Rule, we have
+        \begin{align*}
+            h'(t) &= \mathcal{D}f\parens{\va + t\parens{\vx - \va}}\parens{\vx - \va} \\
+            &= \mathcal{D}_{\vx - \va} f\parens{\va + t\parens{\vx - \va}} \\
+            &= \sum_{j = 1}^n \mathcal{D}_j f\parens{\va + t\parens{\vx - \va}}\parens{x_j - a_j},
+        \end{align*}
+        where we used the theorem that the directional derivative can be expressed as a linear combination of its partial derivatives. Differentiating again with the same directional derivative trick, we have
+        \begin{align*}
+            h''(t) &= \sum_{j = 1}^n \parens{\mathcal{D}_{\vx - \va}\parens{\mathcal{D}_jf}\parens{\va + t\parens{\vx - \va}}}\parens{x_j - a_j} \\
+            &= \sum_{j = 1}^n\parens{\sum_{i = 1}^n \mathcal{D}_i\mathcal{D}_jf\parens{\va + t\parens{\vx - \va}}\underbrace{\parens{x_i - a_i}}_{\vec\xi_i}}\underbrace{\parens{x_j - a_j}}_{\xi_j} \\
+            &= \Hess_{f, \va + t\parens{\vx - \va}} \parens{\vx - \va}
+        \end{align*}
+        By Taylor's Theorem, there exists $\theta\in (0, 1)$ such that
+        \begin{align*}
+            f\parens{\vx} &= h(1) = h(0) + h'(0) \cdot 1 + \frac{1}{2}h''(\theta) \cdot 1^2 \\
+            &= f\parens{\va} + \mathcal{D}_{\vx - \va}f\parens{\va} + \frac{1}{2}\Hess_{f, \va + \theta\parens{\vx - \va}} \parens{\vx - \va} \\
+            &= f\parens{\va} + \nabla f\parens{\va} \cdot \parens{\vx - \va} + \frac{1}{2}\Hess_{f, \va + \theta\parens{\vx - \va}} \parens{\vx - \va}.
+        \end{align*}
+        This implies that
+        \begin{align*}
+            \mathrm{E}\parens{\vx} &= f\parens{\vx} - f\parens{\va} + \nabla f\parens{\va} \cdot \parens{\vx - \va} - \frac{1}{2}\Hess_{f, \va} \parens{\vx - \va} \\
+            &= \frac{1}{2}\Hess_{f, \va + \theta\parens{\vx - \va}} \parens{\vx - \va} - \frac{1}{2}\Hess_{f, \va} \parens{\vx - \va} \\
+            &= \frac{1}{2}\parens{\nabla^2 f\parens{\va + \theta\parens{\vx - \va}}\parens{\vx - \va}} \cdot\parens{\vx - \va} - \frac{1}{2}\parens{\nabla^2 f\parens{\va} \parens{\vx - \va}}\cdot\parens{\vx - \va} \\
+            &= \frac{1}{2}\parens{\parens{\nabla^2 f\parens{\va + \theta\parens{\vx - \va}} - \nabla^2 f\parens{\va}} \parens{\vx - \va}}\cdot\parens{\vx - \va}.
+        \end{align*}
+        By Cauchy-Schwartz applied twice, this implies that
+        \begin{align*}
+            \abs{\mathrm{E}\parens{\vx}} &= \frac{1}{2}\abs{\underbrace{\parens{\parens{\nabla^2 f\parens{\va + \theta\parens{\vx - \va}} - \nabla^2 f\parens{\va}} \parens{\vx - \va}}}_{\in \RR^n}\cdot\underbrace{\parens{\vx - \va}}_{\in \RR^n}} \\
+            &\le \frac{1}{2}\norm{\underbrace{\parens{\nabla^2 f\parens{\va + \theta\parens{\vx - \va}} - \nabla^2 f\parens{\va}}}_{n\times n\text{ matrix}} \underbrace{\parens{\vx - \va}}_{\in \RR^n}}\norm{\vx - \va} \\
+            &\le \frac{1}{2}\norm{\nabla^2 f\parens{\va + \theta\parens{\vx - \va}} - \nabla^2 f\parens{\va}}\norm{\vx - \va}^2.
+        \end{align*}
+        Since $\va + \theta\parens{\vx - \va} = \theta\norm{\vx - \va} < 1\cdot \delta = \delta$, it follows that $\va + \theta\parens{\vx - \va} \in B_\delta\parens{\va}$. Thus, we can apply our earlier observation and conclude that
+        \[\abs{\mathrm{E}\parens{\vx}} < \frac{1}{2}\parens{2\varepsilon}\norm{\vx - \va}^2 = \varepsilon\norm{\vx - \va}^2\]
+        as desired.
+         
+        \item Since $\Hess_{f, \va}$ is positive definite, we know that the minimum value $\mu_*$ of $\Hess_{f, \va} |_{S^{n - 1}}$ is positive.
+
+        \begin{claim}
+             $\Hessf{\vec\xi} \ge \mu_*\norm{\vec\xi}^2$.
+        \end{claim}
+
+        \begin{proof}
+             Suppose $\vec\xi\neq \vec{0}$ (otherwise it's trivial), so that we have $\hat{\xi} = \frac{\vec\xi}{\norm{\hat\xi}}\in S^{n - 1}$. Then recall from yesterday that $\Hessf{\vec\xi} = \norm{\vec\xi}^2 \Hessf{\hat{\xi}} \ge \norm{\vec\xi}^2 \mu_*$ as desired.
+        \end{proof}
+        From the first part with $\frac{1}{2}\mu_*$ in place of $\varepsilon > 0$, there exists a $\delta'$ such that
+        \[\abs{\mathrm{E}\parens{\vx}} < \frac{1}{2}\mu_*\norm{\vx - \va}^2\]
+        for all $\vx\in U$ with $0 < \norm{\vx - \va} < \delta'$. If $\rho > 0$ is defined the same way as in the first part's proof, then $B_\rho\parens{\va} \subseteq U$. Define $r = \min\braces{\delta', \rho}$; then $B_r\parens{\va}\subseteq B_\rho\parens{\va}\subseteq U$ and for all $\vx\in B_r\parens{\va}\setminus\braces{\va}$ we have
+        \begin{align*}
+            f\parens{\vx} &= f\parens{\va} + \cancel{\nabla f\parens{\va}\parens{\vx - \va}} + \frac{1}{2}\Hessf{\vx - \va} + \mathrm{E}\parens{\vx} \\
+            &\ge f\parens{\va} + \frac{1}{2}\mu_*\norm{\vx - \va}^2 + \mathrm{E}\parens{\vx} \\
+            &> f\parens{\va} + \cancel{\frac{1}{2}\mu_*\norm{\vx - \va}^2} - \cancel{\frac{1}{2}\mu_*\norm{\vx - \va}^2} \\
+            &= f\parens{\va}
+        \end{align*}
+        as desired.
+    \end{enumerate}
+\end{proof}
+
+\end{document}

@@ -1,0 +1,226 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 2}
+\subsection{Problem 1}
+\begin{claim}
+    Suppose $V$ is a subspace of $\RR^n$. Prove by induction on $m \in \NN$ that
+    \[\vec{v}_1, \ldots , \vec{v}_m \in V \implies \vspan\braces{\vec{v}_1, \ldots , \vec{v}_m}\subseteq V.\]    
+\end{claim}
+
+\begin{soln}
+    Denote the proposition above by $P(m)$; we will prove $P(m)$ for all $m\in \NN$ with induction on $m$.
+
+    \textbf{Base Case:} We wish to show $P(1)$. This asserts that given some vector $\vec{v}_{1}\in V$, we have $\vspan\{\vec{v}_{1}\} \subseteq V$. Observe that the span of $\{\vec{v}_{1}\}$ simply consists of all multiples of $\vec{v}_{1}$, all which must be in $V$ if $\vec{v}_{1}$ is due to closure of subspaces under scalar multiplication. Thus we have proven the base case.
+
+    \textbf{Inductive Step:} Suppose that $P(k)$ is true for some $m = k\in \NN$. Then we wish to show that the span of vectors $\vec{v}_{1}, \vec{v}_{2}, \ldots , \vec{v}_{k + 1}\in V$ is a subset of $V$, or in other words that any linear combinations of those $k + 1$ vectors is also contained within $V$. According to the induction hypothesis, any linear combination of the vectors $\vec{v}_{1}, \ldots , \vec{v}_{k}$ is contained within $V$, while $P(1)$ implies that any multiple of $\vec{v}_{k + 1}$ is also contained within $V$. However, we know that $V$ is closed under addition, so if we add together any linear combination of $\vec{v}_{1}, \ldots , \vec{v}_{k}$ with any multiple of $\vec{v}_{k + 1}$, we will get an element of $V$. In particular, this means that all linear combinations of the vectors $\vec{v}_{1}, \ldots , \vec{v}_{k + 1}$ are contained within $V$, so $\vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k + 1}\} \subseteq V$, thereby completing the inductive step as we've shown $P(k + 1)$.
+    
+    Thus, by induction, $P(m)$ is true for all values of $m\in \NN$.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Let $\vec{v}_1, \ldots , \vec{v}_k$ be any set of vectors in $\RR^n$. Let $\vec{v}_1^*, \ldots , \vec{v}_k^*$ be obtained by applying any one of the 3 “elementary operations” to $\vec{v}_1, \ldots , \vec{v}_k$, where the 3 elementary operations are:
+    \begin{enumerate}[(i)]
+        \item interchange of any pair of vectors (i.e., (i) merely changes the ordering of the vectors);
+        \item multiplication of one of the vectors by a nonzero scalar;
+        \item replacing the $i$-th vector $\vec{v}_i$ by the new vector $\vec{v}_i^* = \vec{v}_i + \mu\vec{v}_j$, where $i \neq j$ and $\mu \in \RR$.)
+    \end{enumerate}
+    Prove that $\vspan\braces{\vec{v}_1, \ldots , \vec{v}_k} = \vspan\braces{\vec{v}_1^*, \ldots , \vec{v}_k^*}$.
+\end{claim}
+
+\begin{soln}
+    We will prove that the spans of the two sets are equal for each of the three operations separately; this is equivalent to showing that any linear combination of one of the sets of vectors is also a linear combination of the other set of vectors. Suppose that $\vec{v}_{1}, \ldots , \vec{v}_{k}\in \RR^n$.
+    \begin{enumerate}[(i)]
+        \item Let $i < j$ be indices in $\{1, \ldots , k\}$. We will show that interchanging two vectors $\vec{v}_{i}, \vec{v}_{j}$ will not change the span of the original vectors $\vec{v}_{1}, \ldots , \vec{v}_{k}$. Let $c_1, \ldots , c_k \in \RR$; since addition is commutative, we have
+        \begin{align*}
+            &c_1\vec{v}_{1} + \ldots + c_{i - 1}\vec{v}_{i - 1} + \mathbf{c_j\vec{v}_{j}} + c_{i + 1}\vec{v}_{i + 1} + \ldots \\
+            &+ c_{j - 1}\vec{v}_{j - 1} + \mathbf{c_i\vec{v}_{i}} + c_{j + 1}\vec{v}_{j + 1} + \ldots + c_k\vec{v}_{k} \\
+            &= c_1\vec{v}_{1} + \ldots + c_{i - 1}\vec{v}_{i - 1} + \mathbf{c_i\vec{v}_{i}} + c_{i + 1}\vec{v}_{i + 1} + \ldots \\
+            &+ c_{j - 1}\vec{v}_{j - 1} + \mathbf{c_j\vec{v}_{j}} + c_{j + 1}\vec{v}_{j + 1} + \ldots + c_k\vec{v}_{k}.
+        \end{align*}
+        This means any linear combination of $\vec{v}_{1}, \ldots , \vec{v}_{i - 1}, \vec{v}_{j}, \vec{v}_{i + 1}, \ldots , \vec{v}_{j - 1}, \vec{v}_{i}, \vec{v}_{j + 1}, \ldots , \vec{v}_{k}$ is also a linear combination of $\vec{v}_{1}, \ldots , \vec{v}_{i - 1}, \vec{v}_{i}, \vec{v}_{i + 1}, \ldots , \vec{v}_{j - 1}, \vec{v}_{j}, \vec{v}_{j + 1}, \ldots ,\vec{v}_{k}$ and vice versa, so their spans must be equal as desired.
+        
+        \item Let $i$ be an index in $\{1, \ldots , k\}$. We will show that multiplying a vector $\vec{v}_{i}$ with a nonzero scalar $\mu\in \RR$ will not change the span of the original vectors $\vec{v}_{1}, \ldots , \vec{v}_{k}$. Let $c_1, \ldots , c_k\in \RR$. Then it follows that any linear combination $c_1\vec{v}_{1} + \ldots + c_i\mu\vec{v}_{i} + \ldots + c_k\vec{v}_{k}$ of the vectors $\vec{v}_{1}, \ldots , \mu\vec{v}_{i}, \ldots , \vec{v}_{k}$ must also be a linear combination of the vectors $\vec{v}_{1}, \ldots, \vec{v}_{k}$ since $c_1, \ldots , c_i\mu , \ldots , c_k\in \RR$ as well, whence $\vspan\{\vec{v}_{1}, \ldots , \mu\vec{v}_{i}, \ldots , \vec{v}_{k}\}\subseteq \vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k}\}$. On the other hand, any linear combination $c_1\vec{v}_{1} + \ldots + c_i\vec{v}_{i} + \ldots + c_k\vec{v}_{k}$ of $\vec{v}_{1}, \ldots, \vec{v}_{k}$ is also a linear combination of $\vec{v}_{1}, \ldots , \mu\vec{v}_{i}, \ldots , \vec{v}_{k}$ because we can express this sum as $c_1\vec{v}_{1} + \ldots + \frac{c_i}{\mu}(\mu\vec{v}_{i}) + \ldots + c_k\vec{v}_{k}$ (since $\mu$ is nonzero). Thus, $\vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k}\}\subseteq \vspan\{\vec{v}_{1}, \ldots , \mu\vec{v}_{i}, \ldots , \vec{v}_{k}\}$ so $\vspan\{\vec{v}_{1}, \ldots , \mu\vec{v}_{i}, \ldots , \vec{v}_{k}\} = \vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k}\}$ as desired.
+        
+        \item Let $i \neq j$ be indices in $\{1, \ldots , k\}$. We will show that replacing $\vec{v}_{i}$ with the vector $\vec{v}_{i} + \mu\vec{v}_{j}$ ($\mu \in \RR$) will not change the span of the original vectors $\vec{v}_{1}, \ldots , \vec{v}_{k}$. Let $c_1, \ldots , c_k\in \RR$ so that $c_1\vec{v}_{1} + \ldots + c_i(\vec{v}_{i} + \mu\vec{v}_{j}) + \ldots + c_k\vec{v}_{k}$ is a linear combination of $\vec{v}_{1}, \ldots , \vec{v}_{i} + \mu\vec{v}_{j}, \ldots , \vec{v}_{k}$. Suppose that $i < j$; the other case where $i > j$ follows identically. We then have
+        \begin{align*}
+            &c_1\vec{v}_{1} + \ldots + c_i(\vec{v}_{i} + \mu\vec{v}_{j}) + \ldots + c_k\vec{v}_{k} \\
+            &= c_1\vec{v}_{1} + \ldots + c_i\vec{v}_{i} + \ldots + (c_i\mu + c_j)\vec{v}_{j} + \ldots + c_k\vec{v}_{k};
+        \end{align*}
+        in particular, this is a linear combination of the vectors $\vec{v}_{1}, \ldots , \vec{v}_{k}$ because we have $c_1, \ldots, c_i\mu + c_j, \ldots , c_k\in \RR$, so $\vspan\{\vec{v}_{1}, \ldots , \vec{v}_{i} + \mu\vec{v}_{j}, \ldots , \vec{v}_{k}\}\subseteq \vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k}\}$. On the other hand, consider a linear combination $c_1\vec{v}_{1} + \ldots + c_k\vec{v}_{k}$ of the vectors $\vec{v}_{1}, \ldots , \vec{v}_{k}$. Again assuming $i < j$ since the other case is identical, we can express this sum as
+        \begin{align*}
+            &c_1\vec{v}_{1} + \ldots + c_k\vec{v}_{k} \\
+            &= c_1\vec{v}_{1} + \ldots + c_i\vec{v}_{i} + \ldots + c_j\vec{v}_{j} + \ldots + c_k\vec{v}_{k} \\
+            &= c_1\vec{v}_{1} + \ldots + c_i(\vec{v}_{i} + \mu\vec{v}_{j}) + \ldots + (c_j - c_i\mu)\vec{v}_{j} + \ldots + c_k\vec{v}_{k},
+        \end{align*}
+        which is a linear combination of the vectors $\vec{v}_{1}, \ldots , \vec{v}_{i} + \mu\vec{v}_{j}, \ldots , \vec{v}_{k}$. Thus, it follows that $\vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k}\}\subseteq \vspan\{\vec{v}_{1}, \ldots , \vec{v}_{i} + \mu\vec{v}_{j}, \ldots , \vec{v}_{k}\}$ so we get $\vspan\{\vec{v}_{1}, \ldots , \vec{v}_{i} + \mu\vec{v}_{j}, \ldots , \vec{v}_{k}\} = \vspan\{\vec{v}_{1}, \ldots , \vec{v}_{k}\}$ as desired.\qedhere
+    \end{enumerate}
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Suppose $\vec{v}_1, \ldots , \vec{v}_N \in \RR^n$. For each assertion below, prove it or give a counterexample.
+    \begin{enumerate}[label=(\alph*)]
+        \item If $\vec{v}_1, \ldots , \vec{v}_N \in \RR^n$ are l.d., then for every index $i \in \braces{1,\ldots , N}$, $\vec{v}_i$ can be written as a linear combination of the remaining $\vec{v}_j$, $j \neq i$.
+        \item If $\vec{v}_1, \ldots , \vec{v}_M$ are l.d. for some $M \in \braces{1,\ldots , N}$, then $\vec{v}_1, \ldots , \vec{v}_N$ are l.d. too.
+        \item If $\vec{v}_1, \ldots , \vec{v}_N$ are l.i., then $\vec{v}_1, \ldots , \vec{v}_M$ are l.i. for all $M \in \braces{1,\ldots , N}$.
+    \end{enumerate}
+\end{claim}
+
+\begin{soln}
+    \begin{enumerate}[label=(\alph*)]
+        \item I claim that this assertion is false. Consider the set of $\RR^2$ vectors $\{(0, 1), (1, 0), (2, 0)\}$. Since $0(0, 1) + -2(1, 0) + 1(2, 0) = (0, 0) = \vec{0}\in \RR^2$, it follows that the set is linearly dependent because $(0, -2, 1)\neq \vec{0}\in \RR^3$. However, it is impossible to express $(0, 1)$ as a linear combination of the other two vectors because no matter what we scale either vector by, their second components will always be $0$ and thus cannot add to $1$.
+        
+        \item Since $\vec{v}_1, \vec{v}_2, \ldots , \vec{v}_m$ are linearly dependent, it follows that there exists a nontrivial vector $(c_1, \ldots , c_m)\in \RR^m$ such that $c_1\vec{v}_1 + \ldots + c_m\vec{v}_m = \vec{0}\in \RR^n$. Observe then that $(c_1, \ldots , c_m, \underbrace{0, \ldots , 0}_{N - m\text{ zeroes}})\in \RR^N$ must also be a nontrivial vector, and furthermore we have
+        \[c_1\vec{v}_1 + \ldots + c_m\vec{v}_m + \sum_{k = m + 1}^N 0\vec{v}_k = \vec{0}\in \RR^n,\]
+        so the vectors $\vec{v}_1, \ldots , \vec{v}_N$ must be linearly dependent as well.
+
+        \item Observe that this is the contrapositive of part (b); thus it must be true as well.\qedhere
+    \end{enumerate}
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Consider a homogeneous system with $m$ equations and $n$ unknowns $x_1,\ldots ,x_n$:
+    \begin{align*}
+        \left\{\begin{aligned}
+            &a_{11}x_1 + \ldots + a_{1n}x_n = 0, \\
+            &\vdots \\
+            &a_{m1}x_1 + \ldots  + a_{mn}x_n = 0.
+        \end{aligned}\right. && (*)
+    \end{align*}
+Prove that $V = \set*{(x_1,\ldots , x_n) \in \RR^n \mid x_1,\ldots ,x_n\text{ is a solution of }(*)}$ is a subspace of $\RR^n$.
+\end{claim}
+
+\begin{soln}
+     First of all, it's obvious that $V$ is a subset of $\RR^n$ by its definition of only containing vectors in $\RR^n$. We will now verify the subspace conditions for our set $V$. The first condition is that $\vec{0}\in V$, but this is clearly true because $(x_1, \ldots , x_n) = \vec{0}$ satisfies $a_{i1}x_1 + \ldots + a_{in}x_n = 0$ for all $i\in \{1, \ldots , m\}$ as all the terms in the sum become 0. The second condition is that $V$ is closed under addition and scalar multiplication. Consider two vectors $\vec{b} = (b_1, \ldots , b_n), \vec{c} = (c_1, \ldots , c_n)\in V$ and two real numbers $\lambda, \mu$. Then observe that for any $i\in \{1, \ldots , m\}$, we have
+     \[\sum_{k = 1}^n a_{ik}(\lambda b_k + \mu c_k) = \lambda\sum_{k = 1}^n a_{ik}b_k + \mu\sum_{k = 1}^n a_{ik}c_k = \lambda(0) + \mu(0) = 0,\]
+     where the second equality follows from the definition of $V$, so $\lambda \vec{b} + \mu \vec{c} \in V$ as well. Since all conditions of subspaces have been fulfilled, $V$ must be a subspace of $\RR^n$ so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    If $S$ is a finite nonempty subset of $\RR$, prove that $\max S$ exists. (Hint: Let $n$ be the number of elements of $S$ and try using induction on $n$.)
+\end{claim}
+
+\begin{soln}
+    Denote the proposition that a set $S\subseteq \RR$ with $n$ elements has a maximum by $P(n)$; we will prove $P(n)$ for all $n\in \NN$ with induction on $n$.
+
+    \textbf{Base Case}: We wish to show $P(1)$. This asserts that given a set $S$ with 1 element (say $x$), it has a maximum; according to the definition of a maximum, this occurs if there exists a $K\in \RR$ such that $K$ is an upper bound of $S$ and $K\in S$. I claim that the maximum is $x$; it satisfies the second condition by definition, and to show that it is an upper bound of $S$, simply observe that $S$ has exactly one element $x$ that is clearly $\le x$. Thus, $P(1)$ is true and we have proven the base case.
+
+    \textbf{Inductive Step}: Suppose that $P(k)$ is true for some $n = k\in \NN$; in other words, assume that any subset of $\RR$ with $k$ elements has a maximum. Consider a set $S\subseteq \RR$ with $k + 1$ elements. Suppose that $S$ has some element $x$; I claim that either $x$ is the maximum of $S$ or $\max (S\setminus \{x\})$ (which exists because of the induction hypothesis) is, and in particular these are two distinct elements because $k + 1\ge 2$ means that $S$ contains at least 2 elements so $S\setminus\{x\}\neq \emptyset$. First of all observe that both elements are in $S$ because of how we defined $x$ and because $\max (S\setminus\{x\})\in S\setminus\{x\}\subseteq S$. To address the other condition for the maximum, there are two cases: either $x \ge \max (S\setminus \{x\})$ or $x < \max (S\setminus \{x\})$. If $x\ge \max (S\setminus \{x\})$, then $x \ge x$ and $x$ is also at least every element in $S\setminus \{x\}$; thus, $x$ is an upper bound of $S$ because it is at least every element in $S$. On the other hand, if $x < \max (S\setminus \{x\})$, we also know that $\max (S\setminus \{x\})$ is at least all of the values in $S\setminus \{x\}$ by definition, so $\max (S\setminus \{x\})$ is an upper bound of $S = S\setminus \{x\} \cup \{x\}$. Thus, we've found that the maximum of $S$ must either be $x$ or $\max (S\setminus \{x\})$, both of which always exist, so we've proven $P(k + 1)$.
+    
+    Thus, by induction, $P(n)$ is true for all values of $n\in \NN$.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Prove this assertion from Lecture 1 of the Appendix: $S \subseteq  R$ is bounded (i.e., bounded above and bounded below) if and only if there exists $L \in \RR$ such that $\abs{x}\le L$ for all $x \in S$.
+\end{claim}
+
+\begin{soln}
+    We will prove both directions separately.
+    
+    $(\implies)$: Assume that $S\subseteq \RR$ is bounded. By definition, this means that there exists $K, k\in \RR$ such that $x\le K$ and $x \ge k$ for all $x\in S$. The key property we will use is that $\abs{x} = -x$ if $x \le 0$ and $\abs{x} = x$ if $x\ge 0$. There are three cases here:
+    
+    \textbf{Case 1}: $k \ge 0$ (and $K\ge k\ge 0$). In this case, it follows by definition of $k$ that $x\ge k\ge 0$ for all $x\in S$; thus, $\abs{x} = x$ for all $x\in S$ and in particular this implies that $\boxed{K}\ge x = \abs{x}$ for all $x\in S$.
+    
+    \textbf{Case 2}: $K \le 0$ (and $k\le K\le 0$). In this case, it follows by definition of $K$ that $x\le K\le 0$ for all $x\in S$; thus, $\abs{x} = -x$ for all $x\in S$ and in particular this implies that $k\le x\implies \boxed{-k}\ge -x = \abs{x}$ for all $x\in S$.
+    
+    \textbf{Case 3}: $k \le 0$ and $K\ge 0$. In this case, we must either have $\abs{k} > K$ or $K \ge \abs{k}$. If the former is true, then it follows that $\abs{k} = -k \ge -x = \abs{x}$ for all $x\in \{x\in S : x\le 0\}$ and $\abs{k} > K \ge x = \abs{x}$ for all $x\in \{x\in S : x\ge 0\}$, so $\boxed{\abs{k}}\ge x$ for all $x\in S$. If the latter is true, then it follows that $K\ge x = \abs{x}$ for all $x\in \{x\in S : x\ge 0\}$ and $K\ge \abs{k} = -k \ge -x = \abs{x}$ for all $x\in \{x\in S : x\le 0\}$, so $\boxed{K} \ge x$ for all $x\in S$.
+
+    We've found in all cases a value $L$ such that $L\ge \abs{x}$ for all $x\in S$, so this direction has been proven.
+
+    $(\impliedby)$: Assume that there exists a value $L$ such that $L\ge \abs{x}$ for all $x\in S$. Note that in particular $L\ge \abs{x}\implies L\ge 0$ because absolute values are always nonnegative. This means that for all $x\in \{x\in S : x\ge 0\}$, we have $L\ge x$ and for all $x\in \{x\in S : x\le 0\}$, we have $L\ge x$ because $L\ge 0$. Thus, $L$ is an upper bound of $S$. On the other hand, we also know that for all $x\in \{x\in S : x\le 0\}$ we have $L\ge \abs{x} = -x\implies -L\le x$, and since $-L\le 0$ it follows that for all $x\in \{x\in S : x\ge 0\}$, we have $-L\le x$. Thus, $-L$ is a lower bound of $S$, which means that $S$ must be bounded as desired.
+
+    Since we have proven both directions of the statement, our proof is complete.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Given a set $S \subseteq R$, $-S$ denotes $\set*{-x \mid x \in S}$. Prove $S$ is bounded below if an only if $-S$ is bounded above.
+\end{claim}
+
+\begin{soln}
+    We will prove both directions separately.
+
+    $(\implies)$: Assume $S$ is bounded below, i.e. there exists a $k\in \RR$ such that $k \le x$ for all $x\in S$. Then it follows that $-k\ge -x$ for all $x\in S$, or in other words $-k\ge x$ for all $x\in -S$, so $-k$ is an upper bound of $-S$. Thus $-S$ is bounded above.
+
+    $(\impliedby)$: Assume $-S$ is bounded above, i.e. there exists a $K\in \RR$ such that $K\ge x$ for all $x\in -S$. Then it follows that $-K\le -x$ for all $x\in -S$, or in other words $-K\le x$ for all $x\in S$, so $-K$ is a lower bound of $S$. Thus $S$ is bounded below.
+
+    Since we've proven both directions, we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Given a set $S \subseteq R$, $-S$ denotes $\set*{-x \mid x \in S}$. Prove if $S$ is nonempty and bounded below, then $\inf S$ exists and equals $-\sup(-S)$.
+\end{claim}
+
+\begin{soln}
+    Let $k = -\sup (-S)$. We will show that it satisfies both properties of the infimum of $S$.
+    
+    For the first condition, we can verify that since $\sup(-S)\ge x$ for all $x\in -S$ by definition, we must have $-\sup(-S)\le -x$ for all $x\in -S$, or in other words $-\sup(-S)\le x$ for all $x\in S$. Thus, $k$ is a lower bound of $S$ as desired.
+    
+    For the second condition, consider an arbitrary lower bound $k'$ of $S$; since by definition $k'\le x\implies -k'\ge -x$ for all $x\in S$, $-k'$ is an upper bound of $-S$. By definition of the supremum, we must have $\sup(-S)\le -k'\implies -\sup(-S)\ge k'$, so $k$ is greater than or equal to all lower bounds of $S$. Thus, the second condition for an infimum is satisfied, and in particular $\inf S = k = -\sup (-S)$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Suppose $a \in \RR$, $a > 0$, and $S = \set*{x \in \RR \mid x^2 < a, x > 0}$. Prove that $S$ is nonempty and bounded above.
+\end{claim}
+
+\begin{soln}
+    To show that $S$ is nonempty, I will construct a number that must be in $S$. There are three cases to consider:
+    
+    \textbf{Case 1}: $a > 1$. I claim that $x = \frac{1}{a}$ (which exists because $a \neq 0$) must be in $S$. First, observe that $a > 0\implies x = \frac{1}{a} > 0$ because $a\cdot \frac{1}{a} = 1 > 0$ and a positive number only results from multiplying one positive number with another number when the other number is also positive. On the other hand, since $a > 1\implies 1 > \frac{1}{a}$, we must have $x^2 = (\frac{1}{a})^2 < \frac{1}{a} \cdot 1 < a$, so this choice of $x$ satisfies both conditions of $S$.
+
+    \textbf{Case 2}: $a < 1$. I claim that $x = a^2$ must be in $S$. Since $a > 0$, it's obvious that $x = a^2 > 0$ as well. We must also have $x^2 = a^2 < a \cdot 1 = a$, so this choice of $x$ satisfies both conditions of $S$.
+
+    \textbf{Case 3}: $a = 1$. Observe that $x = \frac{1}{2}$ works because $x = \frac{1}{2} > 0$ and $x^2 = \frac{1}{4} < 1$.
+
+    Thus, we conclude that $S$ is nonempty as we have exhausted all values of $a$.
+    
+    Next, I claim that $1 + a$ is an upper bound of $S$; suppose for the sake of contradiction that there is some $x\in S$ such that $x > 1 + a$. In particular, since $1 + a > 1\implies x > 1$, we must have $x^2 > x \cdot 1 > 1 + a > a$, but this is a contradiction by the definition of $S$. Thus, $S$ is both nonempty and bounded above as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Suppose $a \in \RR$, $a > 0$, and $S = \set*{x \in \RR \mid x^2 < a, x > 0}$. Prove that $y = \sup S$ (it exists by the Completeness of $\RR$) satisfies $y^2 = a$.
+\end{claim}
+
+\begin{soln}
+    We will show that $y^2 < a$ or $y^2 > a$ are both impossible through contradiction, which will then allow us to conclude that $y^2 = a$.
+ 
+    First of all, suppose that $y^2 < a$. Observe that if $(y + 1)^2 < a\implies y + 1\in S$, then we immediately get a member of $S$ that is larger than $y$ because obviously $y + 1 > y$; this contradicts the assumption that $y$ is a supremum of $S$ because $y$ cannot then be an upper bound. Therefore, suppose that
+    \[(y + 1)^2 \ge a\implies y^2 + 2y + 1 \ge a\implies \frac{2y + 1}{a - y^2}\ge 1.\]
+    Now consider some $L\in \RR$ such that $L > \frac{2y + 1}{a - y^2}$. In particular, $2y + 1 > 0, a - y^2 > 0\implies L > 0$, and since taking the reciprocal will not change its sign, we have $y + \frac{1}{L} > y$. On the other hand, we also have
+    \begin{align*}
+        \left(y + \frac{1}{L}\right)^2 &< \left(y + \frac{a - y^2}{2y + 1}\right)^2 \\
+        &= y^2 + 2y\left(\frac{a - y^2}{2y + 1}\right) + \left(\frac{a - y^2}{2y + 1}\right)^2 \\
+        &\le y^2 + 2y\left(\frac{a - y^2}{2y + 1}\right) + \left(\frac{a - y^2}{2y + 1}\right) \\
+        &= y^2 + a - y^2 = a.
+    \end{align*}
+    In particular, $\left(y + \frac{1}{L}\right)^2 < a$, so we've found that $y + \frac{1}{L}\in S$ but since we showed earlier that $y + \frac{1}{L} > 0$, this contradicts the supremum condition that $y$ is an upper bound of $S$. Thus, we must have $y^2\ge a$.
+
+    Next, suppose that $y^2 > a$. Since the numerator and denominator of $\frac{2y}{y^2 - a}$ are both positive, we must have $\frac{y^2 - a}{2y} > 0 \implies y - \frac{y^2 - a}{2y} < y$. This implies that there must be some $x\in S$ such that $x > y - \frac{y^2 - a}{2y}$ since otherwise $y - \frac{y^2 - a}{2y}$ would be a smaller upper bound than $y$, contradicting the supremum condition that $y$ is the smallest upper bound of $S$. Thus, we must have
+    \begin{align*}
+        x^2 &>\left(y - \frac{y^2 - a}{2y}\right)^2 \\
+        &= y^2 - 2y\left(\frac{y^2 - a}{2y}\right) + \left(\frac{y^2 - a}{2y}\right)^2 \\
+        &= a + \left(\frac{y^2 - a}{2y}\right)^2 \\
+        &> a + \left(\frac{0}{2y}\right)^2 \\
+        &> a,
+    \end{align*}
+    which means that $x^2 > a$, contradicting our assumption that $x\in S$.
+
+    Since we've proven that $y^2 > a$ and $y^2 < a$ both result in contradictions, we must have $y^2 = a$ so we're done.
+\end{soln}
+\end{document}

@@ -1,0 +1,80 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Chapter 2}
+\subsection{Day 18: 10/3/22}
+\subsubsection{Open and Closed Sets, Convergence and Limits in $\RR^n$}
+
+\begin{definition}[Convergence in $\RR^n$]
+    A sequence $\{\vec{x}^{(k)}\}_{k = 1, 2, \ldots}$ of vectors in $\RR^n$ is \vocab{convergent} if there exists $\vec{y}\in \RR^n$ such that $\lim_{k\to\infty} \norm{\vec{x}^{(k)} - \vec{y}} = 0$ as $k\to\infty$. In this case, we denote $\lim_{k\to\infty} \vec{x}^{(k)} = \vec{y}$ or $\vec{x}^{(k)}\to\vec{y}$ as $k\to\infty$.
+\end{definition}
+Note how we are invoking our notion of convergence in $\RR$ here. To state this more concisely, we define the following:
+
+\begin{definition}
+    For $\vec{y}\in \RR^n, \rho > 0$, we denote
+    \[B_\rho\parens{\vec{y}} = \left\{\vec{x}\in \RR^n : \norm{\vec{x} - \vec{y}} < \rho\right\},\]
+    and call this set the \vocab{open ball} with center $\vec{y}$ and radius $\rho$.
+\end{definition}
+
+Then note that obviously
+\begin{align*}
+\lim_{k\to\infty} \vec{x}^{(k)} = \vec{y} &\iff \lim_{k\to\infty} \norm{\vec{x}^{(k)} - \vec{y}} = 0 \\
+&\iff \text{for every } \varepsilon > 0\text{, there exists } N\in \NN : \norm{\vec{x}^{(k)} - \vec{y}} < \varepsilon\,\forall \,k\ge N \\
+&\iff \text{for every } \varepsilon > 0\text{, there exists } N\in \NN : \vec{x}^{(k)}\in B_\varepsilon\parens{\vec{y}}\,\forall\, k\ge N.
+\end{align*}
+
+\begin{lemma}
+    Suppose $\vseq{x} = \parens{\rseq{x}_1, \ldots , \rseq{x}_n}\in \RR^n$ for all $k = 1, 2, \ldots$ and $\vec{y} = \parens{y_1, \ldots , y_n}\in \RR^n$. Then
+    \[\limk \vseq{x} = \vec{y} \iff \limk \rseq{x}_j = y_j\]
+    for all $j = 1, \ldots , n$.
+\end{lemma}
+In other words, $\{\vseq{x}\}$ converges if and only if its components do too.
+\begin{theorem}[Bolzano-Weierstrass in $\RR^n$]
+    Suppose $\{\vseq{x}\}_{k = 1, 2, \ldots}$ is a bounded sequence in $\RR^n$, i.e. there exists $L\in \RR$ such that $\norm{\vseq{x}} \le L$ for all $k$. Then there exists a subsequence $\{\vec{x}^{(k_\ell)}\}_{\ell = 1, 2, \ldots}$ which converges.
+\end{theorem}
+
+\begin{proof}
+    Write $\vseq{x} = \parens{\rseq{x}_1, \ldots , \rseq{x}_n}\in \RR^n$ for each $k$. First, suppose that $j\in \{1, \ldots , n\}$; observe that since
+    \[\parens{\vseq{x}_j}^2 \le \sum_{i = 1}^n \parens{\vseq{x}_i}^2 = \norm{\vseq{x}}^2 \le L^2,\]
+    the sequence $\{\vseq{x}_j\}$ is bounded by $L$, so Problem Set 4 Problem 10 shows that there exists a common choice of indices $k_1 < k_2 < \ldots$ such that all of the $\{\vec{x}_j^{(k_\ell)}\}_{\ell = 1, 2, \ldots}$s converge. Thus, by the previous lemma we're done.
+\end{proof}
+
+\begin{definition}[Continuity]
+    Take $A\subseteq \RR^n$ and vector-valued $\vec{f} : A\to \RR^m$.
+    \begin{enumerate}
+        \item Let $\vec{a}\in A$. We say that $\vec{f}$ is \vocab{continuous} at $\vec{a}$ if for every $\varepsilon > 0$ there exists a $\delta > 0$ such that:
+        \begin{itemize}
+            \item[(analytically)] $\norm{\vec{f}\parens{\vec{x}} - \vec{f}\parens{\vec{a}}} < \varepsilon$ for all $\vec{x}\in A$ such that $\norm{\vec{x} - \vec{a}} < \delta$,
+            \item[(geometrically)] $\vec{f}\parens{\vec{x}} \in B_\varepsilon\parens{\vec{f}\parens{\vec{a}}}$ for all $\vec{x}\in A\cap B_\delta\parens{\vec{a}}$, or
+            \item[(algebraically)] $\vec{f}\parens{A\cap B_\delta\parens{\vec{a}}}\subseteq B_\varepsilon\parens{\vec{f}\parens{\vec{a}}}$.
+        \end{itemize}
+        \item Let $C\subseteq A$. We say $\vec{f}$ is \vocab{continuous on $C$} if $\vec{f}$ is continuous at $\vec{a}$ for every $\vec{a}\in C$.
+        \item We say \vocab{$\vec{f}$ is continuous} if $\vec{f}$ is continuous on its domain $A$.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Let $A\subseteq \RR^n$ and $\vec{f}, \vec{g} : A\to \RR^m$ both be continuous at $\vec{a}\in A$. Then
+    \begin{enumerate}
+        \item $\vec{f} + \vec{g}$ is continuous at $\vec{a}$.
+        \item $\vec{f}\vec{g}$ is continuous at $\vec{a}$ if $m = 1$.
+        \item $\frac{\vec{f}}{\vec{g}}$ is continuous at $\vec{a}$ if $m = 1, g\parens{\vec{a}}\neq 0$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    We will only prove the first part. Let $\varepsilon > 0$ be arbitrary. From the continuity of $\vec{f}, \vec{g}$ at $\vec{a}$ with $\frac{\varepsilon}{2}$ in place of $\varepsilon$, there exists $\delta_1, \delta_2 > 0$ such that for all $\vec{x}\in A$, with $\norm{\vec{x} - \vec{a}} < \min\{\delta_1, \delta_2\}$ we have
+    \[\norm{\vec{f}\parens{\vec{x}} - \vec{f}\parens{\vec{a}}}, \norm{\vec{g}\parens{\vec{x}} - \vec{g}\parens{\vec{a}}} < \frac{\varepsilon}{2}.\]
+    Thus,
+    \begin{align*}
+        \norm{\parens{\vec{f}\parens{\vec{x}} + \vec{g}\parens{\vec{x}}} - \parens{\vec{f}\parens{\vec{a}} + \vec{g}\parens{\vec{a}}}} &= 
+        \norm{\parens{\vec{f}\parens{\vec{x}} - \vec{f}\parens{\vec{a}}} + \parens{\vec{g}\parens{\vec{x}} - \vec{g}\parens{\vec{a}}}} \\
+        &\le \norm{\vec{f}\parens{\vec{x}} - \vec{f}\parens{\vec{a}}} + \norm{\vec{g}\parens{\vec{x}} - \vec{g}\parens{\vec{a}}} \\
+        &< \frac{\varepsilon}{2} + \frac{\varepsilon}{2} \\
+        &= \varepsilon.
+    \end{align*}
+    Since $\varepsilon > 0$ was arbitrary, $\vec{f} + \vec{g}$ is continuous at $\vec{a}$.
+\end{proof}
+
+Notably, if $\vec{f} : A\to \RR^m$ is continuous at $\vec{a}\in A$ and $B\subseteq A$ with $\vec{a}\in B$, then $\vec{f}$ restricted with only inputs from $B$ is also continuous at $\vec{a}$.
+
+\end{document}

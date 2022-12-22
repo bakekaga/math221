@@ -1,0 +1,71 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 28: 10/28/22}
+Today we will provide the proof of the Mean Value Theorem, which is critical for proving the differentiability criterion.
+\subsubsection{Real Analysis Lecture 3}
+\begin{theorem}[Rolle's Theorem]
+    If $f : [a, b] \to \RR$, $a < b$ satisfies the following:
+    \begin{itemize}
+        \item continuous on $[a, b]$
+        \item differentiable on $(a, b)$
+        \item $f(a) = f(b) = 0$
+    \end{itemize}
+    Then there exists $c\in (a, b)$ such that $f'(c) = 0$.
+\end{theorem}
+
+\begin{proof}
+    We wish to show that $f$ attains a minimum and maximum on $[a, b]$, which suffices since the derivative at those points is necessarily $0$.
+
+    \begin{claim}
+        There exists $k, \ell \in [a, b]$ such that $f(k) = \min f\parens{[a, b]}$ and $f(\ell) = \max f\parens{[a, b]}$.
+    \end{claim}
+
+    \begin{proof}
+        Since $f$ is a closed and bounded interval, the result follows from calculus. Note that this also follows from our multi-variable calculus result about continuous functions on closed and bounded subsets of $\RR^n$. Observe that $[a, b]$ is a closed set as its complement $(-\infty, a) \cup (b, \infty)$ is the union of open sets, and $[a, b]$ is a bounded set because for any $x\in [a, b]$ we have by definition that $a \le x \le b$, so $\abs{x} \le \abs{a} + \abs{b}$.
+    \end{proof}
+    \textbf{Case 1:} $k\in (a, b)$. Then the minimum is an interior point, so $f'(k) = 0$ from calculus, and return $c = k$.
+
+    \textbf{Case 2:} $\ell\in (a, b)$. Then the maximum is an interior point, so $f'(\ell) = 0$ from calculus, and return $c = \ell$.
+
+    \textbf{Case 3:} $k, \ell \in \braces{a, b}$. Then by assumption we have $f(k) = f(\ell) = 0$, so for all $x\in [a, b]$, we have $f(k) \le f(x) \le f(\ell) \implies 0 \le f(x) \le 0\implies f(x) = 0$, meaning that $f'(x) = 0$ for all $x\in (a, b)$, whence we can just return $c = \frac{a + b}{2}$ (since we want to return an interior point).
+\end{proof}
+
+An easy consequence is the following:
+
+\begin{theorem}[Mean Value Theorem]
+    If $f : [a, b] \to \RR$, $a < b$ satisfies the following:
+    \begin{itemize}
+        \item continuous on $[a, b]$
+        \item differentiable on $(a, b)$
+    \end{itemize}
+    Then there exists $c\in (a, b)$ such that $f'(c) = \frac{f(b) - f(a)}{b - a}$.
+\end{theorem}
+
+\begin{proof}
+    We simply need to find a way to reduce the MVT to Rolle's Theorem; consider $g : [a, b] \to \RR$ given by
+    \[g(t) = f(t) - \parens{f(a) + \frac{f(b) - f(a)}{b - a}\parens{t - a}}.\]
+    Note that the second term is a linear function in $t$, so $g(t)$ is continuous on $[a, t]$ and differentiable on $(a, b)$ as the difference of $f(t)$ and a polynomial. Also, we have
+    \[g(a) = f(a) - \parens{f(a) + \frac{f(b) - f(a)}{b - a}\parens{a - a}} = 0\]
+    and
+    \[g(b) = f(b) - \parens{f(a) + \frac{f(b) - f(b)}{\cancel{b - a}}\parens{\cancel{b - a}}} = 0,\]
+    so Rolle's Theorem guarantees that $g'(c) = 0$ for some $c\in (a, b)$. On the other hand, we know that $g'(t) = f'(t) - \frac{f(b) - f(a)}{b - a}$, so we're done by plugging in $t = c$.
+\end{proof}
+
+The corollary we will use to prove the differentiability is the following:
+\begin{corollary}
+    Suppose $f : (a - r, a + r) = B_r(a) \to \RR$ is differentiable, and $r > 0$. For all $x\in (a - r, a + r)$, there exists $\theta \in (0, 1)$ such that $f(x) = f(a) + f'\parens{a + \theta\parens{x - a}}(x - a)$. This is because $a + \theta\parens{x - a}$ is by construction some point between $a$ and $x$.
+\end{corollary}
+
+\begin{proof}
+    \textbf{Case 1:} $x = a$. Choose $\theta = \frac{1}{2}$ (or any value $\in (0, 1$); the equation is then automatically true for obvious reasons.
+
+    \textbf{Case 2:} $x > a$. Apply the MVT to $f |_{[a, x]} : [a, x] \to \RR$; note that $f$ is differentiable and continuous for all $t\in [a, x]\in (a - r, a + r)$, so by the MVT, there exists $c\in (a, x)$ such that $\frac{f(x) - f(a)}{x - a} = f'(c)$. Note that $a < c < x\implies 0 < c - a < x- a \implies 0 < \frac{c - a}{x - a} < 1$, so define $\theta = \frac{c - a}{x - a}$. Since $a + \theta(x - a) = c$ by construction, we can plug this in to get
+    \[\frac{f(x) - f(a)}{x - a} = f'\parens{a + \theta(x - a)}\implies f(x) = f(a) + f'\parens{a + \theta\parens{x - a}}(x - a),\]
+    which is the desired form.
+
+    \textbf{Case 3:} $x < a$. The same proof applies to $[x, a]$.
+\end{proof}
+
+To preview why this will be useful for the differentiability criterion, recall that we wish to show that if $U\subseteq \RR^n$ is open and $f : U \to \RR$, the partial derivatives $\mathcal{D}_1f, \ldots , \mathcal{D}_nf : B_\rho\parens{\va} \to \RR$ exist on $B_\rho\parens{\va} \subseteq U$, and $\mathcal{D}_1f, \ldots , \mathcal{D}_nf$ are continuous at $\va$, then $\vf$ is differentiable at $\va$. We want to show that $M = \parens{\mathcal{D}_1f\parens{\va}, \ldots , \mathcal{D}_nf\parens{\va}}$ satisfies $\limv{a} \frac{\norm{f\parens{\vx} - f\parens{\va} - M \parens{\vx - \va}}}{\norm{\vx - \va}} = 0$. Let $\vx = \va + \vh$, $\vh = (h_1, \ldots , h_n)$ and define $\vec{h}^{(0)} = \vec{0}, \vec{h}^{(1)} = (h_1, 0, \ldots , 0), \ldots , \vec{h}^{(n)} = (h_1, h_2, \ldots , h_n) = \vec{h}$. Then observe that
+\[f\parens{\vx} - f\parens{\va} = f\parens{\va + \vec{h}^{(n)}} - f\parens{\va + \vec{h}^{(0)}} = \sum_{h = 1}^n f\parens{\vx - \vec{h}^{(k)}} - f\parens{\vx - \vec{h}^{(k - 1)}}.\]
+\end{document}

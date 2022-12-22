@@ -1,0 +1,82 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 12: 9/19/22}
+
+Continuing our discussion of limits:
+\begin{theorem}
+    Suppose $\{a_n\}, \{b_n\}$ are convergent, and that $b_n, \limn b_n\neq 0$ for all $n$. Then
+    \[\limn \frac{a_n}{b_n} = \frac{\limn a_n}{\limn b_n}.\]
+\end{theorem}
+\begin{proof}
+    By Problem Set 4 Problem 10 and the hypotheses on $\{b_n\}$, we know that
+    \[\limn \frac{a_n}{b_n} = \limn \left(a_n \cdot \frac{1}{b_n}\right) = \limn a_n \limn \frac{1}{b_n} = \frac{\limn a_n}{\limn b_n}\]
+    as desired.
+\end{proof}
+Basic properties of limits:
+\begin{enumerate}
+    \item If $a_n = a$ for all $n$, then $\limn a_n = a$.
+    \item Suppose $\{a_n\}, \{b_n\}$ are convergent and $\lambda , \mu\in \RR$. Then 
+    \[\limn (\lambda a_n) = \limn \lambda \limn a_n = \lambda \limn a_n,\]
+    and similarly $\limn (\mu b_n) = \mu \limn b_n$ so 
+    \[\limn (\lambda a_n + \mu b_n) = \boxed{\lambda \limn a_n + \mu \limn b_n}.\]
+    \item Suppose $\left\{a_n^{(1)}\right\},\ldots , \left\{a_n^{(m)}\right\}$ are convergent and $\lambda_1, \ldots , \lambda_m\in \RR$. Then by induction,
+    \[\limn \left(\sum_{i = 1}^m \lambda a_n^{(i)}\right) = \sum_{i = 1}^m \limn \lambda a_n^{(i)}.\]
+\end{enumerate}
+
+Now, let's get to one of the most important theorems in real analysis.
+
+\begin{definition}
+    Suppose we have a sequence $\{a_n\}$. If we have some indices $n_1 < n_2 < \ldots \in \NN$, then $\{a_{n_k}\}$ is a \vocab{subsequence} of the original sequence $\{a_n\}$.
+\end{definition}
+
+\begin{theorem}[Bolzano-Weierstrass]
+    Suppose $\{a_n\}$ is bounded. Then there exists a subsequence $\{a_{n_k}\}$ that converges.
+\end{theorem}
+
+\begin{proof}
+    Since $\{a_n\}$ is bounded, there exists $c, d\in \RR$ such that $c\le a_n\le d$ for all $n\in \NN$. The general idea of the proof is essentially to repeatedly ``bisect" the sequence: basically, at least one of the intervals $[c, \frac{c + d}{2}]$ and $[\frac{c + d}{2}, d]$ must contain infinitely many members of $\{a_n\}$ (otherwise $\{a_n\}$ is finite), so we can pick one that does, and bisect it again; eventually the range of values will converge towards a limit. More formally, this can be expressed through the following claims:
+    \begin{claim}[Bisection]
+    \label{bisection}
+        There exist sequences $\{c_k\}$ increasing and $\{d_k\}$ decreasing with the following properties:
+        \begin{enumerate}
+            \item $c_k, d_k\in [c, d]$ for all $k$.
+            \item $d_k - c_k = \frac{d - c}{2^{k - 1}}$ for all $k$.
+            \item For every $k$, $a_n\in [c_k, d_k]$ for infinitely many indices $n$.
+        \end{enumerate}
+    \end{claim}
+
+    \begin{proof}
+        We will solve this using induction on $k$.
+
+        \textbf{Base Case:} Take $c_1 = c, d_1 = d$; these satisfy the first two conditions trivially, and $a_n\in [c_1, d_1] = [c, d]$ for all $n$ so part three is true as well.
+
+        \textbf{Inductive Step:} Assume that $c\le c_1 \le \ldots \le c_k < d_k \le \ldots \le d_1 \le d$ for some $k\in \NN$. Write $[c_k, d_k] = \left[c_k, \frac{c_k + d_k}{2}\right] \cup \left[\frac{c_k + d_k}{2}, d_k\right]$; since $a_n\in [c_k, d_k]$ for infinitely many $n$, we have at least one of the following:
+
+        \textbf{Case 1:} $a_n\in \left[c_k, \frac{c_k + d_k}{2}\right]$ for infinitely many $n$. Then take $c_{k + 1} = c_k, d_{k + 1} = \frac{c_k + d_k}{2}$. By construction, part three is true, and it's easy to check the first two, e.g. $d_{k + 1} - c_{k + 1} = \frac{c_k + d_k}{2} - c_k = \frac{d_k - c_k}{2} = \frac{d - c}{2^k}$.
+
+        \textbf{Case 2:} $a_n\in  \left[\frac{c_k + d_k}{2}, d_k\right]$ for infinitely many $n$. Then take $c_{k + 1} = \frac{c_k + d_k}{2}, d_{k + 1} = d_k$, which satisfy all three conditions using the same logic as the previous case.
+
+        We've found constructions for $c_{k + 1}$ and $d_{k + 1}$ in either case that satisfy all conditions, so we're done.
+    \end{proof}
+    
+    \begin{claim}[Building the subsequence]
+    \label{subseq}
+        There exist indices $n_1 < n_2 < \ldots$ such that $a_{n_k}\in [c_k, d_k]$ for all $k\in \NN$.
+    \end{claim}
+
+    \begin{proof}
+        We will construct $\{a_{n_k}\}$ inductively.
+        
+        \textbf{Base Case:} By part three of Claim \ref{bisection}, there exists $n\in \NN$ such that $a_n\in [c_1, d_1]$. Take $n_1 = n$.
+
+        \textbf{Inductive Step:} Suppose we have $n_1 < n_2 < \ldots < n_k$ for some $k\in \NN$. By part three of Claim \ref{bisection}, there exists infinitely many $n$ such that $a_n\in [c_{k + 1}, d_{k + 1}]$, so at least one of these $n$ must be larger than $n_k$. Take $n_{k + 1}$ to be this $n$; this completes the inductive step, so we're done.
+    \end{proof}
+
+    Using these claims, we can now finish the proof. First, observe that the first part of Claim \ref{bisection} tells us that $\{c_k\}$ is bounded, and since it's by assumption increasing, $\lim_{k\to\infty} c_k$ must exist by Problem Set 4 Problem 7. On the other hand, by Claim \ref{bisection} part two, we have
+    \[\lim_{k\to\infty}(d_k - c_k) = \lim_{k\to\infty} \left(\frac{d - c}{2^{k - 1}}\right) = \lim_{k\to\infty} \left(\frac{1}{2^k}\cdot 2(d - c)\right) = \lim_{k\to\infty} \frac{1}{2^k} \lim_{k\to\infty} 2(d - c) = 0,\]
+    where the fourth equality comes from Problem Set 5. Thus,
+    \[\lim_{k\to\infty} d_k = \lim_{k\to\infty} (d_k 
+- c_k + c_k) = \lim_{k\to\infty} (d_k - c_k) + \lim_{k\to\infty} c_k = \lim_{k\to\infty} c_k,\]
+    so combining this with Claim \ref{subseq}, the Sandwich Theorem tells us that $\lim_{k\to\infty} a_{n_k} = \lim_{k\to\infty} c_k = \lim_{k\to\infty} d_k$, so we're done.
+\end{proof}
+\end{document}

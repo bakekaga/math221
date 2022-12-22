@@ -1,0 +1,77 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 31: 11/4/22}
+
+\begin{definition}
+    Let $U\subseteq \RR^n$ be open, $\vf : U \to \RR^m$, $k\in \NN$. We say $\vf$ is $C^k$ (on $U$) if all $k$th order partial derivatives $\mathcal{D}_{i_1}\ldots \mathcal{D}_{i_k}\vf\parens{\vx}$ exist and are continuous on $U$ for any choice of $i_1, \ldots , i_k \in \braces{1, \ldots , n}$.
+\end{definition}
+
+Observe that by last time's theorem, we have that if $\vf : U\to \RR^m$ is $C^2$ then $\mathcal{D}_i\mathcal{D}_j\vf = \mathcal{D}_j\mathcal{D}_i\vf$ for all $i, j\in \braces{1, \ldots , n}$; by induction on $k$, this further implies that if $\vf : U \to \RR^m$ is $C^k$, then $\mathcal{D}_{i_1}\ldots \mathcal{D}_{i_k}\vf$ does not depend on the order of $i_1, \ldots , i_k\in \braces{1, \ldots , n}$. Finally, note that any polynomial $p : \RR^n \to \RR$ is always $C^k$ for every $k\in \NN$.
+
+\subsubsection{Second Derivative Test}
+
+\begin{definition}
+    Let $U\subseteq \RR^n$ be open, $f : U \to \RR$, $\va \in U$. We say $\va$ is a \vocab{local maximum} of $f$ if there exists $\rho > 0$ such that $B_\rho\parens{\va} \subseteq U$ and $f|_{B\rho\parens{\va}}$ attains its maximum at $\va$, i.e. $f\parens{\vx} \le f\parens{\va}$ for all $\vx\in B_\rho\parens{\va}$. We say that $\va$ is a \vocab{strict local maximum} of $f$ if the inequality is strict for all $\vx\in B_\rho\parens{\va}\setminus\braces{\va}$.
+\end{definition}
+
+Note that we've shown that if $U\subseteq \RR^n$ is open and $f : U \to \RR$ attains a local maximum/minimum at $\va\in U$, then $f|{B_\rho\parens{\va}}$ attains a maximum/minimum and furthermore $\nabla f\parens{\va} = \vec{0}$. On the other hand, the gradient being the zero vector does not tell us whether or not the point is a maximum or a minimum, which is why we need the second derivative test.
+
+\begin{definition}
+    Suppose $U\subseteq \RR^n$ is open, $f : U \to \RR$ is $C^2$, and $\va\in U$. We define the \vocab{Hessian matrix} of $f$ at $\va$ to be the $n\times n$ matrix $\nabla^2 f\parens{\va} = \parens{\mathcal{D}_i\mathcal{D}_jf\parens{\va}}$.
+\end{definition}
+
+Recall the following:
+\begin{lemma}[Single-variable Second Derivative Test]
+    For a function $f : (a - r, a + r) \to \RR$ that's twice differentiable at $a$, if $f'(a) = 0$ and $f''(a) > 0$ then $a$ is a strict local minimum for $f$.
+\end{lemma}
+With this in mind, we define the \vocab{Hessian quadratic form} of $f$ at $\va$ to be the function $\Hess_{f, \va} : \RR^m \to \RR$ defined by
+\[\Hess_{f, \va}\parens{\vec\xi} = \parens{\nabla^2 f\parens{\va} \vec\xi}\cdot \vec\xi = \sum_{i = 1}^n \parens{\sum_{j = 1}^n \mathcal{D}_i\mathcal{D}_jf\parens{\va}\xi_i}\xi_j.\]
+
+\begin{example}
+    Suppose $\nabla^2f\parens{\va} = \begin{pmatrix}
+        1 & 2 \\
+        2 & 3
+    \end{pmatrix}$. Note that since $f$ is $C^2$, we must have $\nabla^2f\parens{\va}_{12} = \nabla^2f\parens{\va}_{21}$. Then
+    \[\Hess_{f, \va}\parens{\vec\xi} = 1\xi_1^2 + 2\xi_1\xi_2 + 2\xi_2\xi_1 + 3\xi_2^2 = 1\xi_1^2 + 4\xi_1\xi_2 + 3\xi_2^2.\]
+\end{example}
+
+\begin{remark}
+    Note that since $\Hess_{f, \va} : \RR^n \to \RR$ is a polynomial, it's continuous.
+\end{remark}
+
+\begin{definition}
+    We say that the Hessian of $f$ at $\va$ is:
+    \begin{itemize}
+        \item \vocab{positive definite} if $\Hess_{f, \va}\parens{\vec\xi} > 0$ for all $\vec\xi \in \RR^n\setminus\braces{\vec{0}}$.
+        \item \vocab{negative definite} if $\Hess_{f, \va}\parens{\vec\xi} < 0$ for all $\vec\xi \in \RR^n\setminus\braces{\vec{0}}$.
+        \item \vocab{positive semidefinite} if $\Hess_{f, \va}\parens{\vec\xi} \ge 0$ for all $\vec\xi \in \RR^n\setminus\braces{\vec{0}}$.
+        \item \vocab{negative semidefinite} if $\Hess_{f, \va}\parens{\vec\xi} \le 0$ for all $\vec\xi \in \RR^n\setminus\braces{\vec{0}}$.
+        \item \vocab{indefinite} if $\Hess_{f, \va}\parens{\vec\xi} > 0$ for some $\vec\xi \in \RR^n\setminus\braces{\vec{0}}$ and $\Hess_{f, \va}\parens{\vec\xi} < 0$ for other $\vec\xi \in \RR^n\setminus\braces{\vec{0}}$.
+    \end{itemize}
+\end{definition}
+
+Next time, we will use these properties of the Hessian to prove the following:
+
+\begin{theorem}[Multi-variable Second Derivative Test]
+    Suppose $U\subseteq \RR^n$, $f : U \to \RR$ is $C^2$, $\va \in U$.
+    \begin{itemize}
+        \item If the error function $\mathrm{E} : \RR^n \to \RR$ is
+        \[\mathrm{E}\parens{\vx} = f\parens{\vx} - f\parens{\va} - \nabla f\parens{\va}\cdot\parens{\vx - \va} - \frac{1}{2}\Hessf{\vx - \va},\]
+        then $\limv{a} \frac{\mathrm{E}\parens{\vx}}{\norm{\vx - \va}^2} = 0$.
+        \item If $\nabla f\parens{\va} = \vec{0}$ and the Hessian of $f$ at $\va$ is positive/negative definite, then $\va$ is a strict local minimum/maximum for $f$.
+    \end{itemize}
+\end{theorem}
+
+\begin{remark}
+    Recall the single-derivative analogue: we know that $f$ is differentiable at $\va$ if and only if $\tilde{\mathrm{E}}\parens{\vx} = f\parens{\vx} - f\parens{\va} - \nabla f\parens{\va} \cdot \parens{\vx - \va}$ satisfies $\limv{a} \frac{\tilde{\mathrm{E}}\parens{\vx}}{\norm{\vx - \va}} = 0$.
+\end{remark}
+
+\begin{remark}
+    Define $\mathbf{S}^{n - 1} = \set*{\vx : \RR^n \mid \norm{\vx} = 1}$. In problem Set 11, we'll show that $\mathbf{S}^{n - 1}$ is closed and bounded, so $\Hess_{f, \va} : \mathbf{S}^{n - 1} \to \RR$ attains a minimum $\mu_*\in \RR$ and a maximum $\mu^*\in \RR$. Then the Hessian quadratic form is:
+    \begin{itemize}
+        \item positive definite if and only if $\mu_* > 0$ (semi if the inequality isn't strict).
+        \item negative definite if and only if $\mu^* < 0$ (semi if the inequality isn't strict).
+        \item indefinite if and only if $\mu_* < 0 < \mu^*$.
+    \end{itemize}
+\end{remark}
+\end{document}

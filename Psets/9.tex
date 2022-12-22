@@ -1,0 +1,181 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 9}
+\subsection{Problem 1}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$, $f_1, \ldots ,f_m : A \to \RR$, $\vf = (f_1,\ldots ,f_m)^\top : A \to \RR^m$, and $\va \in A$. Prove that $\vf$ is continuous at $\va$ if and only if, for every $j = 1,\ldots ,n$, $f_j$ is continuous at $\va$.
+\end{claim}
+
+\begin{soln}
+    First, suppose that $\va$ is an accumulation point of $A$. We will prove the two directions separately.
+    
+    $(\implies)$: Observe that
+    \begin{align*}
+        &\vf\text{ is continuous at }\va \\
+        &\implies \limv{a}\vf\parens{\vx} = \vf\parens{\va} \\
+        &\iff \limv{a}f_j\parens{\vx} = f_j\parens{\va} \,\forall\, j \in \braces{1, \ldots , n},
+    \end{align*}
+    so for any $\varepsilon > 0$ and $j\in \braces{1, \ldots , n}$, there exists $\delta$ such that $\norm{f_j\parens{\vx} - f_j\parens{\va}}$ for all $\vx \in A$ such that $0 < \norm{\vx - \va} < \delta$. Since $\norm{\vx - \va} = 0\implies \vx - \va = \vec{0} \implies \vx = \va \implies \norm{f_j\parens{\vx} - f_j\parens{\va}} = 0 < \varepsilon$ for any positive $\varepsilon$ and $j\in \braces{1, \ldots , n}$, this implies that $f_j$ is continuous at $\va$ for every $j = 1, \ldots , n$ as desired.
+
+    $(\impliedby)$: Observe that
+    \begin{align*}
+        &f_j\text{ is continuous at }\va\,\forall\, j\in \braces{1, \ldots , n} \\
+        &\implies \limv{a}f_j\parens{\vx} = f_j\parens{\va} \,\forall\, j \in \braces{1, \ldots , n} \\
+        &\iff \limv{a}\vf\parens{\vx} = \vf\parens{\va},
+    \end{align*}
+    so for any $\varepsilon > 0$, there exists $\delta$ such that $\norm{\vf\parens{\vx} - \vf\parens{\va}}$ for all $\vx \in A$ such that $\norm{\vx - \va} < \delta$. Since $\norm{\vx - \va} = 0\implies \vx - \va = \vec{0} \implies \vx = \va \implies \norm{\vf\parens{\vx} - \vf\parens{\va}} = 0 < \varepsilon$ for any positive $\varepsilon$, this implies that $f$ is continuous at $\va$ as desired.
+
+    Next, suppose that $\va$ is not an accumulation point of $A$; in that case, both $\vf$ and all the $f_j$s for every $j\in \braces{1, \ldots , n}$ (as functions from $A$ to $\RR^m$ and $\RR$, respectively) are continuous at $\va$ because of Problem 3 from the previous Problem Set, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$ is open, $f_1, \ldots ,f_m : A \to \RR$, $\vf = (f_1,\ldots ,f_m)^\top : A \to \RR^m$, $\va \in A$, and $M$ is an $m\times n$ matrix with $1\times n$ matrices $\rho_1,\ldots ,\rho_m$ as rows. Prove that $\mathcal{D}\vf\parens{\va} = M$ if and only if, for every $j = 1,\ldots ,n$, $\mathcal{D}f_j \parens{\va} = \rho_j$.
+\end{claim}
+
+\begin{soln}
+    Since $A$ is open, $\va$ is an accumulation point. We will prove the two directions separately.
+
+    $(\implies)$: Suppose that $\mathcal{D}\vf\parens{\va} = M$. Observe that by definition of the derivative, we have
+    \begin{align*}
+        &\limv{a} \frac{\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\va}\parens{\vx - \vec{a}}}}{\norm{\vec{x} - \vec{a}}} = 0 \\
+        &\implies\limv{a} \norm{\frac{\vf\parens{\vx} - \vf\parens{\vec{a}} - M\parens{\vx - \vec{a}}}{\norm{\vx - \va}} - \vec{0}} = 0 \\
+        &\implies \limv{a} \frac{\vf\parens{\vx} - \vf\parens{\vec{a}} - M\parens{\vx - \vec{a}}}{\norm{\vx - \va}} = \vec{0}.
+    \end{align*}
+    We would like to determine the components of the function $\frac{\vf\parens{\vx} - \vf\parens{\vec{a}} - M\parens{\vx - \vec{a}}}{\norm{\vx - \va}} : A\setminus\braces{\va} \to \RR^m$ since we know that their limits all go to $\vec{0}$. Since the $j$th component of $\vf\parens{\vx}$ is $f_j\parens{\vx}$ by definition and the $j$th component of $M\parens{\vx - \va}$ is $\rho_j\parens{\vx - \va}$, we find that
+    \[\limv{a} \frac{f_j\parens{\vx} - f_j\parens{\va} - \rho_j\parens{\vx - \va}}{\norm{\vx - \va}} = \vec{0}\implies \frac{\norm{f_j\parens{\vx} - f_j\parens{\va} - \rho_j\parens{\vx - \va}}}{\norm{\vx - \va}} = 0,\]
+    so $\mathcal{D}f_j\parens{\va} = \rho_j$ as desired.
+
+    $(\impliedby)$: Suppose that $\mathcal{D}f_j\parens{\va} = \rho_j$ for every $j = 1, \ldots , n$, i.e. we have $M = \parens{\mathcal{D}f_1\parens{\va}, \ldots , \mathcal{D}f_n\parens{\va}}^\top$. By definition of the derivative, we have for every $j = 1, \ldots , n$ that
+    \begin{align*}
+        &\limv{a} \frac{\norm{f_j\parens{\vx} - f_j\parens{\vec{a}} - \mathcal{D}f_j\parens{\vx - \vec{a}}}}{\norm{\vec{x} - \vec{a}}} = 0 \\
+        &\implies\limv{a} \norm{\frac{f_j\parens{\vx} - f_j\parens{\vec{a}} - \rho_j\parens{\vx - \vec{a}}}{\norm{\vx - \va}} - \vec{0}} = 0 \\
+        &\implies \limv{a} \frac{f_j\parens{\vx} - f_j\parens{\vec{a}} - \rho_j\parens{\vx - \vec{a}}}{\norm{\vx - \va}} = \vec{0};
+    \end{align*}
+    note that $\frac{f_j\parens{\vx} - f_j\parens{\vec{a}} - \rho_j\parens{\vx - \vec{a}}}{\norm{\vx - \va}} : A\setminus\braces{\va}\to \RR$ is the $j$th component of $\frac{\vf\parens{\vx} - \vf\parens{\vec{a}} - M\parens{\vx - \vec{a}}}{\norm{\vx - \va}}$, so in particular we get
+    \[\limv{a} \frac{\vf\parens{\vx} - \vf\parens{\va} - M\parens{\vx - \va}}{\norm{\vx - \va}} = \vec{0}\implies \frac{\norm{\vf\parens{\vx} - \vf\parens{\va} - M\parens{\vx - \va}}}{\norm{\vx - \va}} = 0,\]
+    so $\mathcal{D}\vf\parens{\va} = M$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Let $A \subseteq \RR^n$, $B \subseteq \RR^m$, $\vg : A \to \RR^m$, $\vf : B \to \RR^p$. If $\vg(A) \subseteq B$, $\vg$ is continuous at $\va \in A$, and $\vf$ is continuous at $\vg\parens{\va} \in B$, prove that $\vf \circ \vg : A \to \RR^p$ is continuous at $\va$ using the $\varepsilon$-$\delta$ definition of continuity.
+\end{claim}
+
+\begin{soln}
+    Let $\varepsilon > 0$ be arbitrary. By the continuity of $\vf$ at $\vg\parens{\va}$, there exists a $\delta_1 > 0$ such that for all $\vx\in B$ satisfying $0 < \norm{\vx - \vg\parens{\va}} < \delta_1$, we have $0 < \norm{\vf\parens{\vx} - \vf\parens{\vg\parens{\va}}} < \varepsilon$. Denote this fact by $\spadesuit$. By the continuity of $\vg$ at $\va$ with $\delta_1$ in place of $\varepsilon$, there exists a $\delta_2 > 0$ such that for all $\vx\in A$ satisfying $0 < \norm{\vx - \va} < \delta_2$, we have $0 < \norm{\vg\parens{\vx} - \vg\parens{\va}} < \delta_1\implies 0 < \norm{\vf\parens{\vg\parens{\vx}} - \vf\parens{\vg\parens{\va}}}$ due to $\spadesuit$, replacing $\vx$ with $\vg\parens{\vx}$. Thus, $\vf\circ \vg$ is continuous at $\va$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Let $\vf$ be the function on $\RR^2$ defined by $f(x, y)^\top = \begin{cases}
+        \frac{x^3}{y} & y\neq 0 \\
+        0 & y = 0.
+    \end{cases}$ Prove that the directional derivative $\mathcal{D}_{\vec{v}}\vf (0, 0)^\top$ (exists and) $= 0$ for each $\vec{v} \in \RR^2$.
+\end{claim}
+
+\begin{soln}
+    Let $\vec{v} = \parens{v_1, v_2}$. We wish to show that 
+    \[\lim_{t\to 0} \frac{f\parens{(0, 0)^\top + t\vec{v}} - f\parens{0, 0}^\top}{t} = 0 \iff \lim_{t\to 0} \frac{f\parens{t\vec{v}}}{t} = 0.\]
+    Since $t$ is nonzero, there are two cases:
+
+    \textbf{Case 1}: $v_2 = 0$. Then $f\parens{t\vec{v}} = f\parens{tv_1, 0}^\top = 0$, so $\lim_{t\to 0} \frac{f\parens{t\vec{v}}}{t} = \lim_{t\to 0} \frac{0}{t} = 0$.
+
+    \textbf{Case 2}: $v_2 \neq 0$. Then $f\parens{t\vec{v}} = f\parens{tv_1, tv_2}^\top = \frac{(tv_1)^3}{tv_2}$ with $tv_2 \neq 0$, so $f\parens{t\vec{v}} = \frac{t^2v_1^3}{v_2}$, so $\lim_{t\to 0} \frac{f\parens{t\vec{v}}}{t} = \lim_{t\to 0} \frac{t^2}{t}\parens{\frac{v_1^3}{v_2}} = \lim_{t\to 0} t\parens{\frac{v_1^3}{v_2}} = 0$.
+
+    Since both cases have established that $\lim_{t\to 0} \frac{f\parens{(0, 0)^\top + t\vec{v}} - f\parens{0, 0}^\top}{t} = 0$, we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Let $\vf$ be the function on $\RR^2$ defined by $f(x, y)^\top = \begin{cases}
+        \frac{x^3}{y} & y\neq 0 \\
+        0 & y = 0.
+    \end{cases}$ Prove that $f$ is not continuous at $(0, 0)^\top$ and $f$ is not differentiable at $(0, 0)^\top$.
+\end{claim}
+
+\begin{soln}
+    Suppose that $f$ is continuous at $(0, 0)$, i.e. for any $\varepsilon > 0$, there exists $\delta > 0$ such that $f(\vx)\in B_\varepsilon\parens{f\parens{0, 0}^\top} = B_\varepsilon\parens{0}$ for all $\vx\in B_\delta\parens{0, 0}^\top$. Observe that fixing some $x$ and varying $y\neq 0$ so that $\norm{\parens{\vx, \vy}^\top} < \delta$, we have $f(x, y)^\top = \frac{x}{y}$; in particular, this means $f(x, y)^\top$ is not bounded above/below as $y\to 0$ if $y > 0$/$y < 0$ respectively, contradicting the assertion that $f(x, y)^\top$ will always be inside the bounded interval $B_\varepsilon(0)$. Thus, $f$ is not continuous at $(0, 0)$, and since any function differentiable at $(0, 0)$ must be continuous at $(0, 0)$, taking the contrapositive implies that $f$ is not differentiable at $(0, 0)$ either, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Recall from Problem Set 2 that for any $t > 0$, we can set $\alpha = \sup\braces{x \in \RR : x > 0, x^2 < t}> 0$ and derive $\alpha^2 = t$. Let $\sqrt{t} = \begin{cases} \alpha & t > 0 \\
+    0 & t = 0\end{cases}$. Prove that $\sqrt{t}$ is continuous at $t = 0$ by suitably invoking Problem Set 7.
+\end{claim}
+
+\begin{soln}
+    First of all, observe that $a^2 < b^2 \implies a < b$; this is because if we instead had $a \ge b$, then $a^2 \ge b^2$, contradiction. Denote this fact by $\spadesuit$.
+    
+    Let $\varepsilon > 0$ be arbitrary and $\delta = \varepsilon^2 > 0$. For any $x \ge 0$ satisfying $\abs{x - 0} = \abs{x} = x < \delta$, we then have $\parens{\sqrt{x}}^2 = x < \varepsilon^2 \implies \sqrt{x} < \varepsilon$ by $\spadesuit$, so $\abs{\sqrt{x} - \sqrt{0}} = \abs{\sqrt{x}} = \sqrt{x} < \varepsilon$, so $f$ is continuous at $0$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Recall from Problem Set 2 that for any $t > 0$, we can set $\alpha = \sup\braces{x \in \RR : x > 0, x^2 < t}> 0$ and derive $\alpha^2 = t$. Let $\sqrt{t} = \begin{cases} \alpha & t > 0 \\
+    0 & t = 0\end{cases}$. Use the difference of squares formula to prove $\sqrt{t}-\sqrt{a} = \frac{t-a}{\sqrt{t}+\sqrt{a}}$ for all $t,a > 0$. Then prove, for $a > 0$, that $\sqrt{t}$ is continuous at $t = a > 0$ using the $\varepsilon$-$\delta$ definition.
+\end{claim}
+
+\begin{soln}
+    Observe that
+    \[\parens{\sqrt{t} - \sqrt{a}}\parens{\sqrt{t} + \sqrt{a}} = \parens{\sqrt{t}}^2 - \parens{\sqrt{a}}^2 = t - a \implies \abs{\sqrt{t} - \sqrt{a}} = \frac{\abs{t - a}}{\sqrt{t} + \sqrt{a}}.\]
+    Let $\varepsilon > 0$ be arbitrary and $\delta = \min\braces{a, \varepsilon\sqrt{a}}$. For any $x \ge 0$ satisfying $\abs{x - a} < \delta$, we have $\abs{x - a} < a\implies x > 0\implies \sqrt{x} > 0$ and $\abs{x - a} < \varepsilon\sqrt{a}\implies \frac{\abs{x - a}}{\sqrt{a}} < \varepsilon$. However, since $\sqrt{x} + \sqrt{a} > \sqrt{a}$, this means that
+    \[\abs{\sqrt{x} - \sqrt{a}} = \frac{\abs{x - a}}{\sqrt{x} + \sqrt{a}} < \frac{\abs{x - a}}{\sqrt{a}} < \varepsilon,\]
+    so $f$ is continuous at $a$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Recall from Problem Set 2 that for any $t > 0$, we can set $\alpha = \sup\braces{x \in \RR : x > 0, x^2 < t}> 0$ and derive $\alpha^2 = t$. Let $\sqrt{t} = \begin{cases} \alpha & t > 0 \\
+    0 & t = 0\end{cases}$. Prove, for $a > 0$, that $\sqrt{t}$ is differentiable at $t = a$ with derivative $\frac{1}{2\sqrt{a}}$ by showing that $\lim_{t\to a}\frac{\abs{\sqrt{t} - \sqrt{a} - \frac{1}{2\sqrt{a}}(t-a)}}{\abs{t-a}} = 0$.
+\end{claim}
+
+\begin{soln}
+    Observe that
+    \begin{align*}
+        \lim_{t\to a}\frac{\abs{\sqrt{t} - \sqrt{a} - \frac{1}{2\sqrt{a}}(t-a)}}{\abs{t-a}} &= \lim_{t\to a}\frac{\abs{\frac{t - a}{\sqrt{t} + \sqrt{a}} - \frac{1}{2\sqrt{a}}(t-a)}}{\abs{t-a}} \\
+        &= \lim_{t\to a}\frac{\abs{t - a}\abs{\frac{1}{\sqrt{t} + \sqrt{a}} - \frac{1}{2\sqrt{a}}}}{\abs{t-a}} \\
+        &= \lim_{t\to a} \abs{\frac{1}{\sqrt{t} + \sqrt{a}} - \frac{1}{2\sqrt{a}}}.
+    \end{align*}
+    Since $\sqrt{t}$ is continuous, we get $\lim_{t\to a} \sqrt{t} = \sqrt{a}\implies \lim_{t\to a} \frac{1}{\sqrt{t} + \sqrt{a}} = \frac{1}{2\sqrt{a}}$, so $\lim_{t\to a} \abs{\frac{1}{\sqrt{t} + \sqrt{a}} - \frac{1}{2\sqrt{a}}} = 0$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Let $A \subseteq \RR^n$ and suppose $\vg : A \to \RR^m$ is continuous at $\va \in A$. Prove that $\norm{\vg} : A \to \RR$ is also continuous at $\va$.
+\end{claim}
+
+\begin{soln}
+    Let $f(x):= \norm{\vx} = \sqrt{\norm{\vx}^2}$; in the previous Problem Set and the current Problem Set we showed that $\norm{\vx}^2$ and $\sqrt{x}$ are respectively continuous at $\va$, so $f$, as a composition of two functions continuous at $\va$, is also continuous at $\va$. Since $\norm{\vg} = F\circ \vg$, it is also continuous at $\va$. Thus, we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Let $U \subseteq \RR^n$ be open, $f, g : U \to \RR$ be differentiable at $\va \in U$, and $g\parens{\vx} \neq 0$ for all $\vx \in U$. Prove that $\frac{f}{g} : U \to \RR$ has $\mathcal{D}\parens{\frac{f}{g}}\parens{\va} = \frac{g(\va)\mathcal{D}f\parens{\va} -f\parens{\va}\mathcal{D}g\parens{\va}}{g\parens{\va}^{2}}$.
+\end{claim}
+
+\begin{soln}
+    First, suppose that $f = 1$, i.e. $\frac{f}{g} = \frac{1}{g}$. In that case, we have
+    \begin{align*}
+        0&\le \frac{\abs{\frac{1}{g\parens{\vx}} - \frac{1}{g\parens{\va}} + \frac{\mathcal{D}g\parens{\va}}{g\parens{\va}^2\parens{\vx - \va}}}}{\norm{\vx - \va}} \\
+        &=\frac{\abs{g\parens{\va}^2 - g\parens{\vx}g\parens{\va} + g\parens{\vx}\mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\abs{g\parens{\vx}}g\parens{\va}^2\norm{\vx - \va}} \\
+        &=\tfrac{\abs{g\parens{\va}^2 - g\parens{\vx}g\parens{\va} + g\parens{\vx}\mathcal{D}g\parens{\va}\parens{\vx - \va} + g\parens{\va}\mathcal{D}g\parens{\va}\parens{\vx - \va} - g\parens{\va}\mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\abs{g\parens{\vx}}g\parens{\va}^2\norm{\vx - \va}} \\
+        &\le\frac{\abs{g\parens{\va}\parens{\parens{g\parens{\va} - g\parens{\vx} + \mathcal{D}g\parens{\va}\parens{\vx - \va}}}} + \abs{\parens{g\parens{\vx} - g\parens{\va}}\mathcal{D}g\parens{\va}\parens{\vx - \va}}}{\abs{g\parens{\vx}}g\parens{\va}^2\norm{\vx - \va}} \\
+        &\le \frac{\abs{\parens{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}}{\abs{g\parens{\vx}}\abs{g\parens{\va}}\norm{\vx - \va}} + \frac{\abs{\parens{g\parens{\vx} - g\parens{\va}}}\norm{\mathcal{D}g\parens{\va}}\cancel{\norm{\vx - \va}}}{\abs{g\parens{\vx}}g\parens{\va}^2\cancel{\norm{\vx - \va}}}.
+    \end{align*}
+    Observe that as $\vx\to\va$, we have $\frac{\abs{\parens{g\parens{\vx} - g\parens{\va} - \mathcal{D}g\parens{\va}\parens{\vx - \va}}}}{\norm{\vx - \va}}\to 0$ (since $g$ has derivative $\mathcal{D}g\parens{\va}$ at $\va$), $\abs{g\parens{\vx} - g\parens{\va}} \to 0$, and $\frac{1}{\abs{g\parens{\vx}}}\to \frac{1}{\abs{g\parens{\va}}}$; thus, the entire expression goes to $0$ as $\vx\to \va$ because the rest of the terms are constant and $\vg\parens{\va} \neq 0$, so the Sandwich Theorem guarantees that $\limv{a} \frac{\abs{\frac{1}{g\parens{\vx}} - \frac{1}{g\parens{\va}} + \frac{\mathcal{D}g\parens{\va}}{g\parens{\va}^2\parens{\vx - \va}}}}{\norm{\vx - \va}} = 0$, meaning that $\frac{1}{g}$ is differentiable at $\va\in U$ with $\mathcal{D}g\parens{\va} = -\frac{\mathcal{D}g\parens{\va}}{g\parens{\va}^2}$, which is in the desired form. Now for $f\neq 1$, take $\frac{f}{g} = f\cdot \frac{1}{g}$; then since $f$ and $\frac{1}{g}$ are both differentiable, we have
+    \[\mathcal{D}\parens{\frac{f}{g}}\parens{\va} = \frac{1}{g\parens{\va}}\mathcal{D}f\parens{\va} - f\parens{\va}\parens{\frac{\mathcal{D}g\parens{\va}}{g\parens{\va}^2}} = \frac{g(\va)\mathcal{D}f\parens{\va} -f\parens{\va}\mathcal{D}g\parens{\va}}{g\parens{\va}^{2}}\]
+    as desired.
+\end{soln}
+\eject
+
+\end{document}

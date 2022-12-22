@@ -1,0 +1,105 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 41: 12/2/22}
+
+We continue our proof of the Inverse Function Theorem:
+
+\begin{theorem}[Inverse Function Theorem]
+    Suppose $U\subseteq \RR^n$ is open, $\vf : U \to \RR^n$ is $C^1$, and $\mathcal{D}\vf\parens{\va}$ is an invertible $n\times n$ matrix at some $\va\in U$. Then there exists open sets $V\subseteq U$ containing $\va$ and $W\subseteq \RR^n$ containing $\vf(a)$ such that $\vf$ is bijective on $V$, $\vf(V) = W$, and the inverse $\vg = \parens{\vf |_V}^{-1} : W \to V$ is $C^1$.
+\end{theorem}
+
+\begin{proof}
+    Let $V = B_\rho\parens{\va}$, which is obviously open. Recall from last time that we proved $\boxed{\frac{1}{2}\norm{\vx - \vx'} \le \norm{\mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vf\parens{\vx'}}}}$ for all $\vx, \vx'\in V = B_\rho\parens{\va}$; we will be using this several times throughout the remainder of the proof. If $\vx, \vx'$ satisfy $\vf\parens{\vx} = \vf\parens{\vx'}$, then we get $\frac{1}{2}\norm{\vx - \vx'} \le \norm{\mathcal{D}\vf\parens{\va}^{-1}\vec{0}} = 0$, so $\vx = \vx'$ and therefore $\vf$ must be injective on $V$. Taking $W = \vf(V)$, we then automatically obtain the inverse $\vg = \parens{\vf |_V}^{-1} : W \to V$ (since $\vf$ is obviously surjective if we restrict its codomain to $\vf(V)$). Now we wish to show that $W$ is open and $\vg$ is $C^1$; we first prove the former.
+
+    Let $\vy_0\in W$ be arbitrary. Note that since $\vy_0\in W = \vf\parens{B_\rho\parens{\va}}$, it follows that $\vy_0 = \vf\parens{\vx_0}$ for some $\vx_0\in B_\rho\parens{\va}$. Take $\sigma\in \parens{0, \rho - \norm{\vx_0 - \va}}$ and define $\overline{B}_\sigma\parens{\vx_0}$ as the \vocab{closed ball} $\set*{\vx\in \RR^n\mid \norm{\vx - \vx_0}\le \sigma}$. Obviously, we have
+    \begin{itemize}
+        \item $\overline{B}_\sigma\parens{\vx_0}\subseteq B_\sigma\parens{\vx_0}$,
+        \item $\overline{B}_\sigma\parens{\vx_0}$ is closed because in Practice Midterm 2 Problem 5 we showed that its complement is open,
+        \item and $B_\sigma\parens{\vx_0}$ is nonempty because $\vx_0\in \overline{B}_\sigma\parens{\vx_0}$.
+    \end{itemize}
+    Let $\vy\in B_{\frac{\sigma}{2\norm{\mathcal{D}\vf\parens{\va}^{-1}}}}\parens{\vy_0}$. Define the function $\mathrm{F} : \overline{B}_\sigma\parens{\vx_0} \to \RR^n$ by $\mathrm{F}\parens{\vx} = \vx - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vy}$. Our goal is to apply the Contraction Mapping Theorem to justify that $\vy\in W$, which suffices to show $W$ is open.
+
+    \begin{claim}
+        $\mathrm{F}\parens{\overline{B}_\sigma\parens{\vx_0}} \subseteq \overline{B}_\sigma\parens{\vx_0}$.
+    \end{claim}
+
+    \begin{proof}
+        Let $\vx\in \overline{B}_\sigma\parens{\vx_0}$ be arbitrary. Then
+        \begin{align*}
+            \norm{\mathrm{F}\parens{\vx} - \vx_0} &= \norm{\vx - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vy} - \vx_0} \\
+            &= \norm{\vx - \vx_0 - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \underbrace{\vf\parens{\vx_0}}_{(= y_0)}} - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx_0} - \vy}} \\
+            &\le \norm{\mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vf\parens{\vx_0}} - \parens{\vx - \vx_0}} + \norm{\mathcal{D}\vf\parens{\va}^{-1}}\norm{\vf\parens{\vx_0} - \vy} \\
+            &\le \frac{1}{2}\norm{\vx - \vx_0} + \norm{\mathcal{D}f\parens{\va}^{-1}}\frac{\sigma}{2\norm{\mathcal{D}\vf\parens{\va}^{-1}}} \\
+            &\le \frac{1}{2}\sigma + \frac{\sigma}{2} = \sigma, 
+        \end{align*}
+        where the second-to-last inequality follows from the previous lecture using the fact that $\vx, \vx_0\in \overline{B}_\sigma\parens{\vx_0} \subseteq B_\rho\parens{\va}$ by definition of $\sigma$. This means that $\mathrm{F}\parens{\vx} \in \overline{B}_\sigma\parens{\vx_0}\implies \mathrm{F}\parens{\overline{B}_\sigma\parens{\vx_0}} \subseteq \overline{B}_\sigma\parens{\vx_0}$ as desired.
+    \end{proof}
+    In particular, this means that for arbitrary $\vx, \vx'\in \overline{B}_\sigma\parens{\vx_0}$, we have
+    \begin{align*}
+        \norm{\mathrm{F}\parens{\vx} - \mathrm{F}\parens{\vx'}} &= \norm{\vx - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vy} - x' + \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vy}} \\
+        &= \norm{\vx - \vx' - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vf\parens{\vx}}} \\
+        &\le \frac{1}{2}\norm{\vx - \vx'}.
+    \end{align*}
+    Importantly, since $\frac{1}{2}\in (0, 1)$ and $\overline{B}_\sigma\parens{\vx_0}$ is nonempty and closed, this means that the Contraction Mapping Theorem applies to $\mathrm{F} : \overline{B}_\sigma\parens{\vx_0} \to \overline{B}_\sigma\parens{\vx_0}$, which yields an $\vx\in \overline{B}_\sigma\parens{\vx_0}$ such that
+    \begin{align*}
+        &\mathrm{F}\parens{\vx} = \vx \\
+        &\implies \cancel{\vx} - \mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vx} - \vy} = \cancel{\vx} \\
+        &\implies \vy = \vf\parens{\vx}
+    \end{align*}
+    for some $\vx\in \overline{B}_\sigma\parens{\vx_0} \subseteq B_\rho\parens{\va}$. In particular, this means that $\vy\in \vf\parens{B_\rho\parens{\va}} = W$, and since $\vy\in B_{\frac{\sigma}{2\norm{\mathcal{D}\vf\parens{\va}^{-1}}}}\parens{\vy_0}$ was arbitrary, it follows that $B_{\frac{\sigma}{2\norm{\mathcal{D}\vf\parens{\va}^{-1}}}}\parens{\vy_0} \subseteq W$, whence $W$ is open. Now we just need to show that $g$ is $C^1$.
+    
+    \begin{claim}
+        $\mathcal{D}\vf\parens{\vx}$ is invertible for all $\vx\in V = B_\rho\parens{\va}$.
+    \end{claim}
+
+    \begin{proof}
+        Consider the function $\vf^*\parens{\vx} = \mathcal{D}\vf\parens{\va}^{-1}\vf\parens{\vx}$; it suffices to show that $\mathcal{D}\vf^*\parens{\vx}$ is invertible for all $\vx\in B_\rho\parens{\va}$, since that means  $\det\mathcal{D}\vf\parens{\vx} = \det \mathcal{D}\vf^*\parens{\vx}\det \mathcal{D}\vf\parens{\va}\neq 0$ so $\mathcal{D}\vf\parens{\vx}$ must be invertible. Observe that $\mathcal{D}\vf^*\parens{\va} = \mathcal{D}\vf\parens{\va}^{-1}\mathcal{D}\vf\parens{\va} = I$, and using the fact from the previous lecture that $\norm{\mathcal{D}\vf^*\parens{\vx} - I} = \norm{\mathcal{D}\vf^*\parens{\vx} - \mathcal{D}\vf^*\parens{\va}} \le \norm{\mathcal{D}\vf\parens{\va}^{-1}}\norm{\mathcal{D}\vf\parens{\vx} - \mathcal{D}\vf\parens{\va}} < \norm{\mathcal{D}\vf\parens{\va}^{-1}}\frac{1}{2\norm{\mathcal{D}\vf\parens{\va}^{-1}}} = \frac{1}{2}$, we get for any $\vec{v}\in \RR^n$ that
+        \begin{align*}
+            \norm{\mathcal{D}\vf^*\parens{\vx}} &= \norm{\vec{v} + \parens{\mathcal{D}\vf^*\parens{\vx} - I}\vec{v}} \\
+            &\ge \norm{\vec{v}} - \norm{\parens{\mathcal{D}\vf^*\parens{\vx} - I}\vec{v}} \\
+            &\ge \norm{\vec{v}} - \norm{\mathcal{D}\vf^*\parens{\vx} - I}\norm{\vec{v}} \\
+            &\ge \norm{\vec{v}} - \frac{1}{2}\norm{\vec{v}} \\
+            &= \frac{1}{2}\norm{\vec{v}},
+        \end{align*}
+        which equals $0$ if and only if $\vec{v} = \vec{0}$. Thus, $N\parens{\mathcal{D}\vf^*\parens{\vx}} = \braces{\vec{0}}$, so $\mathcal{D}\vf^*\parens{\vx}$ and therefore $\mathcal{D}\vf\parens{\vx}$ is invertible as desired.
+    \end{proof}
+
+    \begin{claim}
+        $\vg = \parens{\vf |_V}^{-1} : W \to V$ is continuous.
+    \end{claim}
+
+    \begin{proof}
+        For all $\vy, \vy'\in W = \vf\parens{B_\rho\parens{\va}}$, we have $\vg\parens{\vy}, \vg\parens{\vy'}\in B_\rho\parens{\va}$ by definition of $\vg$, so
+        \begin{align*}
+            \frac{1}{2}\norm{\vg\parens{\vy} - \vg\parens{\vy'}} &\le \norm{\mathcal{D}\vf\parens{\va}^{-1}\parens{\vf\parens{\vg\parens{\vy}} - \vf\parens{\vg\parens{\vy'}}}} \\
+            &= \norm{\mathcal{D}\vf\parens{\va}^{-1}\parens{\vy - \vy'}} \\
+            &\le \norm{\mathcal{D}\vf\parens{\va}^{-1}}\norm{\vy - \vy'}.
+        \end{align*}
+        This means that for all $\vy, \vy' \in W$, we have $\boxed{\norm{\vg\parens{\vy} - \vg\parens{\vy'}} \le 2\norm{\mathcal{D}\vf\parens{\va}^{-1}}\norm{\vy - \vy'}}$; thus, by Problem Set 14 Problem 8, $\vg$ is continuous.
+    \end{proof}
+
+    \begin{claim}
+        $\vg$ is also differentiable with $\mathcal{D}\vg\parens{\vy} = \parens{\mathcal{D}\vf\parens{\vg\parens{\vy}}}^{-1}$.
+    \end{claim}
+
+    \begin{proof}
+        Note that the definition of $\mathcal{D}\vg\parens{\vy}$ is well-defined because of the claim before the previous one. Let $\vy_0\in W$ and $\varepsilon > 0$ be arbitrary. From the differentiability of $\vf$ at $\vg\parens{\vy_0}\in V$ with $\frac{\varepsilon}{2\norm{\mathcal{D}\vf\parens{\va}^{-1}}^2}$ in place of $\varepsilon$, there exists $\delta > 0$ such that
+        \[\frac{\norm{\vf\parens{\vx} - \vf\parens{\vg\parens{\vy_0}} - \mathcal{D}\vf\parens{\vg\parens{\vy_0}}\parens{\vx - \vg\parens{\vy_0}}}}{\norm{\vx - \vg\parens{\vy_0}}} < \frac{\varepsilon}{2\norm{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}^{-1}} \cdot \norm{\mathcal{D}\vf\parens{\va}^{-1}}}\]
+        for all $\vx\in U \cap B_\delta\parens{\vg\parens{\vy_0}} \setminus \braces{\vg\parens{\vy_0}}$. From the continuity of $\vg$ at $\vy_0$ with $\min\braces{\delta, \rho} > 0$ in place of $\varepsilon$, there exists $\delta' > 0$ such that
+        \[\norm{\vg\parens{\vy} - \vg\parens{\vy_0}} < \min\braces{\delta, \rho}\]
+        for all $\vy\in B_{\delta'}\parens{\vy_0} \cap W$. Then for all $\vy\in B_{\delta'}\parens{\vy_0} \cap W \setminus \braces{\vy_0}$, we have
+        \begin{align*}
+            &\frac{\norm{\vg\parens{\vy} - \vg\parens{\vy_0} - \parens{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}}^{-1}\parens{\vy - \vy_0}}}{\norm{\vy - \vy_0}} \\
+            &= \frac{\norm{\parens{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}}^{-1}\parens{\vy - \vy_0 - \mathcal{D}\vf\parens{\vg\parens{\vy_0}}\parens{\vg\parens{\vy} - \vg\parens{\vy_0}}}}}{\norm{\vy - \vy_0}} \\
+            &\le \norm{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}^{-1}}\frac{\norm{\vf\parens{\vg\parens{\vy}} - \vf\parens{\vg\parens{\vy_0}} - \mathcal{D}\vf\parens{\vg\parens{\vy_0}}\parens{\vg\parens{\vy} - \vg\parens{\vy_0}}}\cdot \norm{\vg\parens{\vy} - \vg\parens{\vy_0}}}{\norm{\vy - \vy_0}\cdot \norm{\vg\parens{\vy} - \vg\parens{\vy_0}}} \\
+            &< \norm{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}^{-1}} \cdot \frac{\varepsilon}{2\norm{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}^{-1}}\norm{\mathcal{D}\vf\parens{\va}^{-1}}} \cdot \frac{\norm{\vg\parens{\vy} - \vg\parens{\vy_0}}}{\norm{\vy - \vy_0}} \\
+            &\le \cancel{\norm{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}^{-1}}} \cdot \frac{\varepsilon}{2\cancel{\norm{\mathcal{D}\vf\parens{\vg\parens{\vy_0}}^{-1}}}\cancel{\norm{\mathcal{D}\vf\parens{\va}^{-1}}}} \cdot 2\cancel{\norm{\mathcal{D}\vf\parens{\va}^{-1}}} \\
+            &= \varepsilon,
+        \end{align*}
+        so we get the desired conclusion.
+    \end{proof}
+    Then to show that $\vg$ is $C^1$, simply observe that the partial derivatives are
+    \[\mathcal{D}_ig_j\parens{\vy} = \parens{\mathcal{D}\vf\parens{\vg\parens{\vy}}}^{-1}_{ij} = \frac{(-1)^{i + j}\det \parens{\mathcal{D}\vf\parens{\vg\parens{\vy}}}_{ji}}{\det \mathcal{D}\vf\parens{\vg\parens{\vy}}}.\]
+    The denominator is never $0$ because $\mathcal{D}\vf$ is invertible at all points in $V$, and this is a sum of products of continuous functions, so we're done.
+\end{proof}
+\end{document}

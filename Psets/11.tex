@@ -1,0 +1,196 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 11}
+\subsection{Problem 1}
+\begin{claim}
+    Consider the curve $\gamma : \RR\to \RR^3$ with $\gamma \parens{t} = \parens{\cos t,\sin t,t}^\top$. Explain why $\gamma \parens{t}$ is $C^1$ on $\RR$ and compute $\gamma'\parens{t}$. Show that there is no $t \in \RR$ such that $\gamma'\parens{t} = (2\pi)^{-1}\parens{\gamma (2\pi) -\gamma (0)}$.
+\end{claim}
+
+\begin{soln}
+    Observe that since $\gamma$'s domain is $\RR$, it only has one partial derivative $\mathcal{D}_1\gamma(t)$ which is equal to its Jacobian $\gamma'(t)$. Thus, we have $\gamma'(t) = \parens{\frac{\mathrm d}{\mathrm dt}\cos (t), \frac{\mathrm d}{\mathrm dt}\sin (t), \frac{\mathrm d}{\mathrm dt} t}^\top = \parens{-\sin t, \cos t, 1}^\top$; since all three components are continuous single-variable functions, it follows that $\gamma$ is $C^1$ on $\RR$. For the second part, observe that
+    \[\frac{1}{2\pi}\parens{\gamma (2\pi) -\gamma (0)} = \frac{1}{2\pi}\parens{\parens{0, 0, 2\pi}^\top - \parens{0, 0, 0}^\top} = \parens{0, 0, 1}^\top;\]
+    since $\cos t = -\sin t = 0$ has no solutions in $\RR$, there exists no $t\in \RR$ such that $\gamma'(t) = (2\pi)^{-1}\parens{\gamma (2\pi) -\gamma (0)}$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Suppose $a < b$. Use the mean value theorem to prove that if $f : [a,b] \to \RR$ is continuous, and for all $t \in  (a,b)$ it satisfies $f'\parens{t} \ge 0$, then $f$ is increasing on $[a,b]$ (i.e., $a \le  t_1 < t_2 \le  b \implies f(t_1) \le f(t_2)$). Deduce from this that $e^t \ge t + 1$ for all $t \in \RR$.
+\end{claim}
+
+\begin{soln}
+    Let $t_1 < t_2\in [a, b]$; then by the Mean Value Theorem on $[t_1, t_2]$ there exists $c\in (t_1, t_2)$ such that $\frac{f(t_2) - f(t_1)}{t_2 - t_1} = f'(c) \ge 0$; since $t_2 > t_1$, this means that $f(t_2) \ge f(t_1)$ as desired. Let $f(t) = e^t - t - 1$; it's clearly continuous since each term is continuous by single-variable calculus, and for $t \ge 0$, we have $f'(t) = e^t - 1\ge 0$, so in fact $f$ is increasing for $t \ge 0$ with $f(0) = 0$. Next, consider $g(t) = f(-t)$; it's clearly continuous since $f$ is, and for $t \ge 0$, we have $g'(t) = 1 - e^t \ge 0$, so $g$ is increasing for $t \ge 0$ with $g(0) = 0$. In particular, this means that $f$ is decreasing for $t \le 0$ with $f(t) = 0$, so $f(t) \ge 0$ for all $t\in \RR$.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Prove that $\mathbf{S}^{n - 1} = \set*{x \in \RR^n \mid \norm{x} = 1}$ is a closed subset of $\RR^n$.
+\end{claim}
+
+\begin{soln}
+    It suffices to show that $\overline{\mathbf{S}^{n - 1}}\subseteq \mathbf{S}^{n - 1}$. Let $\vy\in \overline{\mathbf{S}^{n - 1}}$, so that $\vy = \limk \vseq{x}$ for some $\mathbf{S}^{n - 1}$-valued sequence $\braces{\vseq{x}}_{k = 1, 2, \ldots}$. Suppose that $\norm{\vy} \neq 1$; in that case, there exists some $\vx\in \mathbf{S}^{n - 1}$ such that $\vx = \lambda \vy$ for some positive $\lambda \neq 1$, so the Triangle Inequality's equality case implies that $\norm{\vx - \vy} = \abs{\norm{\vx} - \norm{\vy}} = \abs{1 - \norm{\vy}}$. Then applying the Triangle Inequality again, we have
+    \[\norm{\vseq{x} - \vy} \ge \norm{\vseq{x} - \vx} + \norm{\vx - \vy}\ge \norm{\vx - \vy} = \abs{1 - \norm{\vy}} > 0\]
+    for all $k\in \NN$. However, by the definition of convergence, we know that for any $\varepsilon > 0$, there must exist some $K\in \NN$ so that $\norm{\vseq{x} - \vy} < \varepsilon$ for all $k \ge K$, but for any $\varepsilon < \abs{1 - \norm{\vy}}$ this inequality is never true, contradiction! Thus, $\norm{\vy} = 1\implies \vy\in \mathbf{S}^{n - 1}\implies \overline{\mathbf{S}^{n - 1}}\subseteq \mathbf{S}^{n - 1}$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Suppose $f, g : \RR\to \RR$ are $C^2$ functions, and let $F : \RR^2\to \RR$ be defined by $F \parens{x, y}^\top = f \parens{x + y} + g\parens{x - y}$. Prove that $F$ is $C^2$ on $\RR^2$ and satisfies the wave equation on $\RR^2$ (i.e., the equation $\pdv[order = {2}]{f}{x} - \pdv[order = {2}]{f}{y} = 0$).
+\end{claim}
+
+\begin{soln}
+    Since $f$ and $g$ are differentiable by $f$ and $g$ being $C^2$, we have
+    \[\pdv{}{x}F(x, y) = f'(x + y)\pdv{}{x}(x + y) + g'(x - y)\pdv{}{x}(x - y) = f'(x + y) + g'(x - y)\]
+    and
+    \[\pdv{}{y}F(x, y) = f'(x + y)\pdv{}{y}(x + y) + g'(x - y)\pdv{}{y}(x - y) = f'(x + y) - g'(x - y).\]
+    Since $f'$ and $g'$ are differentiable too by $f$ and $g$ being $C^2$, we then have
+    \begin{align*}
+        \pdv[order = {2}]{}{x}F(x, y) &= f''(x + y)\pdv{}{x}(x + y) + g''(x - y)\pdv{}{x}(x - y) = f''(x + y) + g''(x - y), \\
+        \pdv{}{x, y}F(x, y) &= f''(x + y)\pdv{}{y}(x + y) + g''(x - y)\pdv{}{y}(x - y) = f''(x + y) - g''(x - y), \\
+        \pdv[order = {2}]{}{y}F(x, y) &= f''(x + y)\pdv{}{y}(x + y) - g''(x - y)\pdv{}{y}(x - y) = f''(x + y) + g''(x - y),
+    \end{align*}
+    Applying $f$ and $g$ being $C^2$ one last time, this means that $f''$ and $g''$ are respectively continuous, so each of $\pdv[order = {2}]{}{x}F(x, y), \pdv{}{y}\pdv{}{x}F(x, y), \pdv[order = {2}]{}{y}F(x, y)$ are continuous too, so $F$ is $C^2$ on $\RR^2$. On the other hand, since we have closed forms of $\pdv[order = {2}]{}{x}F(x, y), \pdv[order = {2}]{}{y}F(x, y)$, we can simply observe that
+    \[\pdv[order = {2}]{}{x}F(x, y) - \pdv[order = {2}]{}{y}F(x, y) = (f''(x + y) + g''(x - y)) - (f''(x + y) + g''(x - y)) = 0\]
+    so $F$ satisfies the wave equation on $\RR^2$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Suppose that $f : U\to \RR$ is $C^2$ on an open set $U \subseteq \RR^n$, and $\va \in  U$ is a critical point of $f$ (i.e., $\nabla f\parens{\va} = \vec{0}$). Prove, if $\Hessf{\vec\xi} > 0$ for some $\xi\in \RR^n$, that $\va$ is not a local maximum for $f$. What is the contrapositive statement? And what are (without proof) the two corresponding statements for local minima?
+\end{claim}
+
+\begin{soln}
+    Let $h(t) = f\parens{\va + t\vec{\xi}}$. By the chain rule, we have $h'(t) = \mathcal{D}f\parens{\va + t\vec{\xi}}\vec{\xi}$. Let $\xi = \parens{\xi_1, \ldots , \xi_n}^\top$; then $h'(t) = \sum_{i = 1}^n \mathcal{D}_i f\parens{\va + t\vec\xi}\xi_i$, so differentiating again, we get
+    \begin{align*}
+        h''(t) &= \parens{\sum_{i = 1}^n \parens{\mathcal{D}_if}\parens{\va + t\vec\xi}\xi_i}' \\
+        &= \sum_{i = 1}^n \parens{\mathcal{DD}_if}\parens{\va + t\vec\xi}\vec\xi\xi_i \\
+        &= \parens{\parens{\mathcal{DD}_1f}\parens{\va + t\vec\xi}, \ldots, \parens{\mathcal{DD}_nf}\parens{\va + t\vec\xi}}\vec\xi\vec\xi \\
+        &= \begin{pmatrix}
+            \parens{\mathcal{D}_1\mathcal{D}_1f}\parens{\va + t\vec\xi} & \cdots & \parens{\mathcal{D}_1\mathcal{D}_nf}\parens{\va + t\vec\xi} \\
+            \vdots & \ddots & \vdots \\
+            \parens{\mathcal{D}_n\mathcal{D}_1f}\parens{\va + t\vec\xi} & \cdots & \parens{\mathcal{D}_n\mathcal{D}_nf}\parens{\va + t\vec\xi}
+        \end{pmatrix}\vec\xi\vec\xi.
+    \end{align*}
+    Since the Hessian is symmetric, we have that $\mathcal{DD}h(t) = \nabla^2 f\parens{\va + t\vec{\xi}}\vec\xi\vec\xi = \Hess_{f, \va + t\vec\xi}\parens{\vec\xi}$. Since $t = 0 \implies h'(t) = \mathcal{D}f\parens{\va}\vec\xi = \nabla f\parens{\va} \cdot \vec\xi = \vec{0} \cdot \vec\xi = 0$, it follows that $t$ is a critical point of $h(t)$, and applying the single-variable derivative test assuming that $\Hess_{f, \va}\parens{\vec\xi} > 0$, we find that $t = 0$ must be a local minimum of $h$. This means that $\va$ is a local minimum of $f$ across the intersection of $U$ and the line from the origin in the direction of $\xi$, meaning it cannot possibly be a local maximum.
+
+    The contrapositive statement is that if $\va$ is a local maximum for $f$, then $\Hessf{\vec\xi} \le 0$ for all $\xi\in \RR^n$, and the corresponding statements for local minima are that:
+    \begin{enumerate}
+        \item if $\Hessf{\vec\xi} < 0$ for some $\xi\in \RR^n$, then $\va$ is not a local minimum for $f$.
+        \item if $\va$ is a local minimum for $f$, then $\Hessf{\vec\xi} \ge 0$ for all $\xi\in \RR^n$.
+    \end{enumerate}
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Suppose that $f\parens{x, y}^\top = \frac{1}{3} \parens{x^3 + y^3} - x^2 - 2y^2 - 3x + 3y$. Find the critical points (i.e., the points where $\nabla f = \vec{0}$) of $f$, and discuss whether $f$ has a local maximum/minimum at these points. (Justify any claims that you make by proof or by referring to the relevant theorem above.)
+\end{claim}
+
+\begin{soln}
+    Observe that we have 
+    \begin{align*}
+        \nabla f\parens{x, y}^\top &= \parens{\pdv{}{x} f(x, y)^\top, \pdv{}{y} f(x, y)^\top}^\top \\
+        &= \parens{x^2 - 2x - 3, y^2 - 4y + 3}^\top \\
+        &= \parens{(x - 3)(x + 1), (y - 3)(y - 1)}^\top,
+    \end{align*}
+    we have $\nabla f\parens{x, y}^\top = \vec{0}$ when $\parens{x, y}^\top = \parens{3, 3}^\top, \parens{-1, 3}^\top, \parens{3, 1}^\top, \parens{-1, 1}^\top$. On the other hand, we have
+    \[\nabla^2 f\parens{x, y}^\top = \begin{pmatrix}
+        \pdv{}{x} \parens{x^2 - 2x - 3} & \pdv{}{x} \parens{y^2 - 4y + 3} \\
+        \pdv{}{y} \parens{x^2 - 2x - 3} & \pdv{}{y} \parens{y^2 - 4y + 3}
+    \end{pmatrix} = \begin{pmatrix}
+        2x - 2 & 0 \\
+        0 & 2y - 4
+    \end{pmatrix}.\]
+    Next, observe that for $\parens{\xi_x, \xi_y}^\top\in \RR^2\setminus\braces{\vec{0}}$, we have
+    \begin{align*}
+        \Hess_{f, \parens{3, 3}^\top}\parens{\xi_x, \xi_y}^\top &= (2(3) - 2)\xi_x^2 + (2(3) - 4)\xi_y^2 + 0\xi_x\xi_y = 4\xi_x^2 + 2\xi_y^2 > 0, \\
+        \Hess_{f, \parens{-1, 3}^\top}\parens{\xi_x, \xi_y}^\top &= (2(-1) - 2)\xi_x^2 + (2(3) - 4)\xi_y^2 + 0\xi_x\xi_y = -4\xi_x^2 + 2\xi_y^2, \\
+        \Hess_{f, \parens{3, 1}^\top}\parens{\xi_x, \xi_y}^\top &= (2(3) - 2)\xi_x^2 + (2(1) - 4)\xi_y^2 + 0\xi_x\xi_y = 4\xi_x^2 - 2\xi_y^2, \\
+        \Hess_{f, \parens{-1, 1}^\top}\parens{\xi_x, \xi_y}^\top &= (2(-1) - 2)\xi_x^2 + (2(1) - 4)\xi_y^2 + 0\xi_x\xi_y = -4\xi_x^2 - 2\xi_y^2 < 0.
+    \end{align*}
+    In particular, $\Hess_{f, \parens{3, 3}^\top}$ is positive definite and $\Hess_{f, \parens{-1, 1}^\top}$ is negative definite, whereas $\Hess_{f, \parens{-1, 3}^\top}$ and $\Hess_{f, \parens{3, 1}^\top}$ are indefinite. Thus, $f$ has a local minimum at $(3, 3)^\top$ and local maximum at $(-1, 1)^\top$, whereas the other two critical points are indeterminate.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Prove that the set $U = \set*{\parens{x,y}^\top \mid 0 < x,y < 2}$ is an open subset of $\RR^2$.
+\end{claim}
+
+\begin{soln}
+    Let $\parens{x, y}^\top \in U$. Let $\rho = \min\braces{x, 2 - x, y, 2 - y} > 0$. Then for any $\parens{x', y'}^\top \in B_\rho\parens{\parens{x, y}^\top}$, we have
+    \begin{align*}
+        &\sqrt{(x - x')^2 + (y - y')^2} = \norm{\parens{x, y}^\top - \parens{x', y'}^\top} < x, 2 - x, y, 2 - y \\
+        &\implies (x - x')^2 + (y - y')^2 < x^2, (2 - x)^2, y^2, (2 - y)^2.
+    \end{align*}
+    There are four cases:
+    
+    \textbf{Case 1:} If we have $x' \le 0$, then $(x - x')^2 + (y - y')^2 \ge x^2 + (y - y')^2 \ge x^2$, contradiction!
+    
+    \textbf{Case 2:} If we have $x' \ge 2$, then $(x - x')^2 + (y - y')^2 \ge (2 - x)^2 + (y - y')^2 \ge (2 - x)^2$, contradiction!
+    
+    \textbf{Case 3:} If we have $y' \le 0$, then $(x - x')^2 + (y - y')^2 \ge (x - x')^2 + y^2 \ge y^2$, contradiction!
+    
+    \textbf{Case 1:} If we have $y' \ge 2$, then $(x - x')^2 + (y - y')^2 \ge (x - x')^2 + (2 - y)^2 \ge (2 - y)^2$, contradiction!
+
+    In particular, this means that $0 < x' < 2, 0 < y' < 2\implies \parens{x', y'}^\top \in U$, so we have $B_\rho\parens{\parens{x, y}^\top}\subseteq U$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Prove that the set $S = \set*{\parens{x,y}^\top \mid 0 \le  x,y \le  2}$ is a bounded subset of $\RR^2$, which is also closed.
+\end{claim}
+
+\begin{soln}
+    Let $\parens{x, y}^\top\in S$. For boundedness, observe that since $x^2, y^2 \le 2^2$, we have $\norm{\parens{x, y}^\top} = \sqrt{x^2 + y^2} \le \sqrt{2^2 + 2^2} = 2\sqrt{2}$, so $S$ is bounded by $2\sqrt{2}$. For closedness, it suffices to show that $\overline{S}\subseteq S$. In particular, for any $\vy = \parens{x, y}^\top\in \overline{S}$, we have $\vy = \limk \vseq{x}$ for some $S$-valued sequence $\braces{\vseq{x}}_{k = 1, 2, \ldots}$. Suppose $\vy \not\in S$; then there are four cases to consider:
+
+    \textbf{Case 1:} $x < 0$. In that case, $\norm{\vseq{x} - \vy} \ge \norm{\parens{0, y}^\top - \vy} = \sqrt{x^2 + 0^2} = \abs{x} > 0$; by the definition of convergence, we know that for any $\varepsilon > 0$, there must exist some $K\in \NN$ so that $\norm{\vseq{x} - \vy} < \varepsilon$ for all $k \ge K$, but for any $\varepsilon < \abs{x}$ this inequality is never true, so $x \ge 0$.
+
+    \textbf{Case 2:} $x > 2$. In that case, $\norm{\vseq{x} - \vy} \ge \norm{\parens{2, y}^\top - \vy} = \sqrt{(x - 2)^2 + 0^2} = \abs{x - 2} > 0$; by the definition of convergence, we know that for any $\varepsilon > 0$, there must exist some $K\in \NN$ so that $\norm{\vseq{x} - \vy} < \varepsilon$ for all $k \ge K$, but for any $\varepsilon < \abs{x - 2}$ this inequality is never true, so $x \le 2$.
+
+    \textbf{Case 3:} $y < 0$. In that case, $\norm{\vseq{x} - \vy} \ge \norm{\parens{x, 0}^\top - \vy} = \sqrt{0^2 + y^2} = \abs{y} > 0$; by the definition of convergence, we know that for any $\varepsilon > 0$, there must exist some $K\in \NN$ so that $\norm{\vseq{x} - \vy} < \varepsilon$ for all $k \ge K$, but for any $\varepsilon < \abs{y}$ this inequality is never true, so $y \ge 0$.
+
+    \textbf{Case 4:} $x < 0$. In that case, $\norm{\vseq{x} - \vy} \ge \norm{\parens{x, 2}^\top - \vy} = \sqrt{0^2 + (y - 2)^2} = \abs{y - 2} > 0$; by the definition of convergence, we know that for any $\varepsilon > 0$, there must exist some $K\in \NN$ so that $\norm{\vseq{x} - \vy} < \varepsilon$ for all $k \ge K$, but for any $\varepsilon < \abs{y - 2}$ this inequality is never true, so $y \le 2$.
+
+    Since we've established that $\vy$ satisfies $0\le x, y \le 2$, we have $\vy\in S\implies \overline{S}\subseteq S$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Consider the horizontal and vertical line segments:
+    \[H_{\mathrm B} = \set*{\parens{x,y}^\top \mid 0 \le x \le 2, y = 0}, H_{\mathrm T} = \set*{\parens{x,y}^\top \mid 0 \le x \le 2, y = 2},\]
+    \[V_{\mathrm L} = \set*{\parens{x,y}^\top \mid 0 \le y \le 2, x = 0}, V_{\mathrm R} = \set*{\parens{x,y}^\top \mid 0 \le y \le 2, x = 2}.\]
+    Find the maximum value of $f$ from Problem 6 on each segment.
+\end{claim}
+
+\begin{soln}
+    Since each of these segments hold one of the components constant, we can apply the single-variable first derivative test.
+
+    For $\parens{x, 0}^\top\in H_{\mathrm{B}}$, we get that $f\parens{x, 0}^\top = \frac{1}{3}x^3 - x^2 - 3x\implies f'\parens{x, 0}^\top = x^2 - 2x - 3$; since $f'\parens{x, 0}^\top < 0$ for $0\le x\le 2$, we have that $f$ is decreasing on $x\in [0, 2]$, so its maximum value is $f(0) = \boxed{0}$.
+
+    For $\parens{x, 2}^\top\in H_{\mathrm{T}}$, we get that $f\parens{x, 2}^\top = \frac{1}{3}x^3 - x^2 - 3x + \frac{2}{3}\implies f'\parens{x, 2}^\top = x^2 - 2x - 3$; since $f'\parens{x, 2}^\top < 0$ for $0\le x\le 2$, we have that $f$ is decreasing on $x\in [0, 2]$, so its maximum value is $f(0) = \boxed{\frac{2}{3}}$.
+
+    For $\parens{0, y}^\top\in V_{\mathrm{L}}$, we get that $f\parens{0, y}^\top = \frac{1}{3}y^3 - 2y^2 + 3y\implies f'\parens{0, y}^\top = y^2 - 4y + 3$; since $f'\parens{0, 1}^\top = 0$, we find that $\parens{0, 1}$ is a critical point on $y\in [0, 2]$. Thus, the maximum of $f$ (taking endpoints into account) is $\max\braces{f\parens{0, 1}^\top, f\parens{0, 0}^\top, f\parens{0, 2}^\top} = \max\braces{\frac{4}{3}, 0, \frac{2}{3}} = \boxed{\frac{4}{3}}$.
+
+    For $\parens{2, y}^\top\in V_{\mathrm{R}}$, we get that $f\parens{2, y}^\top = \frac{1}{3}y^3 - 2y^2 + 3y - \frac{22}{3}\implies f'\parens{2, y}^\top = y^2 - 4y + 3$; since $f'\parens{2, 1}^\top = 0$, we find that $\parens{2, 1}$ is a critical point on $y\in [0, 2]$. Thus, the maximum of $f$ (taking endpoints into account) is $\max\braces{f\parens{2, 1}^\top, f\parens{2, 0}^\top, f\parens{2, 2}^\top} = \max\braces{-6, -\frac{22}{3}, -\frac{20}{3}} = \boxed{-6}$.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Find the maximum value -- if it exists -- of the same $f$ on the set $S$ from Problem 8.
+\end{claim}
+
+\begin{soln}
+    We know that $f$ has a maximum on $S$ because $S$ is closed and bounded. The maximum of $f$ could exist in one of five locations: one of the four segments
+    \[H_{\mathrm B} = \set*{\parens{x,y}^\top \mid 0 \le x \le 2, y = 0}, H_{\mathrm T} = \set*{\parens{x,y}^\top \mid 0 \le x \le 2, y = 2},\]
+    \[V_{\mathrm L} = \set*{\parens{x,y}^\top \mid 0 \le y \le 2, x = 0}, V_{\mathrm R} = \set*{\parens{x,y}^\top \mid 0 \le y \le 2, x = 2}\]
+    or on the set $U = \set*{\parens{x,y}^\top \mid 0 < x,y < 2}$. According to Problem 9, the maximums of $f$ on each of the line segments are $0$, $\frac{2}{3}$, $\frac{4}{3}$, and $-6$. Then, by Problem 6, $f$ has a local maximum at $(-1, 1)^\top$, which is $f\parens{-1, 1}^\top = 3$. Thus, the overall maximum of $f$ on $S$ is $\boxed{3}$.
+\end{soln}
+\eject
+\end{document}

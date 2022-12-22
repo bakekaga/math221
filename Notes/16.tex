@@ -1,0 +1,96 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 16: 9/28/22}
+Recall from last lecture that $A\vec{x} = \vec{b}\iff (A \mid \vec{b})\iff (\rref A \mid \vec{c})$ from Gaussian Elimination, where $\rref A$ has pivot columns $j_1, j_2, \ldots , j_Q$ and looks like
+\[\left(\begin{array}{@{}c c c | c | c c c | c | c c c | c | c c c@{}}
+    0 & \cdots & 0 & \boxed{1} & * & \cdots & * & 0 & * & \cdots & * & 0 & * & \cdots & *  \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & * & \boxed{1} & * & \cdots & * & 0 & * & \cdots & *  \\
+    \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & \boxed{1} & * & \cdots & *  \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0  \\
+    \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0
+\end{array}\right)\]
+Our system is consistent if and only if $c_{Q + 1} = \ldots = c_m = 0$, and for consistent systems we can understand the solution set
+\begin{align*}
+    x_{j_1} &= c_1 - \sum_{j \neq j_1, \ldots , j_Q} r_{1j}x_j \\
+    &\vdots \\
+    x_{j_Q} &= c_Q - \sum_{j\neq j_1, \ldots , j_Q} r_{Qj}x_j,
+\end{align*}
+where $x_j\in \RR$ is arbitrary for all $j\neq j_1, \ldots , j_Q$.
+
+\begin{example}
+    We will solve the system:
+    \[\left\{\begin{aligned}
+    &1x_1 + 2x_2 + 3x_3 = 0 \\
+    &4x_1 + 8x_2 + 10x_3 = 0 \\
+    &6x_1 + 12x_2 + 20x_3 = 0.
+    \end{aligned}\right.\]
+\end{example}
+
+This is equivalent to
+\[\left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 3 & 0 \\
+    4 & 8 & 10 & 0 \\
+    6 & 12 & 20 & 0
+\end{array}\right) \iff \left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 3 & 0 \\
+    0 & 0 & -2 & 0 \\
+    0 & 0 & 2 & 0
+\end{array}\right)\]
+after Stage 1 of Gaussian Elimination by setting $R_2 = R_2 - 4R_1$ and $R_3 = R_3 - 6R_1$. Since the second column cannot be changed without ruining the pivot state of the first column, Stage 2 is skipped. Then applying Stage 3, we have
+\[\left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 3 & 0 \\
+    0 & 0 & -2 & 0 \\
+    0 & 0 & 2 & 0
+\end{array}\right)\iff \left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 3 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 2 & 0
+\end{array}\right)\iff \left(\begin{array}{@{}c c c | c@{}}
+    1 & 2 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0
+\end{array}\right)\]
+by setting $R_2 = (-\frac{1}{2})R_2$ and then $R_1 = R_1 - 3R_2, R_3 = R_3 - 2R_2$. Turning this back into a system, we have
+\[\left\{\begin{aligned}
+    &1x_1 + 2x_2 + 3x_3 = 0 \\
+    &x_3 = 0 \\
+    &0 = 0.
+    \end{aligned}\right.\]
+Thus, $(x_1, x_2, x_3)^\top = t(-2, 1, 0)\in \vspan\left\{(-2, 1, 0)^\top\right\}$. Recall that the original system was $A\vec{x} = \vec{0}\iff \vec{x}\in N(A)$ for $A = \begin{pmatrix}
+    1 & 2 & 3 \\
+    4 & 8 & 10 \\
+    6 & 12 & 20
+\end{pmatrix}$, so in fact we've found that $N(A) = \vspan\{(-2, 1, 0)\}$. To generalize this, we can observe that for homogeneous systems we have
+\[\begin{array}{c c c c c}
+    \text{system} & \iff & A\vec{x} = \vec{0} & \iff & \vec{x}\in N(A) \\
+    \text{Gaussian Elimination}\Big\Updownarrow & & & & \\
+    \text{row-reduced system} & \iff & (\rref A)\vec{x} = \vec{0} & \iff & \vec{x}\in N(\rref A),
+\end{array}\]
+i.e. we have
+\begin{theorem}
+$N(A) = N(\rref A)$.
+\end{theorem}
+Thus, to find $N(A)$, it suffices to find $N(\rref A)$; there are two cases:
+
+\textbf{Case 1}: $Q = 0 \iff A = O\iff N(A) = \RR^n$.
+
+\textbf{Case 2}: $Q \in \{1, \ldots , \min(m, n)\}$. Then since $A\vec{x} = 0\iff \rref A\vec{x} = 0$, we have from yesterday's discussion that
+\[N(A) = \left\{\begin{pmatrix}
+x_1 \\ \vdots \\ x_n
+\end{pmatrix} : x_{j_\ell} = -\sum_{j \neq j_1, \ldots , j_Q} r_{\ell j}x_j \,\forall\, \ell = 1, \ldots , Q, x_j\in \RR\,\forall\, j\neq j_1, \ldots , j_Q\right\}.\]
+Observe that
+\begin{align*}
+    \vec{x} &= \sum_j x_j\vec{e}_j \\
+    &= \sum_{\ell = 1}^Q x_{j_\ell}\vec{e}_{j\ell} + \sum_{j\neq j_1, \ldots , j_\ell} x_j\vec{e}_j \\
+    &= \sum_{\ell = 1}^Q \left(-\sum_{j\neq j_1, \ldots , j_\ell} r_{\ell j}x_j\right)\vec{e}_{j\ell} + \sum_{j\neq j_1, \ldots , j_\ell} x_j\vec{e}_j \\ 
+    &= \sum_{j\neq j_1, \ldots , j_Q} x_j\left(\vec{e}_j - \sum_{\ell = 1}^Q r_{\ell j}\vec{e}_{j_\ell}\right).
+\end{align*}
+Thus,
+\begin{align*}
+    N(A) &= \left\{\sum_{j\neq j_1, \ldots , j_Q} x_j\left(\vec{e}_j - \sum_{\ell = 1}^Q r_{\ell j}\vec{e}_{j_\ell}\right) : \vec{x}_j\in \RR\,\forall\, j\neq j_1, \ldots , j_Q\right\} \\
+    &= \vspan\left\{\vec{e}_j - \sum_{\ell = 1}^Q r_{\ell j}\vec{e}_{j_\ell} : j\neq j_1, \ldots , j_Q\right\}.
+\end{align*}
+In particular, this is a span of $n - Q$ vectors, and according to Problem Set 6, these vectors are linearly independent as well, so these vectors form a basis of the null space. Thus, by Rank-Nullity, we also have $C(A) = Q$, and as it turns out, the columns corresponding to the pivots actually form a basis of the column space.
+\end{document}

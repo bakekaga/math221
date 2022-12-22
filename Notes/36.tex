@@ -1,0 +1,165 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 36: 11/16/22}
+
+Suppose that $A$ is an invertible $n\times n$ matrix, i.e. $\det A \neq 0$. Then we know that $A\vx = \vec{b}\iff \vx = A^{-1}\vec{b}$, so subbing in $\vec{b} = \vec{e}_j$ for $j = 1, \ldots , n$, we have
+\begin{align*}
+    A\vx = \vec{e}_1 &\iff \vx = A^{-1}\vec{e}_1 && (\text{column }1\text{ of }A^{-1}) \\
+    &\vdots \\
+    A\vx = \vec{e}_n &\iff \vx = A^{-1}\vec{e}_n && (\text{column }n\text{ of }A^{-1})
+\end{align*}
+Concatenating the solution vectors, we can obtain $A^{-1}$.
+\begin{example}
+    Find the inverse of $A = \begin{pmatrix}
+        1 & 4 & 3 \\
+        1 & 4 & 5 \\
+        2 & 5 & 1
+    \end{pmatrix}$.
+\end{example}
+
+To obtain this, it suffices to solve:
+\begin{enumerate}
+    \item $A\vx = \vec{e}_1 \iff \parens{\begin{array}{@{}c | c@{}}
+        & 1 \\
+        A & 0 \\
+        & 0
+    \end{array}}\iff \parens{\begin{array}{@{}c | c@{}}
+        & d_{11} \\
+        \rref A & d_{21} \\
+        & d_{31}
+    \end{array}}$,
+    \item $A\vx = \vec{e}_2 \iff \parens{\begin{array}{@{}c | c@{}}
+        & 0 \\
+        A & 1 \\
+        & 0
+    \end{array}}\iff \parens{\begin{array}{@{}c | c@{}}
+        & d_{12} \\
+        \rref A & d_{22} \\
+        & d_{32}
+    \end{array}}$,
+    \item $A\vx = \vec{e}_2 \iff \parens{\begin{array}{@{}c | c@{}}
+        & 0 \\
+        A & 0 \\
+        & 1
+    \end{array}}\iff \parens{\begin{array}{@{}c | c@{}}
+        & d_{13} \\
+        \rref A & d_{23} \\
+        & d_{33}
+    \end{array}}$.
+    \item Concatenating the solutions, we have
+    $A^{-1} = \begin{pmatrix}
+        d_{11} & d_{12} & d_{13} \\
+        d_{21} & d_{22} & d_{23} \\
+        d_{31} & d_{32} & d_{33}
+    \end{pmatrix}.$
+\end{enumerate}
+This can done by a single row reduction of the $3\times 6$ matrix
+\begin{align*}
+    &\parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 4 & 3 & 1 & 0 & 0 \\
+        1 & 4 & 5 & 0 & 1 & 0 \\
+        2 & 5 & 1 & 0 & 0 & 1
+    \end{array}} \\
+    &\iff \parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 4 & 3 & 1 & 0 & 0 \\
+        0 & 0 & 2 & -1 & 1 & 0 \\
+        0 & -3 & -5 & -2 & 0 & 1
+    \end{array}} \iff \parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 4 & 3 & 1 & 0 & 0 \\
+        0 & 0 & 1 & -\frac{1}{2} & \frac{1}{2} & 0 \\
+        0 & -3 & -5 & -2 & 0 & 1
+    \end{array}} \\
+    &\iff \parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 4 & 0 & \frac{5}{2} & -\frac{3}{2} & 0 \\
+        0 & 0 & 1 & -\frac{1}{2} & \frac{1}{2} & 0 \\
+        0 & -3 & 0 & -\frac{9}{2} & \frac{5}{2} & 1
+    \end{array}} \iff \parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 4 & 0 & \frac{5}{2} & -\frac{3}{2} & 0 \\
+        0 & 0 & 1 & -\frac{1}{2} & \frac{1}{2} & 0 \\
+        0 & 1 & 0 & \frac{3}{2} & -\frac{5}{6} & -\frac{1}{3}
+    \end{array}} \\
+    &\iff \parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 0 & 0 & -\frac{7}{2} & \frac{11}{6} & \frac{4}{3} \\
+        0 & 0 & 1 & -\frac{1}{2} & \frac{1}{2} & 0 \\
+        0 & 1 & 0 & \frac{3}{2} & -\frac{5}{6} & -\frac{1}{3}
+    \end{array}} \iff \parens{\begin{array}{@{}c c c | c c c@{}}
+        1 & 0 & 0 & -\frac{7}{2} & \frac{11}{6} & \frac{4}{3} \\
+        0 & 1 & 0 & \frac{3}{2} & -\frac{5}{6} & -\frac{1}{3} \\
+        0 & 0 & 1 & -\frac{1}{2} & \frac{1}{2} & 0
+    \end{array}} \\
+    &\implies A^{-1} = \begin{pmatrix}
+        -\frac{7}{2} & \frac{11}{6} & \frac{4}{3} \\
+        \frac{3}{2} & -\frac{5}{6} & -\frac{1}{3} \\
+        -\frac{1}{2} & \frac{1}{2} & 0
+    \end{pmatrix}.
+\end{align*}
+
+This gives a general approach to solving for a matrix inverse using row reduction:
+\begin{enumerate}
+    \item Set up the augmented $n\times 2n$ matrix $(A \mid I)$.
+    \item Perform a full row reduction to get to $(\rref A \mid D)$.
+    \item By last time's theorem, if $\rref A = I$, then $A^{-1} = D$; otherwise, $A$ is not invertible.
+\end{enumerate}
+
+\subsubsection{Part I: Eigenvalues and Eigenvectors}
+
+\begin{definition}
+    Suppose $A$ is an $n\times n$ matrix. We say $\lambda$ is an \vocab{eigenvalue} of $A$ if it satisfies $\det \parens{A - \lambda I} = 0$.
+\end{definition}
+
+\begin{example}
+    Is $\lambda = 1$ an eigenvalue of $A = \begin{pmatrix}
+        1 & 0 & 2 \\
+        0 & 1 & 0 \\
+        2 & 0 & 1
+    \end{pmatrix}$?
+\end{example}
+
+Well, we have
+\begin{align*}
+    \det \parens{A - \lambda I} &= \det \parens{A - 1I} \\
+    &= \det \parens{\begin{pmatrix}
+        1 & 0 & 2 \\
+        0 & 1 & 0 \\
+        2 & 0 & 1
+    \end{pmatrix} - \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 0 & 1
+    \end{pmatrix}} \\
+    &= \det\begin{pmatrix}
+        0 & 0 & 2 \\
+        0 & 0 & 0 \\
+        2 & 0 & 0
+    \end{pmatrix} = 0
+\end{align*}
+because there is an empty column, so $\lambda = 1$ is indeed an eigenvalue.
+
+\begin{example}
+    What are all the eigenvalues of $A$?
+\end{example}
+
+Well, we have
+\begin{align*}
+    \det \parens{A - \lambda I} &= \det \begin{pmatrix}
+        1 - \lambda & 0 & 2 \\
+        0 & 1 - \lambda & 0 \\
+        2 & 0 & 1 - \lambda
+    \end{pmatrix} \\
+    &= (-1)^{2 + 2}(1 - \lambda)\det \begin{pmatrix}
+        1 - \lambda & 2 \\
+        2 & 1 - \lambda
+    \end{pmatrix} \\
+    &= (1 - \lambda)[(1 - \lambda)^2 - 2^2] \\
+    &= (1 - \lambda)(-1 - \lambda)(3 - \lambda).
+\end{align*}
+Thus, the eigenvalues of $A$ are just $1, -1, 3$.
+
+\begin{lemma}
+    Let $A$ be a matrix. $\lambda$ is an eigenvalue of $A$ if and only if there exists a vector $\vec{v} \in \RR^n \setminus\braces{\vec{0}}$ such that $A\vec{v} = \lambda \vec{v}$.
+\end{lemma}
+
+\begin{proof}
+    We know $\lambda$ is an eigenvalue if and only if $\det (A - \lambda I) = 0 \iff N\det (A - \lambda I) \neq \braces{\vec{0}} \iff \exists\,\vec{v} \neq \vec{0}$ such that $(A - \lambda I)\vec{v} = \vec{0}\implies A\vec{v} - \lambda I \vec{v} \implies A\vec{v} = \lambda I \vec{v} \implies A\vec{v} = \lambda\vec{v}$.
+\end{proof}
+\end{document}

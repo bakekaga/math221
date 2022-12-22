@@ -1,0 +1,85 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Chapter 3}
+\subsection{Day 34: 11/11/22}
+\subsubsection{Determinants}
+
+\begin{definition}
+    The \vocab{determinant} is the \textit{unique} function $\det : \underbrace{\RR^n\times \cdots \times \RR^n}_{n\text{ factors}} \to \RR$ with the following properties:
+    \begin{enumerate}
+        \item The determinant is linear in each column (i.e. ``multilinear"). To understand what this means, suppose $A$ is an $n\times n$ matrix with columns $\vec\alpha_1, \ldots , \vec\alpha_n\in \RR^n$. Let $j_0\in \braces{1, \ldots , n}$, and denote by $A^{(j_0,\vx)}$ the $n\times n$ matrix with columns $\begin{cases}
+            \vec\alpha_j & j\neq j_0 \\
+            \vec\vx & j = j_0
+        \end{cases}$. Then $A^{(j_0, \lambda\vx + \mu\vy)} = \lambda \det A^{(j_0, \vx)} + \mu\det A^{(j_0, \vy)}$ for all $\lambda, \mu\in \RR$, $\vx, \vy\in \RR^n$. 
+        \item If $A$, $B$ are $n\times n$ matrices and $B$ can be obtained from $A$ by swapping a pair of columns, then $\det B = - \det A$ (i.e. ``alternating").
+        \item $\det I = 1$.
+        \item If $A, B$ are $n\times n$ matrices, then $\det (AB) = \det A \det B$.
+        \item If $A$ is an $n\times n$ matrix, then $\det \parens{A^\top} = \det A$.
+        \item (Cofactor/minor expansion formula) If $A = (a_{ij})$ is an $n\times n$ matrix, then define the $(n - 1)\times (n - 1)$ \vocab{cofactor/minor} matrices $A_{ij}$ obtained by removing row $i$ and column $j$ from $A$. Then for every column $j\in \braces{1, \ldots , n}$, we have
+        \[\det A = \sum_{i = 1}^n (-1)^{i + j}a_{ij}\det A_{ij}.\]
+        Also, for every row $i\in \braces{1, \ldots , n}$, we have
+        \[\det A = \sum_{j = 1}^n (-1)^{i + j}a_{ij}\det A_{ij}.\]
+    \end{enumerate}
+\end{definition}
+
+Here are some important consequences of each property:
+\begin{enumerate}
+    \item Furthermore, this implies that if $\lambda\in \RR$, then $\det A^{(y_0, \lambda\vx)} = \lambda\det A^{(j_0, \vx)}$ and if $A$ is a matrix with a column consisting of just $0$s, then $\det A = 0$.
+    \item This implies that if a matrix $A$ has two of the same column, then $\det A = -\det A\implies \det A = 0$.
+    \item This implies that $\det(1) = 1$, so for any $1\times 1$ matrix $(a)$, we have $\det (a) = a\det (1) = a$ by the first property.
+    \item This implies that $\det(AB) = \det(BA)$.
+    \item Combining with the second property, this implies that if a matrix $B$ can be obtained from $A$ by swapping a pair of columns, then $\det B = - \det A$, and furthermore a matrix $A$ with two of the same row satisfies $\det A = 0$. Also, combining with the first property, this implies that scaling a row similarly scales the determinant, and that the determinant equals $0$ if we have a row of just $0$s.
+    \item We have that
+    \[\det \begin{pmatrix} a & b \\ c & d\end{pmatrix} = (-1)^{1 + 1}a\det (d) + (-1)^{1 + 2}b\det (c) = ad - bc,\]
+    which is the familiar $2\times 2$ determinant formula. Also, we have
+    \begin{align*}
+        &\det \begin{pmatrix}
+        a_{11} & a_{12} & a_{13} \\
+        a_{21} & a_{22} & a_{23} \\
+        a_{31} & a_{32} & a_{33}
+    \end{pmatrix} \\
+        &= (-1)^{1 + 1}a_{11}\det\begin{pmatrix} a_{22} & a_{23} \\ a_{32} & a_{33}\end{pmatrix} \\
+        &+ (-1)^{1 + 2}a_{12}\det\begin{pmatrix} a_{21} & a_{23} \\ a_{31} & a_{33}\end{pmatrix} \\
+        &+ (-1)^{1 + 3}a_{13}\det\begin{pmatrix} a_{21} & a_{22} \\ a_{31} & a_{32}\end{pmatrix},
+    \end{align*}
+    which is computable upon using row/column operations (subtracting a multiple of one from another, scaling, swapping) to turn a single row/column into mostly $0$s and then expanding using that.
+\end{enumerate}
+
+Also, note that the first three conditions (multilinear, alternating, identity-preserving) are enough to imply that the determinant is a unique function (see Artin). Next, let's explore exactly how determinants are affected by the described row/column operations.
+
+\begin{enumerate}
+    \item Suppose $B$ is obtained from $A$ by adding $\lambda$ times a column $C_j$ to column $C_i$. Then
+    \[\det B = \det A^{(i, C_i + \lambda C_j)} = \det A^{(i, C_i)} + \lambda \det A^{(i, C_j)} = \det A + 0 = \boxed{\det A}.\]
+    \item Suppose a column of $B$ is scaled by $\lambda$. Then
+    \[\det B = \det A^{(i, \lambda C_i)} = \lambda\det A^{(i, C_i)} = \boxed{\lambda \det A}.\]
+    \item Suppose $B$ is obtained from $A$ by swapping two columns. Then by property three of determinants we have
+    \[\det B = \boxed{-\det A}.\]
+\end{enumerate}
+
+Let's do an example:
+\begin{example}
+    Compute $\det \begin{pmatrix}
+        1 & 4 & 3 \\
+        1 & 4 & 5 \\
+        2 & 5 & 1
+    \end{pmatrix}.$
+\end{example}
+
+Then we have
+\begin{align*}
+    \det \begin{pmatrix}
+        1 & 4 & 3 \\
+        1 & 4 & 5 \\
+        2 & 5 & 1
+    \end{pmatrix} &= \det \begin{pmatrix}
+        1 & 4 & 3 \\
+        0 & 0 & 2 \\
+        2 & 5 & 1
+    \end{pmatrix} \\
+    &= (-1)^{2 + 3}2\begin{pmatrix}
+        1 & 4 \\
+        2 & 5
+    \end{pmatrix} \\
+    &= \boxed{6}.
+\end{align*}
+\end{document}

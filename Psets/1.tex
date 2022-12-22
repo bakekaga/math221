@@ -1,0 +1,205 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 1}
+
+\subsection{Problem 1}
+\begin{claim}
+    Use mathematical induction on $n \in\NN$ to prove
+    \[1^3 + \ldots + n^3 = \frac{n^2\parens{n + 1}^2}{4}\] 
+\end{claim}
+
+\begin{soln}
+    Denote the proposition above by $P\parens{n}$; we will prove $P\parens{n}$ for all $n\in \NN$ with induction on $n$.
+
+    \textbf{Base Case:} We wish to show $P\parens{1}$. This asserts that $1^3 = \frac{1^2\parens{1 + 1}^2}{4} = \frac{2\cdot 2}{4}$, which is clearly true.
+
+    \textbf{Inductive Step:} Suppose that $P\parens{k}$ is true for some $n = k\in \NN$. Then it follows that
+    \begin{align*}
+        1^3 + \ldots + k^3 + \parens{k + 1}^3 &= \frac{k^2\parens{k + 1}^2}{4} + \parens{k + 1}^3 && \parens{P\parens{k}} \\
+        &= \parens{k + 1}^2\parens{\frac{k^2}{4} + \parens{k + 1}} \\
+        &= \parens{k + 1}^2\parens{\frac{k^2 + 4k + 4}{4}} \\
+        &= \frac{\parens{k + 1}^2\parens{k + 2}^2}{4},
+    \end{align*}
+    thereby completing the inductive step as we've shown $P\parens{k + 1}$. Thus, by induction, $P\parens{n}$ is true for all values of $n\in \NN$.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Use mathematical induction on $m \in\NN$ to prove
+    \[\vec{v}_1,\ldots ,\vec{v}_m \in\RR^n \implies \norm{\vec{v}_1 + \ldots  + \vec{v}_m}  \le \norm{\vec{v}_1} + \ldots + \norm{\vec{v}_m}.\]
+\end{claim}
+
+\begin{soln}
+    Denote the proposition above by $P\parens{m}$; we will prove $P\parens{m}$ for all $m\in \NN$ with induction on $m$.
+
+    \textbf{Base Case:} We wish to show $P\parens{1}$. This asserts that $\norm{\vec{v}_{1}} \le \norm{\vec{v}_{1}}$, which is obvious as $\norm{\vec{v}_{1}} = \norm{\vec{v}_{1}}$. We can also observe that $P\parens{2}$, which asserts that $\norm{\vec{v}_{1} + \vec{v}_{2}} \le \norm{\vec{v}_{1}} + \norm{\vec{v}_{2}}$, is the Triangle Inequality for two vectors in $\RR^n$, so it must be true as well.
+
+    \textbf{Inductive Step:} Suppose that $P\parens{k}$ is true for some $m = k\in \NN$. Then it follows that
+    \begin{align*}
+        &\norm{\vec{v}_{1} + \ldots + \vec{v}_{k + 1}} \\
+        &=\norm{\parens{\vec{v}_{1} + \ldots + \vec{v}_{k}} + \vec{v}_{k + 1}} \\
+        &\le \norm{\vec{v}_{1} + \ldots + \vec{v}_{k}} + \norm{\vec{v}_{k + 1}} && \parens{P\parens{2}} \\
+        &\le \parens{\norm{\vec{v}_{1}} + \ldots + \norm{\vec{v}_{k}}} + \norm{\vec{v}_{k + 1}} && \parens{P\parens{k}} \\
+        &= \norm{\vec{v}_{1}} + \ldots + \norm{\vec{v}_{k + 1}},
+    \end{align*}
+    thereby completing the inductive step as we've shown $P\parens{k + 1}$. Thus, by induction, $P\parens{m}$ is true for all values of $m\in \NN$.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Use mathematical induction on $m \in\NN$ to prove
+\[\vec{v}_1, \ldots ,\vec{v}_m \in\RR^n\text{ pairwise orthogonal }\implies \norm{\vec{v}_1 + \ldots + \vec{v}_m}^2 = \norm{\vec{v}_1}^2 + \ldots + \norm{\vec{v}_m}^2.\]
+Vectors $\vec{v}_1, \ldots , \vec{v}_m \in\RR^n$ are said to be pairwise orthogonal if, for all $i,j \in\braces{1,\ldots ,m}$ with $i \neq j$, the two vectors $\vec{v}_i,\vec{v}_j$ are orthogonal. (This is always true when $m = 1$.)
+\end{claim}
+
+\begin{soln}
+    Denote the proposition above by $P\parens{m}$; we will prove $P\parens{m}$ for all $m\in \NN$ with induction on $m$. However, first we will prove the following preliminary fact:
+    \begin{fact}
+        Suppose that we have $m + 1\in \NN$ pairwise orthogonal vectors $\vec{v}_{1}, \vec{v}_{2}, \ldots , \vec{v}_{m + 1} \in \RR^n.$ Then $\vec{v}_{m + 1}$ is orthogonal with $\sum_{i = 1}^m \vec{v}_{i}$.
+    \end{fact}
+    Observe that two vectors are orthogonal in $\RR^n$ if and only if their dot product is $0$. In particular, it then follows that the dot product of $\vec{v}_{m + 1}$ and $\sum_{i = 1}^m \vec{v}_{i}$ is
+    \[\vec{v}_{m + 1}\cdot \sum_{i = 1}^m \vec{v}_{i} = \sum_{i = 1}^m \vec{v}_{m + 1}\cdot \vec{v}_{i} = \sum_{i = 1}^m 0 = 0,\]
+    where the cancellation of all the dot products is because $\vec{v}_{m + 1}$ is orthogonal with all the other $\vec{v}_{i}$ for $1\le i\le m$. Thus, we have proven our fact which we will now denote with $\spadesuit$. Now we will prove $P\parens{m}$ with induction:
+    
+    \textbf{Base Case:} We wish to show $P\parens{1}$. This asserts that given a vector $\vec{v}_{1}\in \RR^n$, we have $\norm{\vec{v}_{1}}^2 = \norm{\vec{v}_{1}}^2$, which is obvious as $\norm{\vec{v}_{1}} = \norm{\vec{v}_{1}}$. Furthermore, observe that given two vectors $\vec{v}_{1}, \vec{v}_{2} \in \RR^n$, we have $\norm{\vec{v}_{1} + \vec{v}_{2}}^2 = \norm{\vec{v}_{1}}^2 + 2\vec{x}\cdot \vec{y} + \norm{\vec{v}_{2}}^2 = \norm{\vec{v}_{1}}^2 + \norm{\vec{v}_{2}}^2$ so $P\parens{2}$ is true as well.
+
+    \textbf{Inductive Step:} Suppose that $P\parens{k}$ is true for some $m = k\in \NN$. Then it follows that
+    \begin{align*}
+        &\norm{\vec{v}_{1} + \ldots + \vec{v}_{k + 1}}^2 \\
+        &= \norm{\parens{\vec{v}_{1} + \ldots + \vec{v}_{k}} + \vec{v}_{k + 1}}^2 \\
+        &= \norm{\vec{v}_{1} + \ldots + \vec{v}_{k}}^2 + \norm{\vec{v}_{k + 1}}^2 && \parens{P\parens{2}, \spadesuit} \\
+        &= \parens{\norm{\vec{v}_{1}}^2 + \ldots + \norm{\vec{v}_{k}}^2} + \norm{\vec{v}_{k + 1}}^2 && \parens{P\parens{k}} \\
+        &= \norm{\vec{v}_{1}}^2 + \ldots + \norm{\vec{v}_{k + 1}}^2,
+    \end{align*}
+    thereby completing the inductive step as we've shown $P\parens{k + 1}$. Thus, by induction, $P\parens{m}$ is true for all values of $m\in \NN$.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Explain why the following “proof” of the Cauchy-Schwarz inequality $\abs{\vec{x}\cdot \vec{y}} \le \norm{\vec{x}} \norm{\vec{y}}$, where $\vec{x}, \vec{y} \in \RR^n$, is not valid:
+
+    \begin{proof}
+        If either $\vec{x}$ or $\vec{y}$ is zero, then the inequality $\abs{\vec{x}\cdot \vec{y}} \le \norm{\vec{x}} \norm{\vec{y}}$ is trivially correct because both sides are zero. If neither $\vec{x}$ nor $\vec{y}$ is zero, then as proved above $\vec{x} \cdot \vec{y} = \norm{\vec{x}} \norm{\vec{y}} \cos \theta$, where $\theta$ is the angle between $\vec{x}$ and $\vec{y}$. Hence, $\abs{\vec{x}\cdot \vec{y}} = \norm{\vec{x}} \norm{\vec{y}} \abs{\cos \theta} \le \norm{\vec{x}} \norm{\vec{y}}$.
+    \end{proof}
+\end{claim}
+
+\begin{soln}
+    The problem is circular reasoning; we are able to express the dot product of $\vec{x}$ and $\vec{y}$ as $\norm{\vec{x}} \norm{\vec{y}} \cos \theta$ because the Cauchy-Schwartz Inequality allowed us to define the angle $\theta$ between two vectors $\vec{x}, \vec{y}$ as the value of the expression $\arccos\parens{\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{x}} \norm{\vec{y}}}}$, so we are not able to use this form of the dot product that uses angles between vectors to justify the Cauchy-Schwartz Inequality again.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Using the dot product, prove, for any vectors $\vec{x}, \vec{y} \in \RR^n$:
+    \begin{enumerate}[label=(\alph*)]
+        \item The parallelogram law: $\norm{\vec{x} - \vec{y}}^2 + \norm{\vec{x} + \vec{y}}^2 = 2\parens{\norm{\vec{x}}^2 + \norm{\vec{y}}^2}$.
+        \item The law of cosines: $\norm{\vec{x} - \vec{y}}^2 = \norm{\vec{x}}^2 + \norm{\vec{y}}^2 - 2\norm{\vec{x}} \norm{\vec{y}} \cos\theta$, assuming $\vec{x}, \vec{y}$ are nonzero and $\theta$ is the angle between $\vec{x}$ and $\vec{y}$.
+    \end{enumerate}
+\end{claim}
+
+\begin{soln}
+    \begin{enumerate}[label=(\alph*)]
+        \item Denote the left hand side of the desired statement by $\spadesuit$. We will first expand $\norm{\vec{x} - \vec{y}}^2$ as follows:
+        \begin{align*}
+            \norm{\vec{x} - \vec{y}}^2 &= \norm{\vec{x} + \parens{-\vec{y}}}^2 \\
+            &= \norm{\vec{x}}^2 + 2\vec{x}\cdot\parens{-\vec{y}} + \norm{-\vec{y}}^2 \\
+            &= \norm{\vec{x}}^2 + 2\vec{x}\cdot \parens{-\vec{y}} + \abs{-1} \norm{\vec{y}}^2 \\
+            &= \norm{\vec{x}}^2 + \parens{2}\parens{-1}\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 \\
+            &= \norm{\vec{x}}^2 - 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2.
+        \end{align*}
+        Plugging this into $\spadesuit$, we can expand to get
+        \[\norm{\vec{x} - \vec{y}}^2 + \norm{\vec{x} + \vec{y}}^2 = \norm{\vec{x}}^2 - 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 + \norm{\vec{x}}^2 + 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 = 2\parens{\norm{\vec{x}}^2 + \norm{\vec{y}}^2},\]
+        which is the expression we desired.
+        \item Using the expression for $\norm{\vec{x} - \vec{y}}^2$ we found in the previous apart, we can use the definition of the dot product as $\vec{x}\cdot \vec{y} = \norm{\vec{x}}\norm{\vec{y}}\cos \theta$ to get
+        \[\norm{\vec{x} - \vec{y}}^2 = \norm{\vec{x}}^2 - 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 = \norm{\vec{x}}^2 + \norm{\vec{y}}^2 - 2\norm{\vec{x}}\norm{\vec{y}}\cos \theta,\]
+        which is the expression we were looking for.\qedhere
+    \end{enumerate}
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Suppose $\vec{x},\vec{y} \in\RR^n$. Find all $t \in\RR$ such that $\vec{x} - t\vec{y}$ is orthogonal to $\vec{y}$.
+\end{claim}
+
+\begin{soln}
+    First of all, if $\vec{y} = \vec{0}$, then $\boxed{\text{any }t\in \RR}$ works because all vectors in $\RR^n$ are orthogonal with the zero vector. From now on suppose that $\vec{y} \neq \vec{0}$. It follows that $\vec{x} - t\vec{y}$ is orthogonal to $\vec{y}$ if and only if
+    \begin{align*}
+    &0 = \parens{\vec{x} - t\vec{y}} \cdot \vec{y} \\
+    &\iff 0 = \vec{x} \cdot \vec{y} - t\parens{\vec{y}\cdot \vec{y}} \\
+    &\iff t\norm{\vec{y}}^2 = \vec{x} \cdot \vec{y}. \\
+    &\iff t = \boxed{\frac{\vec{x} \cdot \vec{y}}{\norm{\vec{y}}^2}}.
+    \end{align*}
+    Note that the division is defined because $\norm{\vec{y}} \neq 0$. In particular, given specific vectors $\vec{x}$ and $\vec{y}$, this value of $t$ is unique as all variables are fixed in its expression.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Suppose $\vec{x} \in\RR^n$. Prove that
+    \[\vec{x} \cdot \vec{y} = 0 \,\forall\, \vec{y} \in\RR^n \iff \vec{x} = \vec{0}.\]
+\end{claim}
+
+\begin{soln}
+    We prove both directions separately.
+    
+    $\parens{\impliedby}$: Suppose that $\vec{x} = \vec{0}, \vec{y} = \parens{y_1, \ldots , \vec{y}_n}\in \RR^n$. Observe that
+    \[\vec{x}\cdot \vec{y} = \parens{0, \ldots , 0} \cdot \parens{y_1, \ldots , \vec{y}_n} = \sum_{i = 1}^n 0\cdot \vec{y}_i = \sum_{i = 1}^n 0 = 0\]
+    so we get the desired implication.
+
+    $\parens{\implies}$: Let $\vec{x} = \parens{x_1, \ldots , \vec{x}_n}\in \RR^n$. Suppose that $\vec{x}\cdot \vec{y} = 0$ for all $\vec{y}\in \RR^n$. Further, suppose for the sake of contradiction that some component $x_i$ in $\vec{x}$ is nonzero, where $1\le i \le n$. Then consider the vector $\vec{y} = \parens{\underbrace{0, 0, \ldots}_{i - 1\text{ zeroes}}, 1 , \underbrace{\ldots, 0, 0}_{n - i\text{ zeroes}}}\in \RR^n$, where all the components are $0$ except the $i$th, which is $1$. It follows that the dot product $\vec{x}\cdot \vec{y}$ is equal to
+    \[\sum_{k = 1}^n \vec{x}_k\cdot \vec{y}_k = \sum_{k = 1}^{i - 1} \vec{x}_k \cdot 0 + \vec{x}_i \cdot 1 + \sum_{k = i + 1}^n \vec{x}_k \cdot 0 = \vec{x}_i \neq 0,\]
+    which is a contradiction since we assumed that the dot product of $\vec{x}$ with all vectors in $\RR^n$ was $0$. Thus $\vec{x} = \vec{0}$ as desired as none of its components can be nonzero.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Suppose $\vec{x}, \vec{y} \in\RR^n$. Prove that
+    \[\norm{\vec{x} + \vec{y}} = \norm{\vec{x}} + \norm{\vec{y}} \iff \vec{x} = \lambda \vec{y}\text{ or }\vec{y} = \lambda\vec{x}\text{ for some }\lambda \ge 0.\]
+\end{claim}
+
+\begin{soln}
+    We prove the directions separately.
+
+    $\parens{\impliedby}$: Suppose that $\vec{y} = \lambda\vec{x}$ for some $\lambda\ge 0$. Then it follows that 
+    \begin{align*}
+        \norm{\vec{x} + \vec{y}}^2 &= \norm{\vec{x}}^2 + 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 \\
+        &= \norm{\vec{x}}^2 + 2\abs{\vec{x}\cdot \vec{y}} + \norm{\vec{y}}^2 \\
+        &= \norm{\vec{x}}^2 + 2\norm{\vec{x}} \norm{\vec{y}} + \norm{\vec{y}}^2 \\
+        &=\parens{\norm{\vec{x}} + \norm{\vec{y}}}^2,
+    \end{align*}
+    where the third equality is due to the equality case of Cauchy-Schwartz. The other case where $\vec{x} = \lambda\vec{y}$ for some $\lambda\ge 0$ follows identically. Hence $\norm{\vec{x} + \vec{y}} = \norm{\vec{x}} + \norm{\vec{y}}$ as norms are nonnegative, and we have shown one direction of the equivalence.
+
+    $\parens{\implies}$: Suppose that $\norm{\vec{x} + \vec{y}} = \norm{\vec{x}} + \norm{\vec{y}}$. Then it follows that
+    \begin{align*}
+        \norm{\vec{x}}^2 + 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 &= \norm{\vec{x} + \vec{y}}^2 \\
+        &=\parens{\norm{\vec{x}} + \norm{\vec{y}}}^2 \\
+        &= \norm{\vec{x}}^2 + 2\norm{\vec{x}} \norm{\vec{y}} + \norm{\vec{y}}^2,
+    \end{align*}
+    which implies that $\vec{x}\cdot \vec{y} = \norm{\vec{x}} \norm{\vec{y}} \implies \abs{\vec{x}\cdot \vec{y}} = \norm{\vec{x}} \norm{\vec{y}}$. According to the equality case of Cauchy-Schwartz, this occurs if and only if $\vec{x} = \lambda\vec{y}$ or $\vec{y} = \lambda\vec{x}$ for $\lambda\in \RR$. If the latter is the case, we can observe from the first equation that $\vec{x}\cdot \vec{y} = \vec{x}\cdot \lambda \vec{x} = \lambda \norm{\vec{x}}^2$ must be nonnegative as $\norm{\vec{x}} \norm{\vec{y}} \ge 0$, so in particular $\lambda\ge 0$ as well. Thus $\vec{y} = \lambda \vec{x}$ for some $\lambda \ge 0$, and the other case where $\vec{x} = \lambda\vec{y}$ for some $\lambda\in \RR$ follows identically, so we have proven the other direction of the equivalence and we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Suppose $x, y \in\QQ, z \in\RR \setminus \QQ, x \neq 0$. Prove that $y + xz \in\RR \setminus \QQ$.
+\end{claim}
+
+\begin{soln}
+    Suppose the contrary of the desired statement, i.e. that $y + xz \in \QQ$. We know that $\QQ$ is closed under addition, so if $y$ and $y + xz$ are both rational, then $xz$ must be as well. Also, since $x\neq 0$ and $\QQ$ is closed under multiplication, this implies that $z$ is also a rational number. This is a contradiction however, as we defined $z\in \RR\setminus \QQ$, so $y + xz$ must be irrational as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Suppose $x,y \in\QQ, z \in\RR \setminus \QQ, x \neq 0$. Prove that $y + x/z \in\RR \setminus \QQ$.
+\end{claim}
+
+\begin{soln}
+    Suppose the contrary of the desired statement, i.e. that $y + \frac{x}{z} \in \QQ$. We know that $\QQ$ is closed under addition, so if $y$ and $y + \frac{x}{z}$ are both rational, then $\frac{x}{z}$ must be as well. We also know that $\QQ$ is closed under multiplication as well; since $\frac{x}{z} = x \cdot \frac{1}{z}$ is a nonzero rational number (because $x\neq 0$), this means that $\frac{1}{z}$ must be rational. The reciprocal $z$ of a nonzero rational number $\frac{1}{z}$ is also rational, but this results in a contradiction, as we defined $z\in \RR\setminus \QQ$, so $y + \frac{x}{z}$ must be irrational as desired.
+\end{soln}
+\end{document}

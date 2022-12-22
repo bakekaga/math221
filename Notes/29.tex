@@ -1,0 +1,91 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 29: 10/31/22}
+Now we'll prove the differentiability criterion we used for polynomials:
+\begin{theorem}[Main Differentiability Criterion]
+    Let $U\subseteq \RR^n$, $\vf : U \to \RR^m$. Suppose
+    \begin{itemize}
+        \item (single-variable condition) $\mathcal{D}_1\vf, \ldots , \mathcal{D}_n\vf$ exist on $B_\rho\parens
+        \va\subseteq U$.
+        \item (multi-variable condition) $\mathcal{D}_1\vf, \ldots , \mathcal{D}_n\vf$ are all continuous at $\va$.
+    \end{itemize}
+    Then $\vf$ is differentiable at $\va$. In particular, this means that if all the partial derivatives of $\vf$ exist and are continuous at $\va$, then the derivative exists at $\va$ as well.
+\end{theorem}
+
+\begin{proof}
+    WLOG take $m = 1$ since the general case follows from Problems 1 and 2 from Problem Set 9 (the ones about a function is continuous/differentiable if and only if its components are too). Let $\varepsilon > 0$ be arbitrary. From the continuity of $\mathcal{D}_j f$ at $\va$, we know there exists $\delta_j > 0$ such that $\abs{\mathcal{D}_j f\parens{\vx} - \mathcal{D}_j f\parens{\va}} < \frac{\varepsilon}{n}$ for all $\vx\in B_\rho\parens{\va}$ satisfying $\abs{\vx - \va} < \delta_j$. Define $\delta = \min\braces{\frac{\rho}{2}, \delta_1, \ldots , \delta_n} > 0$. Then $B_\delta\parens{\va} \subseteq B_{\min\braces{\rho, \delta_j}}\parens{\va}$ for all $j$, so $\abs{\mathcal{D}_j f\parens\vx - \mathcal{D}_j f\parens\va} < \frac{\varepsilon}{n}$ for all $\vx\in B_\delta\parens\va$. Define the $1\times n$ matrix $M = \parens{\mathcal{D}_1 f\parens{\va}, \ldots , \mathcal{D}_n f\parens{\va}}$; our goal is then to show that for every $\vx\in B_\delta\parens{\va} \setminus \braces{\va}$, we have
+    \[\abs{f\parens{\vx} - f\parens{\va} - M\parens{\vx - \va}} < \varepsilon\norm{\vx - \va}.\]
+
+    Let $\vx = \va + \vh$, $\vh = (h_1, \ldots , h_n)$ and define the sequence $\braces{\vh^{(k)}}_{k = 0, 1, \ldots , n}$ by $\vh^{(0)} = \vec{0}$ and $\vh^{(j)} = (h_1, h_2, \ldots , h_j, 0, \ldots , 0)$ for all $j \in \braces{1, \ldots , n}$. We do this because we only know the existence of the directional derivatives along each of the standard basis vectors, so by splitting up the vector we can utilize their properties more easily. We first fix some index $j \in \braces{1, \ldots , n}$ and study the change in $f$ from $\va + \vh^{(j - 1)}$ to $\va + \vh^{(j)}$.
+
+    \begin{claim}
+        For all $t\in \parens{- \frac{\rho}{2}, \frac{\rho}{2}}$, we have $\va + \vh^{(j - 1)} + t\vec{e}_j \in B_\rho\parens{\va}$.
+    \end{claim}
+
+    \begin{proof}
+        We have
+        \begin{align*}
+            \norm{\parens{\va + \vh^{(j - 1)} + t\vec{e}_j} - \va} &= \norm{\vh^{(j - 1)} + t\vec{e}_j} \\
+            &\le \norm{\vh^{(j - 1)}} + \norm{t\vec{e}_j} \\
+            &= \norm{\vh^{(j - 1)}} + \abs{t} \\
+            &\le \norm{\vh} + \abs{t} \\
+            &< \delta + \frac{\rho}{2} \\
+            &\le \frac{\rho}{2} + \frac{\rho}{2} \\
+            &= \rho
+        \end{align*}
+        as desired.
+    \end{proof}
+    Thus, the function $g_j : \parens{-\frac{\rho}{2}, \frac{\rho}{2}} \to \RR$ defined by $g_j(t) = f\parens{\va + \vh^{(j - 1)} + t\vec{e}_j}$ is well-defined.
+
+    \begin{claim}
+        We have $h_j\in \parens{-\frac{\rho}{2}, \frac{\rho}{2}}$ and $\va + \vh^{(j - 1)} + h_j\vec{e}_j = \va + \vh^{(j)}$.
+    \end{claim}
+
+    \begin{proof}
+        For the first part, we have $\abs{h_j} \le \norm{\vh} < \delta \le \frac{\rho}{2}$, and the second part follows from the definition of $\braces{\vh^{(k)}}$.
+    \end{proof}
+
+    Now we have $g_j(0) = f\parens{\va + \vh^{(j - 1)}}$, $g_j\parens{h_j} = f\parens{\va + \vh^{(j)}}$, and 
+    \begin{align*}
+        g'_j(t) &= \lim_{s\to 0} \frac{g_j(t + s) - g_j(t)}{s} \\
+        &= \lim_{s\to 0} \frac{f\parens{\va + \vh^{(j - 1)} + (t + s)\vec{e}_j} - f\parens{\va + \vh^{(j - 1)} + t\vec{e}_j}}{s} \\
+        &= \lim_{s\to 0} \frac{f\parens{\va + \vh^{(j - 1)} + t\vec{e}_j + s\vec{e}_j} - f\parens{\va + \vh^{(j - 1)} + t\vec{e}_j}}{s} \\
+        &= \mathcal{D}_j f\parens{\va + \vh^{(j - 1)} + t\vec{e}_j}
+    \end{align*}
+    for all $\abs{t} < \frac{\rho}{2}$. From the Mean Value Theorem, we know there exists $\theta_j\in (0, 1)$ such that
+    \begin{align*}
+        f\parens{\va + \vh^{(j)}} &= g_j(h_j) \\
+        &= g_j(0) + g_j'(0 + \theta_j\parens{h_j - 0})h_j \\
+        &= f\parens{\va + \vh^{(j - 1)}} + \mathcal{D}_jf\parens{\va + \vh^{(j - 1)} + \theta_j h_j\vec{e})j}h_j,
+    \end{align*}
+    which implies that $f\parens{\va + \vh^{(j)}} - f\parens{\va + \vh^{(j - 1)}} = \mathcal{D}_jf\parens{\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j}h_j$. Adding up over all $j = 1, \ldots , n$, we get
+    \begin{align*}
+        &f\parens{\vx} - f\parens{\va} = f\parens{\va + \vh^{(n)}} - f\parens{\va - \vh^{(0)}} = \sum_{h = 1}^n \mathcal{D}_jf\parens{\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j}h_j \\
+        &\implies f\parens{\vx} - f\parens{\va} - M\parens{\vx - \va} = \sum_{h = 1}^n \mathcal{D}_jf\parens{\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j}h_j - M\parens{\vx - \va}.
+    \end{align*}
+    Since $M\parens{\vx - \va} = \parens{\mathcal{D}_1 f\parens{\va}, \ldots , \mathcal{D}_n f\parens{\va}}\begin{pmatrix}
+        h_1 \\ \vdots \\ h_n
+    \end{pmatrix}$, we get that
+    \begin{align*}
+        &f\parens{\vx} - f\parens{\va} - M\parens{\vx - \va} \\
+        &= \sum_{j = 1}^n \parens{\mathcal{D}_jf\parens{\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j} - \mathcal{D}_jf\parens{\va}}h_j.
+    \end{align*}
+
+    Recall that our goal was to show $\abs{f\parens{\vx} - f\parens{\va} - M\parens{\vx - \va}} < \varepsilon\norm{\vx - \va}$; now that we've nicely characterized the LHS, we're finally ready to get to the final stage of the proof. Note that we have
+    \begin{align*}
+        \norm{\parens{\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j} - \va}^2 &= \norm{\vh^{(j - 1)} + \theta_jh_j\vec{e}_j}^2 \\
+        &= \norm{\vh^{(j - 1)}}^2 + \abs{\theta_j}^2 \norm{h_j\vec{e}_j}^2 \\
+        &\le \norm{\vh^{(j - 1)}}^2 + \norm{h_j\vec{e}_j}^2 \\
+        &= \norm{\vh^{(j)}}^2 \le \norm{\vh}^2 < \delta^2,
+    \end{align*}
+    where the second and last equalities follow from the Pythagorean Theorem because $\vec{e}_j$ is orthogonal to all vectors that have $0$ at their $j$th component. This implies that $\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j \in B_\delta\parens{\va}$, so by the definition of $\delta$, we have
+    \begin{align*}
+        &\abs{f\parens{\vx} - f\parens{\va} - M\parens{\vx - \va}} \\
+        &\le  \sum_{j = 1}^n \abs{\mathcal{D}_jf\parens{\va + \vh^{(j - 1)} + \theta_jh_j\vec{e}_j} - \mathcal{D}_jf\parens{\va}}\abs{h_j} \\
+        &< \sum_{j = 1}^n \frac{\varepsilon}{n}\norm{\vh} \\
+        &= \varepsilon\norm{\vx - \va}
+    \end{align*}
+    as desired.
+\end{proof}
+
+\end{document}

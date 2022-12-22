@@ -1,0 +1,66 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 19: 10/5/22}
+
+Continuing the discussion of continuous functions, note that
+\begin{enumerate}
+    \item Constant functions are continuous.
+    \item Polynomials are continuous (by iteratively applying the continuous function lemma).
+\end{enumerate}
+
+\begin{proposition}
+    Suppose $A\subseteq \RR^n$ and $\vf : A\to \RR^m$ is continuous at $\vec{a}\in A$. If $\braces{\vseq{x}}$ is a sequence such that:
+    \begin{itemize}
+        \item $\vseq{x} \in A \,\forall\, k\in \NN$ (sequence is $A$-valued) and
+        \item $\limk \vseq{x} = \vec{a}$
+    \end{itemize}
+    then $\limk \vf\parens{\vseq{x}} = \vf\parens{\vec{a}}$.
+\end{proposition}
+
+\begin{proof}
+    Let $\varepsilon > 0$ be arbitrary. From the continuity of $\vf$ at $\vec{a}$, there exists a $\delta > 0$ such that $\norm{\vf\parens{\vec{x}} - \vf\parens{\vec{a}}} < \varepsilon$ for all $\vec{x}\in A$ such that $\norm{\vec{x} - \vec{a}} < \delta$. Now, from the (real-valued sequence) definition of $\limk \vseq{x} = \vec{a}$, there exists $N\in \NN$ such that $\norm{\vseq{x} - \vec{a}} < \delta$ for all $k\ge N$. Thus, for all $k\ge N$, we have $\norm{\vf\parens{\vseq{x}} - \vf\parens{\vec{a}}} < \epsilon$, so we're done.
+\end{proof}
+
+\begin{definition}[Closure]
+    For $A\subseteq \RR^n$, we define the \vocab{closure} of $A$ to be
+    \[\overline{A} = \braces{\vec{y}\in \RR^n \mid A\cap B_\rho\parens{\vec{y}} \neq \emptyset \,\forall\, \rho > 0}.\]
+\end{definition}
+
+The idea is that $\overline{A}$ essentially ``closes the gaps" of $A$ (e.g. the closure of $(-\infty, 0)\cap (0, \infty)$ is $\RR$).
+\begin{remark}
+    Note that for every $\vec{a}\in A$ and every $\rho > 0$, we have \[\braces{\vec{a}} = A\cap \braces{\vec{a}}\subseteq A\cap B_\rho\parens{\vec{a}} \implies A\cap B_\rho\parens{\vec{a}} \neq 0\implies \vec{a}\in\overline{A}.\]
+    In more intuitive terms, every $\va\in A$ is a limit point of $A$ because of the constant sequence $\{\va\}$ in $A$. In particular, this gives us $A\subseteq \overline{A}$.
+\end{remark}
+
+\begin{proposition}
+    For $A\subseteq \RR^n$ we have
+    \[\overline{A} = \braces{\vec{y}\in \RR^n \mid \vec{y} = \limk \vseq{x}\text{ for some }A\text{-valued sequence } \vseq{x}}.\]
+\end{proposition}
+
+\begin{proof}
+    First, suppose that we have some $\vec{y}\in \RR^n$ satisfying $y = \limk \vseq{x}$ for some $A$-valued sequence $\braces{\vseq{x}}$. Let $\rho > 0$ be arbitrary. By the definition of the limit of $\vseq{x}$, we know there exists a $N\in \NN$ such that $\norm{\vseq{x} - \vec{y}} < \rho\iff \vseq{x}\in B_\rho\parens{\vec{y}}$ for all $k\ge N$. Thus, $\braces{\vec{x}^{(N)}, \vec{x}^{(N + 1)}, \ldots }\subseteq A\cap B_\rho\parens{\vec{y}}$ so it's nonempty. Since $\rho$ was arbitrary, $y\in \overline{A}$.
+
+    Now suppose we have some $\vec{y}\in A$. We know that $A\cap B_\rho\parens{\vec{y}} \neq \emptyset$ for all $\rho > 0$ from our earlier remark, so taking any $k\in \NN$ and $\rho = \frac{1}{k}$, there must exist some $\vseq{x}\in A\cap B_{\frac{1}{k}}\parens{\vec{y}}$. Consider the sequence $\braces{\vseq{x}}$ defined by these $\vseq{x}$s; by construction, we have $\vseq{x}\in A$ and $0\le \norm{\vseq{x} - \vec{y}} < \frac{1}{k}$ for all $k\in \NN$. Since $\limk 0 = \limk \frac{1}{k} = 0$, we have $\limk \norm{\vseq{x} - \vec{y}} = 0$ by the Sandwich Theorem, giving $\limk \vseq{x} = \vec{y}$ as desired.
+\end{proof}
+
+Thus, we can alternatively define the closure of $A$ as containing all the \vocab{limit points} of $A$, since we've shown that its definition is equivalent to saying that if $\vec{y}\in \overline{A}$ then we can find a sequence of elements of $A$ whose limit is $\vec{y}$.
+
+\begin{definition}
+    $C\subseteq \RR^n$ is called \vocab{closed} if $C = \overline{C}$, or equivalently if $\overline{C}\subseteq C$ since we showed we always have $C\subseteq \overline{C}$.
+\end{definition}
+
+\begin{theorem}
+    Suppose $C\subseteq \RR^n$ is closed, nonempty, and bounded. Let $f : C\to \RR$ be continuous. Then
+    \begin{enumerate}
+        \item $f$ attains its maximum on $C$, i.e. $\max\underbrace{\set*{f\parens{\vec{x}} \mid \vec{x} \in C}}_{``f(C)"}$ exists.
+        \item $f$ attains its minimum on $C$, i.e. $\underbrace{\min\set*{f\parens{\vec{x}} \mid \vec{x} \in C}}_{\min f(C)}$ exists.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Today we will only show the following claim:
+    \begin{claim}
+        $f(C)\subseteq\RR$ is bounded above.
+    \end{claim}
+    Suppose FTSOC that $f(C)$ is not bounded above; then for any $k\in \NN$ there exists some $\vseq{x}\in C$ such that $f\parens{\vseq{x}} > k$. Consider some sequence $\braces{\vseq{x}}$ defined by this condition. We know that since $C$ is bounded, then there exists $L$ such that $\norm{\vseq{x}} \le L$ for all $k\in \NN$, so $\braces{\vseq{x}}$ is a bounded sequence; thus, Bolzano-Weierstrass guarantees the existence of a subsequence $\braces{\vec{x}^{(k_\ell)}}_{\ell = 1, 2, \ldots}$ that converges. Let $\vec{y}$ be the limit of this sequence; in particular, since $\vec{x}^{(k_\ell)}$ is a $C$-valued sequence, the previous proposition implies that $\vec{y}\in \overline{C} = C$. We know that $f$ is continuous on $C$ and thus at $\vec{y}\in C$, so $\limk f\parens{\vec{x}^{(k_\ell)}} = f\parens{\vec{y}}$ by the first proposition from today, i.e. $\braces{f\parens{\vec{x}^{(k_\ell)}}}_{\ell = 1, 2, \ldots}$ is convergent. However, $f\parens{\vec{x}^{(k_\ell)}}> k_\ell \ge \ell$ for all $\ell\in \NN$ so $\braces{f\parens{\vec{x}^{(k_\ell)}}}_{\ell = 1, 2, \ldots}$ is unbounded (since $\ell$ is as well by the Archimedean Principle), and therefore cannot converge, contradiction!
+\end{proof}
+\end{document}

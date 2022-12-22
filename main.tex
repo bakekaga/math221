@@ -1,0 +1,61 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[sexy]{evan}
+\usepackage{subfiles, cancel, derivative}
+
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\rref}{rref}
+\DeclareMathOperator{\Hess}{Hess}
+\DeclareMathOperator{\adj}{adj}
+
+\newcommand{\limn}{\lim_{n\to \infty}}
+\newcommand{\limk}{\lim_{k\to \infty}}
+\newcommand{\limv}[1]{\lim_{\vec{x}\to \vec{#1}}}
+\newcommand{\limx}[1]{\lim_{x\to #1}}
+
+\newcommand{\parens}[1]{\left( #1 \right)}
+\newcommand{\braces}[1]{\left\{ #1 \right\}}
+\DeclarePairedDelimiterX{\set}[1]{\lbrace}{\rbrace}{
+  \RenewDocumentCommand{\mid}{}{\;\delimsize\vert\;}%
+  #1%
+}
+
+\newcommand{\vseq}[1]{\vec{#1}^{(k)}}
+\newcommand{\rseq}[1]{#1 ^{(k)}}
+\newcommand{\vf}{\vec{f}}
+\newcommand{\vg}{\vec{g}}
+\newcommand{\vh}{\vec{h}}
+\newcommand{\vx}{\vec{x}}
+\newcommand{\vy}{\vec{y}}
+\newcommand{\va}{\vec{a}}
+
+\newcommand{\Hessf}[1]{\Hess_{f, \va}\parens{#1}}
+
+\usepackage{scalerel, stackengine}
+\stackMath
+\newcommand\smhat[1]{%
+\stackon[0.5pt]{#1}{%
+\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{#1}]{\mkern-1.5mu\smile\mkern-2mu}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%
+  }{\textheight}%
+}{0.8ex}}%
+}
+
+\title{MATH 221: Honors Calculus III}
+\author{Albert Zhu}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\eject
+
+\foreach \n in {1,...,41}{\subfile{Notes/\n}\eject}
+% \usepackage{xifthen}
+% \foreach \n in {1,...,13}{
+%     \ifthenelse{\NOT \n = 6 \AND \NOT \n = 12}{\subfile{Psets/\n}\eject}{}
+% }
+
+\end{document}

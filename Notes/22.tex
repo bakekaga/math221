@@ -1,0 +1,107 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 22: 10/14/22}
+
+\subsubsection{Differentiation in $\RR^n$}
+Recall from single-variable calculus that:
+\begin{definition}[Differentiation in $\RR$]
+    Given an $A = (a_0, a_1)$, $a\in A$, $f : A\to \RR$, we say $f$ is \vocab{differentiable at $a$} if $\lim_{x\to a} \frac{f(x) - f(a)}{x - a} \iff \lim_{x\to a} \frac{f(a + h) - f(a)}{h}$ exists, in which case we call its value $f'(a)$ (``the derivative of $f$ at $a$").   
+\end{definition}
+
+This definition cannot immediately generalize because in higher dimensions $A$ will consist of vectors, so dividing two vectors doesn't really make sense. However, note that:
+\begin{align*}
+    \lim_{x\to a} \frac{f(x) - f(a)}{x - a} &= f'(a) \\
+    &\iff \lim_{x\to a} \abs{\frac{f(x) - f(a)}{x - a} - f'(a)} = 0 \\
+    &\iff \lim_{x\to a} \frac{\abs{f(x) - f'(a)(x - a)}}{\abs{x - a}} = 0,
+\end{align*}
+which is immediately generalizeable to multiple dimensions.
+
+\begin{definition}[Differentiation in $\RR^n$]
+    Suppose $U\subseteq \RR^n$ is open and $\vf : U \to \RR^m$.
+    \begin{enumerate}
+        \item Let $\vec{a}\in U$. If there exists an $m\times n$ matrix $M$ such that
+        \[\limv{a} \frac{\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - M\parens{\vx - \vec{a}}}}{\norm{\vec{x} - \vec{a}}} = 0 \iff \lim_{\vec{h}\to \vec{0}} \frac{\norm{\vf\parens{\vx + \vec{h}} - \vf\parens{\vec{a}} - M\vec{h}}}{\norm{\vec{h}}} = 0,\]
+        then we say $\vf$ is differentiable at $\vec{a}$ and we write $\mathcal{D}\vf\parens{\vec{a}} = M$, the \vocab{Jacobian matrix}/\vocab{the derivative}.
+        \item Let $D\subseteq U$. We say $\vf$ is \vocab{differentiable on $D$} if $\vf$ is differentiable on every $\vec{a}\in D$.
+        \item We say \vocab{$\vf$ is differentiable} if it is differentiable on all of $U$.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    If $U\subseteq \RR^n$ is open and $f : U\to \RR^m$ is differentiable at $\vec{a}\in U$, then for every open $V \subseteq U$ such that $\vec{a}\in V$, $\vec{f}|_V$ is also differentiable at $\vec{a}$.
+\end{remark}
+
+Before we get to the properties of differentiation, let's first discuss a linear algebra interlude.
+
+\begin{definition}
+    Let $M$ be a $m\times n$ matrix with column vectors $\vec{u}_1, \ldots , \vec{u}_n\in \RR^m$. We define the \vocab{norm} of $M$ to be
+    \[\norm{M} = \sqrt{\norm{\vec{u}_1}^2 + \ldots + \norm{\vec{u}_n}^2}.\]
+\end{definition}
+
+\begin{proposition}[Cauchy-Schwartz for Matrix-Vector Products]
+    Let $M$ be a $m\times n$ matrix, $\vec{h}\in \RR^n$. Then
+    \[\norm{M\vec{h}} \le \norm{M}\norm{\vec{h}}.\]
+\end{proposition}
+
+\begin{proof}
+    Let $\vec{u}_1, \ldots , \vec{u}_n\in \RR^m$ be the columns of $M$ and $\vec{h} = \parens{h_1, \ldots , h_n}^\top$ as usual. Then
+    \begin{align*}
+        \norm{M\vec{h}} &= \norm{h_1\vec{u}_1 + \ldots + h_n\vec{u}_n} \\
+        &\le \sum_{i = 1}^n \norm{h_i\vec{u}_i} \\
+        &= \sum_{i = 1}^n \abs{h_i}\norm{\vec{u}_i} \\
+        &= \begin{pmatrix}
+            \abs{h_1} \\
+            \vdots \\
+            \abs{h_n}
+        \end{pmatrix} \cdot \begin{pmatrix}
+            \norm{\vec{u}_1} \\
+            \vdots \\
+            \norm{\vec{u}_n}
+        \end{pmatrix} \\
+        &\le \norm{\begin{pmatrix}
+            \abs{h_1} \\
+            \vdots \\
+            \abs{h_n}
+        \end{pmatrix}}\norm{\begin{pmatrix}
+            \norm{\vec{u}_1} \\
+            \vdots \\
+            \norm{\vec{u}_n}
+        \end{pmatrix}} && (\text{Cauchy-Schwartz in }\RR^n) \\
+        &= \norm{\vec{h}}\norm{M}
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{lemma}
+    Suppose $U\subseteq \RR^n$ is open, $\vec{a}\in U$, and $\vf : U\to \RR^m$ is differentiable at $\vec{a}$. Then $\vf$ is continuous at $\vec{a}$.
+\end{lemma}
+\begin{proof}[Proof 1 (``$\varepsilon$-$\delta$")]
+    Let $\varepsilon > 0$ be arbitrary. From the differentiability of $\vf$ at $\vec{a}$, there will exist a $\delta_1$ such that
+    \[\frac{\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{a}\parens{\vx - \vec{a}}}}{\norm{\vx - \vec{a}}} < \varepsilon\]
+    for all $\vx\in U\setminus \braces{\vec{a}}$ (the domain of the function in the limit) with $0 < \norm{\vx - \vec{a}} < \delta_1$. Then
+    \[\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{a}\parens{\vx - \vec{a}}} \le \varepsilon\norm{\vx - \vec{a}}\]
+    for all $\vx\in U$ with $\norm{\vx - \vec{a}} < \delta_1$ (note how we got rid of the condition that $\vx\neq \vec{a}$); denote this property by $(\spadesuit)$.
+
+    For all $\vec{x}\in U$, $\norm{\vx - \vec{a}} < \delta = \min\braces{\delta_1, \frac{\varepsilon}{\varepsilon + \norm{\mathcal{D}\vf\parens{a}} + 1}}$. Then
+    \begin{align*}
+        &\norm{\vf\parens{\vx} - \vf\parens{\vec{a}}} \\
+        &= \norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}} + \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}} \\
+        &\le \norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}} + \norm{\mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}} \\
+        &\le \varepsilon\norm{\vec{x} - \vec{a}} + \norm{\mathcal{D}\vf\parens{\vec{a}}} \norm{\vx - \vec{a}} && (\spadesuit\text{ and C-S}) \\
+        &= \parens{\varepsilon + \norm{\mathcal{D}\vf\parens{\vec{a}}}}\norm{\vx - \vec{a}} \\
+        &< \parens{\varepsilon + \norm{\mathcal{D}\vf\parens{\vec{a}}}}\cdot \frac{\varepsilon}{\varepsilon + \norm{\mathcal{D}\vf\parens{\vec{a}}} + 1} && \parens{\delta \le \frac{\varepsilon}{\varepsilon + \norm{\mathcal{D}\vf\parens{a}} + 1}} \\
+        &= \varepsilon.
+    \end{align*}
+    Thus, $\vf$ is continuous at $\vec{a}$.
+\end{proof}
+
+\begin{proof}[Proof 2 (generalizing single-variable proof)]
+    We have for all $\vx\in U\setminus\braces{\vec{a}}$ that
+    \begin{align*}
+        \norm{\vf\parens{\vx} - \vf\parens{\vec{a}}} &= \norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}} + \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}} \\
+        &\le \norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}} + \norm{\mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}} \\
+        &\le \norm{\vx - \vec{a}}\frac{\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}}}{\norm{\vx - \vec{a}}} + \norm{\mathcal{D}\vf\parens{\vec{a}}}\norm{\vx - \vec{a}}.
+    \end{align*}
+    Since $\vx$ is continuous (Problem Set 8), we have $\limv{a} \norm{\vx - \vec{a}} = 0$, and since $\vf$ is differentiable at $\vec{a}$, this means  $\limv{a} \frac{\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - \mathcal{D}\vf\parens{\vec{a}}\parens{\vx - \vec{a}}}}{\norm{\vx - \vec{a}}} = 0$ as well. Thus, the entire expression in the last line must converge to 0, but it also clearly is bounded below by $0$, so the Sandwich Theorem implies $\limv{a}\norm{\vf\parens{\vx} - \vf\parens{\vec{a}}} = 0\implies \limv{a} \vf\parens{\vx} = \vf\parens{\vec{a}}$, so $\vf$ is continuous at $\vec{a}$ as desired.
+\end{proof}
+\end{document}

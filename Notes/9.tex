@@ -1,0 +1,106 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 9: 9/12/22}
+
+\subsubsection{Matrices}
+From now on,
+\[\RR^n = \left\{\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix} : x_1, \ldots , x_n\in \RR^n\right\}.\]
+To go back and forth between rows and columns, we can apply the \vocab{transpose}:
+\begin{itemize}
+    \item $\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix}^\top = (x_1, \ldots , x_n)$
+    \item $(x_1 , \ldots , x_n)^\top = \begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix}$
+\end{itemize}
+
+\begin{definition}[Matrix]
+    A $m\times n$ \vocab{matrix} $A = (a_{ij})$ where $i\in \{1, \ldots , m\}, j\in \{1, \ldots , n\}$ represents the matrix
+    \[A = \begin{pmatrix}
+    a_{11} & \cdots & a_{1n} \\
+    \vdots & \ddots & \vdots \\
+    a_{m1} & \cdots & a_{mn}
+    \end{pmatrix}.\]
+    We consider $(a_{11}, \ldots , a_{1m})^\top, \ldots , (a_{1n}, \ldots , x_{mn})^\top = \vec{\alpha}_1, \ldots , \vec{\alpha}_n\in \RR^m$ to be the \vocab{column vectors} of $A$. Also, $(a_{11} , \ldots , a_{1n}), (a_{m1} , \ldots , a_{mn}) = \vec{\rho}_1, \ldots , \vec{\rho}_m$ are the \vocab{row vectors} of $A$, whose transposes lie in $\RR^n$. It's also possible to interpret a column vector as a $m\times 1$ matrix and a row vector as a $1\times n$ matrix.
+\end{definition}
+
+\begin{theorem}[Matrix-vector multiplication]
+    Consider a $m\times n$ matrix $A = (a_{ij})$ and a vector $\vec{x} = (x_i)\in \RR^n$. Then we define:
+    \[A\vec{x} = \begin{pmatrix}
+    a_{11} & \cdots & a_{1n} \\
+    \vdots & \ddots & \vdots \\
+    a_{m1} & \cdots & a_{mn}
+    \end{pmatrix}\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix} = \boxed{\begin{pmatrix}
+        \sum_{k = 1}^n a_{1k}x_k \\
+        \vdots \\
+        \sum_{k = 1}^n a_{mk}x_k
+    \end{pmatrix}} \in \RR^m.\]
+\end{theorem}
+
+More succinctly, we can define $A\vec{x} = (y_1, \ldots, y_m)^\top\in \RR^m$ such that
+\[y_i = \sum_{k = 1}^n a_{ik}x_k = \boxed{\vec{\rho}_i^\top \cdot \vec{x}}.\]
+Equivalently,
+\[A\vec{x} = \sum_{i = 1}^m y_i\vec{e}_i = \boxed{\sum_{i = 1}^m \sum_{k = 1}^n a_{ik}x_k\vec{e}_i}.\]
+Note here that $\vec{e}_i$ are the standard basis vectors of $\RR^m$.
+
+Equivalently again, we also have
+\begin{align*}
+    A\vec{x} &= x_1 (a_{11}, \ldots , a_{m1})^\top + \ldots + x_n (a_{1n}, \ldots, a_{mn})^top \\
+    &= x_1\vec{\alpha}_1 + \ldots + x_n\vec{\alpha}_n \\
+    &= \boxed{\sum_{k = 1}^n x_k\vec{\alpha}_k}.
+\end{align*}
+In particular, this means that $A\vec{x}\in \vspan\{\vec{\alpha}_1, \ldots , \vec{\alpha}_n\}$.
+\begin{proposition}
+    Some basic properties of matrix multiplication:
+    \begin{enumerate}
+        \item For every $j = 1, \ldots , n$,
+        \[A\vec{e}_j = 0\vec{\alpha}_{i} + \ldots + 0\vec{\alpha}_{j - 1} + 1\vec{\alpha}_j + 0\vec{\alpha}_{j + 1} + \ldots + 0\vec{\alpha}_n = \vec{\alpha}_j\]
+        \item For $\vec{0}^*\in \RR^m, \vec{0}'\in \RR^n$, we have
+        \[A\vec{0}' = \vec{0}^*.\]
+        \item Matrix multiplication distributes in the following way:
+        \[A(c_1\vec{x}_1 + \ldots + c_N\vec{x}_N) = c_1A\vec{x}_1 + \ldots + c_NA\vec{x}_N\]
+        for all $c_1, \ldots , c_N\in \RR, \vec{x}_1, \ldots , \vec{x}_N\in \RR^n$.
+    \end{enumerate}
+\end{proposition}
+Finally, let's define matrix-matrix multiplication:
+\begin{definition}[Matrix-matrix multiplication]
+    Consider an $m\times n$ matrix $A = (a_{ij})$ and a $n\times p$ matrix $(b_{ij})$. We define $AB$ as the following $m\times p$ matrix $(c_{ij})$ ($i\in \{1, \ldots , m\}$, $j \in \{1, \ldots , p\}$) as follows:
+    \[c_{ij} = \sum_{k = 1}^n a_{ik}b_{kj}.\]
+\end{definition}
+Equivalently, if we denote $B$'s columns as $\vec{\beta}_1, \ldots , \vec{\beta}_p\in \RR^n$, then
+\[AB = A(\vec{\beta}_1, \ldots , \vec{\beta}_p) = (A\vec{\beta}_1 , \ldots , A\vec{\beta}_p),\]
+where we are applying our definition of matrix-vector multiplication.
+
+\begin{definition}[Matrix Transpose]
+    Let $A$ be an $m\times n$ matrix $(a_{ij})$, where $i\in \{1, \ldots , m\}, j \in \{1, \ldots , n\}$. We define $A^\top$ to be the $n\times m$ matrix $(a_{ij})$, where $i\in \{1, \ldots , m\}, j\in \{1, \ldots , n\}$, i.e.
+    \[\begin{pmatrix}
+    a_{11} & \cdots & a_{1n} \\
+    \vdots & \ddots & \vdots \\
+    a_{m1} & \cdots & a_{mn}
+    \end{pmatrix}^\top = \begin{pmatrix}
+    a_{11} & \cdots & a_{m1} \\
+    \vdots & \ddots & \vdots \\
+    a_{1n} & \cdots & a_{mn}
+    \end{pmatrix},\]
+    i.e. if $\vec{\alpha}_j$ is the $j$th column of $A$, then $\vec{\alpha}_j^\top$ will be the $j$th row of $A^\top$.
+\end{definition}
+
+Finally, we can get to the easiest definitions:
+
+\begin{definition}[Matrix Addition]
+    Let $A, B$ be $m\times n$ matrices $(a_{ij}), (b_{ij})$. We define
+    \[A + B = (a_{ij} + b_{ij}).\]
+\end{definition}
+
+\begin{definition}[Matrix Scaling]
+    Let $A$ be an $m\times n$ matrix $(a_{ij})$ and $\lambda \in \RR$. We define
+    \[\lambda A = (\lambda a_{ij}).\]
+\end{definition}
+
+\begin{proposition}
+    Basic properties of addition and scaling:
+    \begin{enumerate}
+        \item If we multiply $A$ by a $n\times p$ matrix of all $0$s (denoted by $O$), then $AO = O$, where the second $O$ is $m\times p$.
+        \item $A(c_1B_1 + \ldots + c_NB_N) = c_1AB_1 + \ldots + c_NAB_N$.
+        \item $(c_1A_1 + \ldots + c_NA_N)B = c_1A_1B + \ldots + c_NA_NB$.
+    \end{enumerate}
+\end{proposition}
+
+\end{document}

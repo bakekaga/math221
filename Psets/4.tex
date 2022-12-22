@@ -1,0 +1,187 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 4}
+
+\subsection{Problem 1}
+\begin{claim}
+    Find $2 \times 2$ matrices $A, B$ satisfying $AB \neq BA$.
+\end{claim}
+
+\begin{soln}
+Consider $A = \begin{bmatrix} 1 & 1 \\ 1 & 1\end{bmatrix}, B = \begin{bmatrix}
+    1 & 0 \\
+    1 & 0
+\end{bmatrix}$. Then
+\[AB = \begin{bmatrix} 1 & 1 \\ 1 & 1\end{bmatrix} \begin{bmatrix}
+    1 & 0 \\
+    1 & 0
+\end{bmatrix} = \begin{bmatrix}
+    1\cdot 1 + 1\cdot 1 & 1\cdot 0 + 1\cdot 0 \\
+    1\cdot 1 + 1\cdot 1 & 1\cdot 0 + 1\cdot 0
+\end{bmatrix} = \begin{bmatrix}
+    2 & 0 \\
+    2 & 0
+\end{bmatrix},\]
+whereas
+\[BA = \begin{bmatrix} 1 & 0 \\ 1 & 0\end{bmatrix} \begin{bmatrix}
+    1 & 1 \\
+    1 & 1
+\end{bmatrix} = \begin{bmatrix}
+    1\cdot 1 + 0\cdot 1 & 1\cdot 1 + 0\cdot 1 \\
+    1\cdot 1 + 0\cdot 1 & 1\cdot 1 + 0\cdot 1
+\end{bmatrix} = \begin{bmatrix}
+    1 & 1 \\
+    1 & 1
+\end{bmatrix},\]
+so for this choice of $A, B$ we have $AB\neq BA$.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Suppose $A$ is an $m \times n$ matrix. Prove that if $A\vec{x} = \vec{0}$ for all $\vec{x} \in \RR^n$ then $A = O$, and that $IA = AI = A$.
+\end{claim}
+
+\begin{soln}
+    For the first statement, it suffices to prove the contrapositive, i.e. if $A\neq O$, then $A\vec{x} \neq \vec{0}$ for some $\vec{x}\in \RR^n$. If $A\neq O$, then there must be some entry $a_{ij}$ in row $i\in \{1, \ldots , m\}$ and column $j\in \{1, \ldots , n\}$ of $A$ that is nonzero. Then if $A\vec{e}_j = (v_1, \ldots , v_m)^\top$, where $\vec{e}_j$ is the $j$th standard basis vector of $\RR^n$, we must have
+    \[v_i = \sum_{k = 1}^{j - 1}a_{ik}\cdot 0 + a_{ij} \cdot 1 + \sum_{k = j + 1}^n a_{ik}\cdot 0 = a_{ij}\neq 0.\]
+    Thus, there must exist $\vec{x}\in \RR^n$ such that $A\vec{x}\neq \vec{0}$, so we're done.
+
+    For the second statement, we can directly compute each product. First, let $I$ be the $m\times m$ matrix $(e_{ij})$ with $i, j\in \{1, \ldots , m\}$ such that $e_{ij} = \delta_{ij}$. Then if $IA = (x_{ij})$ with $i\in \{1, \ldots , m\}, j\in \{1, \ldots , n\}$, we must have
+    \[x_{ij} = \sum_{k = 1}^m e_{ik}a_{kj} = \sum_{k = 1}^{i - 1} 0\cdot a_{kj} + 1 \cdot a_{ij} + \sum_{k = i + 1}^m 0\cdot a_{kj} = a_{ij},\]
+    so $IA = A$ as desired. Similarly, now let $I$ be the $n\times n$ matrix $(e_{ij})$ with $i, j\in \{1, \ldots , n\}$ such that $e_{ij} = \delta_{ij}$. Then if $AI = (x_{ij})$ with $i\in \{1, \ldots , m\}, j\in \{1, \ldots , n\}$, we must have
+    \[x_{ij} = \sum_{k = 1}^n a_{ik}e_{kj} = \sum_{k = 1}^{j - 1} a_{ik}\cdot 0 + a_{ij}\cdot 1 + \sum_{k = j + 1}^n a_{ik}\cdot 0 = a_{ij},\]
+    so $AI = A$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Suppose $A$ is an $m \times n$ matrix. Prove that $N(A)$ is a subspace of $\RR^n$.
+\end{claim}
+
+\begin{soln}
+    We simply need to check both subspace conditions, since $N(A)$ is by definition a subset of $\RR^n$ as it consists of vectors in $\RR^n$. First, clearly $\vec{0}\in \RR^n$ is in $N(A)$ because $A\vec{0} = \vec{0}\in \RR^m$. Now let $\lambda, \mu\in \RR$ and $\vec{b} = (b_1, \ldots , b_n), \vec{c} = (c_1, \ldots , c_n)\in N(A)$. Consider some arbitrary component $x_i$ with $i\in \{1, \ldots , m\}$ of $A(\lambda \vec{b} + \mu\vec{c})\in \RR^m$. Then we have
+    \[x_i = \sum_{k = 1}^n a_{ik}(\lambda b_i + \mu c_i) = \lambda\sum_{k = 1}^na_{ik}b_i + \mu\sum_{k = 1}^na_{ik}c_i.\]
+    In particular, this implies that $A(\lambda \vec{b} + \mu\vec{c}) = \lambda A\vec{b} + \mu A\vec{c} = \vec{0} + \vec{0} = \vec{0}$. Thus, $N(A)$ is closed under multiplication and addition so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    If $A, B$ are any $m \times n$ matrices, prove that $\rank(A + B) \le \rank (A) + \rank (B)$.
+\end{claim}
+
+\begin{soln}
+    Let $\vec{\alpha}_1, \vec{\alpha}_2, \ldots , \vec{\alpha}_n$ and $\vec{\beta}_1, \vec{\beta}_2, \ldots , \vec{\beta}_n$ be the column vectors of $A$ and $B$, respectively. Let $\{\vec{a}_1, \ldots , \vec{a}_k\}$ and $\{\vec{b}_1, \ldots , \vec{b}_\ell\}$ be bases of $C(A)$ and $C(B)$, respectively (which are nonempty sets by part (a) of the Basis Theorem). Let $c_1, \ldots , c_n\in \RR$. Consider some arbitrary element
+    \[c_1(\vec{\alpha}_1 + \vec{\beta}_1) + \ldots + c_n(\vec{\alpha}_n + \vec{\beta}_n) = (c_1\vec{\alpha}_1 + \ldots + c_n\vec{\alpha}_n) + (c_1\vec{\beta}_1 + \ldots + c_n\vec{\beta}_n)\]
+    from $C(A + B)$; since $\{\vec{a}_1, \ldots , \vec{a}_k\}$ and $\{\vec{b}_1, \ldots , \vec{b}_\ell\}$ respectively span $C(A)$ and $C(B)$ by definition, we can rewrite this as the sum of linear combinations of $\{\vec{a}_1, \ldots , \vec{a}_k\}$ and $\{\vec{b}_1, \ldots , \vec{b}_\ell\}$, i.e. we have \[(c_1\vec{\alpha}_1 + \ldots + c_n\vec{\alpha}_n) + (c_1\vec{\beta}_1 + \ldots + c_n\vec{\beta}_n) = (\tilde{c}_1\vec{a}_1 + \ldots + \tilde{c}_k\vec{a}_k) + (\tilde{c}_{k + 1}\vec{b}_1 + \ldots + \tilde{c}_{k + \ell}\vec{b}_\ell)\]
+    for some $\tilde{c}_1, \ldots , \tilde{c}_{k + \ell}\in \RR$. In particular, this is a linear combination of the vectors $\vec{a}_1, \ldots , \vec{a}_k, \vec{b}_1, \ldots ,\vec{b}_\ell$, so we have
+    \[C(A + B) \subseteq \vspan\{\vec{a}_1, \ldots , \vec{a}_k, \vec{b}_1, \ldots , \vec{b}_\ell\}.\]
+    Since this is a span of $k + \ell$ vectors, the Linear Dependence Lemma tells us that no set of more than $k + \ell$ vectors from this set (and in particular $C(A + B)$ as well) can be linearly independent; thus, any basis of $C(A + B)$ must be of size at most $k + \ell$ so $\dim C(A + B)\le k + \ell = \dim C(A) + \dim C(B)$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    If $A, B$ are, respectively, $m \times n$ and $n \times p$ matrices, prove that $\rank AB \le \min\braces{\rank A, \rank B}$.
+\end{claim}
+
+\begin{soln}
+    It suffices to show that $\rank(AB)\le \rank(A)$ and $\rank(AB)\le \rank(B)$. Let $\vec{\beta}_1, \vec{\beta}_2, \ldots , \vec{\beta}_p$ be the column vectors of $B$. Recall that one way we can interpret the matrix product of $A$ and $B$ is as $(A\vec{\beta}_1, \ldots , A\vec{\beta}_p)$; thus, the column space of $AB$ is $\vspan\{A\vec{\beta}_1, \ldots , A\vec{\beta}_p\}$. In particular, for some $c_1, \ldots, c_p\in \RR$, we can express an arbitrary element of this set as
+    \[c_1A\vec{\beta}_1 + \ldots + c_pA\vec{\beta}_p = A(c_1\vec{\beta}_1 + \ldots + c_p\vec{\beta}_p)\in \{A\vec{x} : \vec{x}\in \RR^n\} = C(A).\]
+    Thus, $C(AB) \subseteq C(A)$, and by the Linear Dependence Lemma, this means that any collection of more than $\rank (A)$ vectors from $C(AB)$ must be linearly dependent since $C(A)$ is by definition a span of $\rank(A)$ vectors, hence $\rank(AB) \le \rank(A)$ as desired.
+    
+    On the other hand, observe that for any $\vec{x}\in N(B)$, we have $B\vec{x} = \vec{0}\in \RR^n\implies AB\vec{x} = A\vec{0} = \vec{0}\in \RR^m$, so $\vec{x}\in N(AB)\implies N(B)\subseteq N(AB)$. This means that according to the Linear Dependence Lemma, we must have
+    \begin{align*}&\text{nullity}(AB)\ge \text{nullity}(B) \\
+    &\implies n - \rank(AB) \ge n - \rank(B) \\
+    &\implies \rank(AB) \le \rank(B),
+    \end{align*}
+    where the first implication comes from the Rank-Nullity Theorem, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Use the Archimedean property, elementary algebra (avoid using roots of real numbers), and the definition of limits to prove that the sequence
+    \[a_n := \frac{1}{n^4 + 5} , n = 1,2,\ldots\]
+    converges to $0$ as $n \to \infty$.
+\end{claim}
+
+\begin{soln}
+    First of all, observe that $a_n > 0$ for all $n\in \NN$ because the numerator and denominator of $\frac{1}{n^4 + 5}$ are positive for positive $n$; thus, $\abs{a_n} = a_n$. Let $\varepsilon > 0$ be arbitrary. According to the Archimedean Property, there exists a natural number $N$ such that $N > \frac{1}{\varepsilon} - 5$. Since
+    \[N \ge 1\implies N^4 \ge N \cdot 1^3 = N > \frac{1}{\varepsilon} - 5\implies \frac{1}{N^4 + 5} < \varepsilon\implies a_N < \varepsilon,\]
+    it follows that for any $\varepsilon$ there exists $N\in \NN$ such that $a_N < \varepsilon$. On the other hand, since
+    \begin{align*}
+        n + 1 > n &\implies (n + 1)^4 > n^4 \\
+        &\implies (n + 1)^4 + 5 > n^4 + 5 \\
+        &\implies \frac{1}{n^4 + 5} > \frac{1}{(n + 1)^4 + 5} \\
+        &\implies a_n > a_{n + 1}
+    \end{align*}
+    for all $n\in \NN$, $\{a_n\}$ is a strictly decreasing sequence, so in fact $\varepsilon > a_N \ge a_n = \abs{a_n}$ for all $n\ge N$. Thus, by the definition of the limit we have $\limn\frac{1}{n^4 + 5} = 0$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Prove that if $\braces{a_n}$ is monotone and bounded, then it is convergent. In fact, if $S = \braces{a_1, a_2, \ldots }$ is the set of terms of the sequence, we have that if $\braces{a_n}$ is increasing and bounded then $\limn a_n = \sup S$.
+\end{claim}
+
+\begin{soln}
+    Since $S\subseteq \RR$ is nonempty and bounded, $\sup S$ exists by the completeness of $\RR$; we wish to show that $\sup S$ is the limit of $a_n$. Observe that for any $\varepsilon > 0$, there must exist some $N\in \NN$ such that $\sup S - \varepsilon < a_N$; otherwise, $\sup S - \varepsilon$ would be a smaller upper bound than $\sup S$. Rearranging, we find that $\sup S - a_N < \varepsilon$, and since $a_n$ is increasing, we have 
+    \[a_N \le a_n\,\forall\, n \ge N\implies \sup S - a_n \le \sup S - a_N < \varepsilon\,\forall\,n\ge N.\]
+    On the other hand, since $\sup S - a_n \ge 0$ by definition of $\sup S$ being an upper bound of $S$, we find that $\abs{a_n - \sup S} = \sup S - a_n < \varepsilon$ for all $n\ge N$, so in fact $\sup S = \limn a_n$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    If $\braces{a_n}, \braces{b_n}$ are given convergent sequences and $a_n \le b_n \,\forall\, n \ge 1$, prove $\limn a_n \le \limn b_n$.
+\end{claim}
+
+\begin{soln}
+    First of all, I claim that for any convergent sequence $\{a_n\}$ we must have $\limn (-a_n) = -\limn a_n$, where $\{-a_n\}$ is obtained by negating each respective term in $\{a_n\}$. To see why, let $\ell = \limn a_n$; then for any $\varepsilon > 0$ there must exist some $N$ for which $\abs{a_n - \ell} = \abs{-a_n - (-\ell)} < \varepsilon$ for all indices $n\ge N$, so $\limn(-a_n) = -\ell$ as desired. Coming back to the original problem, using the additivity of limits that we showed in class, we must have
+    \[\limn (a_n - b_n) = \limn (a_n + (-b_n)) = \limn a_n + \limn -b_n = \limn a_n - \limn b_n,\]
+    whence it suffices to show that $\limn c_n \le 0$ for any convergent sequence $\{c_n\}$ that satisfies $c_n\le 0\,\forall\, n$. Suppose that $\ell = \limn c_n > 0$; then it follows that for any $\varepsilon > 0$ there must exist $N\in \NN$ such that $\abs{c_n - \ell} = \ell - c_n < \varepsilon$ for all $n\ge N$. However, since $c_n \le 0 \implies \ell - c_n \ge \ell > 0$, there must exist some real number $\varepsilon_0$ strictly between 0 and $\ell$, and in particular if $\varepsilon = \varepsilon_0$ then $\abs{c_n - \ell} > \varepsilon$ for all $n\in \NN$, contradiction! Thus, $\limn c_n \le 0$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    If $\braces{a_n}, \braces{b_n}$ are given convergent sequences with $\limn a_n = \limn b_n$, and if $\braces{c_n}$ is any sequence such that $a_n \le c_n \le b_n \,\forall\, n \ge 1$, prove that $\braces{c_n}$ is convergent and $\limn c_n = \limn a_n$ ($= \limn b_n$) (Hint: Let $\ell = \limn a_n = \limn b_n$ and use the definition (ix) on p. 92.)
+\end{claim}
+
+\begin{soln}
+    Let $\ell = \limn a_n = \limn b_n$. By definition of $\{a_n\}$ being convergent, we know that for any $\varepsilon > 0$, there must exist $N_1\in \NN$ such that $\abs{a_n - \ell} < \varepsilon$ for all $n\ge N_1$. On the other hand, we also know that for the same $\varepsilon$, there exists $N_2\in \NN$ such that $\abs{b_n - \ell} < \varepsilon$ for all $n\ge N_2$. Let $N = \max \{N_1, N_2\}$.
+    
+    Since $a_n - \ell \le c_n - \ell \le b_n - \ell$, there are two cases: for all $n\ge N$, we must either have
+    \[a_n - \ell \le c_n - \ell \le 0\implies \varepsilon > \abs{a_n - \ell} \ge \abs{c_n - \ell},\]
+    or we have
+    \[b_n - \ell \ge c_n - \ell \ge 0\implies \varepsilon > \abs{b_n - \ell} \ge \abs{c_n - \ell}.\]
+    In both cases, we've found an $N$ such that $\varepsilon > \abs{c_n - \ell}$ for $n\ge N$, so by definition we have $\ell = \limn c_n$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Suppose $\braces{x_n}_{n=1,2,\ldots}$ satisfies $x_n \neq 0$ for all $n$ and $\limn x_n = x \neq 0$. Prove that
+    \[\limn\frac{1}{x_n} = \frac{1}{x}\]
+    “directly, ” i.e., without applying (iii) in Theorem 2.3 of the Appendix.
+\end{claim}
+
+\begin{soln}
+    According to the Triangle Inequality, we have $\abs{x}\le \abs{x - x_n} + \abs{x_n}\implies \abs{x} - \abs{x_n} \le \abs{x - x_n}$. By the definition of the limit of $\{x_n\}$, there exists some $N_1\in \NN$ such that $\abs{x} - \abs{x_n} \le \abs{x - x_n} < \frac{1}{2}\abs{x}$ for all $n\ge N_1$. Rearranging, this means that $\abs{x_n} > \frac{1}{2}\abs{x}\implies \abs{x}\abs{x_n} > \frac{1}{2}\abs{x}^2$ for all $n\ge N_1$.
+    
+    Next, let $\varepsilon > 0$. By the definition of the limit of $\{x_n\}$, there exists $N_2\in \NN$ such that $\abs{x_n - x} < \varepsilon\left(\frac{1}{2}\abs{x}^2\right)$ for any $n\ge N_2$. Let $N = \max\{N_1, N_2\}$. Then for all $n\ge N$, we have
+    \begin{align*}
+        &\abs{x_n - x} < \varepsilon\left(\frac{1}{2}\abs{x}^2\right) < \varepsilon(\abs{x}\abs{x_n}) \\
+        &\implies \frac{\abs{x_n - x}}{\abs{x}\abs{x_n}} < \varepsilon \\
+        &\implies \abs{\frac{x_n - x}{xx_n}} < \varepsilon \\
+        &\implies \abs{\frac{1}{x} - \frac{1}{x_n}} < \varepsilon \\ 
+        &\implies \abs{\frac{1}{x_n} - \frac{1}{x}} < \varepsilon
+    \end{align*}
+    Thus, $\limn \frac{1}{x_n} = \frac{1}{x}$ as desired.
+\end{soln}
+\eject
+
+\end{document}

@@ -1,0 +1,70 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 20: 10/7/22}
+
+\begin{theorem}
+    Suppose $C\subseteq \RR^n$ is closed, nonempty, and bounded. Let $f : C\to \RR$ be continuous. Then
+    \begin{enumerate}
+        \item $f$ attains its maximum on $C$, i.e. $\max\underbrace{\set*{f\parens{\vec{x}} \mid \vec{x} \in C}}_{``f(C)"}$ exists.
+        \item $f$ attains its minimum on $C$, i.e. $\underbrace{\min\set*{f\parens{\vec{x}} \mid \vec{x} \in C}}_{\min f(C)}$ exists.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Continuing from yesterday, recall that we showed $f(C)$ was bounded above; since it's nonempty as well (as $C$ is), $\mu = \sup f(C)$ exists by the completeness of $\RR$. This is equivalent to saying that for any $\varepsilon > 0$, we can find $\vec{x}\in C$ such that $f\parens{\vec{x}} > \mu - \varepsilon$. Applying this with $\varepsilon = \frac{1}{k}$ for any $k\in \NN$, we get $\vseq{x}\in C$ such that $f\parens{\vseq{x}} > \mu - \frac{1}{k}$. Since $\vseq{x}\in C$ and $\mu = \sup$, we also have $\mu\ge f\parens{\vseq{x}}$. Thus, since $\limk \parens{\mu - \frac{1}{k}} = \limk \mu = \mu$, the Sandwich Theorem tells us that $\limk f\parens{\vseq{x}} = \mu$. Since $\vseq{x}\in C$ and $C$ is bounded, Bolzano-Weierstrass implies that there is a subsequence $\braces{\vec{x}^{(k_\ell)}}_{\ell = 1, 2, \ldots}$ of $\braces{\vseq{x}}$ that converges. Then $\vec{y} = \lim_{\ell \to \infty} \vec{x}^{(k_\ell)} \in \overline{C} = C$ because $\overline{C}$ contains all limit points. Since $f$ is continuous at $\vec{y}$, we then also have
+    \[f\parens{\vec{y}} = \lim_{\ell\to\infty} f\parens{\vec{x}^{(k_\ell)}} = \limk f\parens{\vseq{x}} = \mu,\]
+    where the second equality comes from $\braces{\vec{x}^{(k_\ell)}}$ being a subsequence of a convergent sequence. Thus, $\sup f(C) = \mu = f\parens{\vec{y}} \in f(C)$, so $\max f(C) = \mu$ exists.
+
+    Now the second part follows much more easily. If $f$ is continuous, then so is $-f$ (the product of continuous functions $-1$ and $f$); then
+    \begin{align*}
+        \inf\set*{f\parens{\vec{x}} \mid \vec{x}\in C}
+        &= -\sup\set*{-f\parens{\vec{x}} \mid \vec{x}\in C} && (\text{PS2})\\
+        &= -\max\set*{-f\parens{\vec{x}} \mid \vec{x} \in C} \in C && (\text{first part on } -f)
+    \end{align*}
+    so $\min\set*{f\parens{\vec{x}} \mid \vec{x}\in C}$ exists as well.
+\end{proof}
+
+\begin{definition}
+    Suppose $U\subseteq \RR^n$. We say $U$ is \vocab{open} if for every $\vec{y}\in U$, there exists $\rho > 0$ such that $B_\rho\parens{\vec{y}} \subseteq U$.
+\end{definition}
+
+Here is the prototypical example:
+
+\begin{proposition}
+    Let $\vec{z}\in \RR^n, R > 0$. Then $B_R\parens{\vec{z}}$ is an open set.
+\end{proposition}
+
+\begin{proof}
+    Let $\vec{y}\in B_R\parens{\vec{z}}$. Then define $\rho = R - \norm{\vec{y} - \vec{z}} > 0$ by definition of a ball. Let $\vec{x}\in B_\rho\parens{\vec{y}}$ be arbitrary. Then
+    \begin{align*}
+        \norm{\vec{x} - \vec{z}} &\le \norm{\vec{x} - \vec{y}} + \norm{\vec{y} - \vec{z}} \\
+        &< \rho + \norm{\vec{y} - \vec{z}} && \parens{\vec{x}\in B_\rho\parens{\vec{y}}} \\
+        &= R,
+    \end{align*}
+    so $\vec{x} \in B_R\parens{\vec{z}}\implies B_\rho\parens{\vec{y}}\subseteq B_R\parens{\vec{z}}$ as desired.
+\end{proof}
+
+\begin{lemma}
+    Suppose $U\subseteq \RR^n$. Then $U$ is open if and only if $\RR^n\setminus U$ is closed.
+\end{lemma}
+
+\begin{proof}
+    $(\implies)$: Assume $U$ is open. We need to prove $\overline{\RR^n \setminus U}\subseteq \RR^n\setminus U$. Let $\vec{y}\in \overline{\RR^n \setminus U}$ be arbitrary, and suppose FTSOC that $\vec{y}\not\in \RR^n\setminus U\iff \vec{y}\in U$. Since $U$ is open, there exists $\rho > 0$ such that 
+    \[B_\rho \parens{\vec{y}}\subseteq U\implies (\RR^n \setminus U) \cap B_\rho (\vec{y}) = \emptyset\implies \vec{y} \in \overline{\RR^n \setminus U}\] by definition of closure, contradiction! Thus $\vec{y}\in \RR^n \setminus U\implies \overline{\RR^n \setminus U}\subseteq \RR^n \setminus U$ as desired.
+
+    $(\impliedby)$: Assume $\RR^n\subseteq U$ is closed, and let $\vec{y}\in U$ be arbitrary; in particular, $\vec{y}$ is not a limit point of $\RR^n \setminus U$. Suppose FTSOC that there does not exist $\rho > 0$ such that $B_\rho\parens{\vec{y}} \cap \RR^n\setminus U = \emptyset$; then in particular for $\rho = \frac{1}{k}$ for $k\in \NN$ we have $B_{\frac{1}{k}}\parens{\vec{y}}\cap \RR^n \setminus U\neq \emptyset$. This means that there exists a point $\vseq{x}\in B_{\frac{1}{k}}\parens{\vec{y}}\cap \RR^n \setminus U$ for every $k\in \NN$, so $\norm{\vseq{x} - \vec{y}} < \frac{1}{k}$ for all $k\in \NN$ and thus $\vec{y}$ is a limit point of $\RR^n \setminus U$, contradiction. Thus, there must exist a $\rho > 0$ satisfying $B_\rho\parens{\vec{y}} \subseteq U$, so $U$ is open as desired.
+\end{proof}
+
+\begin{proposition}
+    Here are some basic properties of open sets.
+    \begin{enumerate}
+        \item $\emptyset$ and $\RR^n$ are both open.
+        \item If $U_1, \ldots , U_N\subseteq \RR^n$ are both open, then $\bigcap_{i = 1}^N U_i$ is also open.
+        \item If $U_\alpha\subseteq \RR^n$ is open for all $\alpha\in \Gamma$, then $\bigcup_{\alpha\in \Gamma} U_\alpha$ is open.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    We'll only prove the third part. Let $\vec{y}\in \bigcup_{\alpha\in \Gamma} U_\alpha$ be arbitrary. Then $\vec{y}\in U_{\alpha_0}$ for some $\alpha_0\in \Gamma$, but $U_{\alpha_0}$ is open, so there exists $\rho > 0$ such that $B_\rho\parens{\vec{y}} \subseteq U_{\alpha_0}\subseteq \bigcup_{\alpha\in \Gamma} U_\alpha$ as desired.
+\end{proof}
+\end{document}

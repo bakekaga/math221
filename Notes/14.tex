@@ -1,0 +1,57 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 14: 9/23/22}
+
+Continuing from yesterday, we will prove the second and third part of the following theorem:
+\begin{theorem}
+    Suppose $V$ is a subspace of $\RR^n$. Then
+    \begin{enumerate}
+        \item $V \cap V^\perp = \{\vec{0}\}$.
+        \item $\dim V + \dim V^\perp = n$.
+        \item $(V^\perp)^\perp = V$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item See last class.
+        \item The first case is if $V = \{\vec{0}\}\implies V^\perp = \RR^n$ according to the previous lecture. Then $\dim V + \dim V^\perp = \dim \{\vec{0}\} + \dim \RR^n = n$.
+
+        The second case is if $V^\perp = \{\vec{0}\}\implies V = \RR^n$ according to the previous lecture. Then $\dim V + \dim V^\perp = \dim \RR^n + \dim \{\vec{0}\} = n$.
+
+        The final case is if $V, V^\perp$ are nontrivial. Then consider bases $\vec{v}_1, \ldots , \vec{v}_k$ for $V$ and $\vec{u}_1, \ldots , \vec{u}_\ell$ for $V^\perp$, and define $W = \vspan\{\vec{v}_1, \ldots , \vec{v}_k, \vec{u}_1, \ldots , \vec{u}_\ell\}$. It suffices to show that the vectors in the span are linearly independent and $W = \RR^n$. For the former, suppose that $\sum_{i = 1}^kc_i\vec{v}_i + \sum_{i = 1}^\ell d_i\vec{v}_i = \vec{0}$. Then if $\vec{x} = \sum_{i = 1}^k c_i\vec{v}_i = -\sum_{i = 1}^\ell d_i\vec{u}_i\in \RR^n$, we have that $\vec{x}\in V$ and $\vec{x}\in V^\perp$ because the first sum is a linear combination of the $\vec{v}$s and the second sum is a linear combination of the $\vec{u}$s, respectively. However, we showed that $\vec{x}\in V\cap V^\perp = \{\vec{0}\}\implies \vec{x} = \vec{0}$ in part one, so we have $ \sum_{i = 1}^k c_i\vec{v}_i = \vec{0}\implies c_1 = \ldots = c_k = 0$ and $-\sum_{i = 1}^\ell d_i\vec{u}_i = \vec{0}\implies d_1 = \ldots = d_\ell = 0$; thus, the coefficients of our linear combination are all 0, so $\vec{v}_1, \ldots , \vec{v}_k, \vec{u}_1, \ldots , \vec{u}_\ell$ are linearly independent and $\dim W = k + \ell$. 
+        
+        Now let's show that $W = \RR^n$. Observe that if we have arbitrary $\vec{x}\in W^\perp$, then $\vec{x}\cdot \vec{v}_i = 0$ for all $\vec{v}_i\in \vspan\{\vec{v}_1, \ldots , \vec{v}_k, \vec{u}_1, \ldots , \vec{u}_\ell\} = W$ for all $i = 1, \ldots , k$, so by Problem Set 5 Problem 1, we have
+        \[\vec{x}\in \left(\vspan\{\vec{v}_1, \ldots , \vec{v}_k\}\right)^\perp = V^\perp = \vspan\{\vec{u}_1, \ldots , \vec{u}_\ell\}\subseteq W,\]
+        whence $\vec{x}\in W^\perp \cap W\implies \vec{x} = \vec{0}\implies W^\perp = \{\vec{0}\}\implies W = \RR^n$ as desired.
+
+        \item Let $\vec{v}\in V$ be arbitrary. For every $\vec{u}\in V^\perp$, we have $\vec{v}\cdot \vec{u} = \vec{u}\cdot \vec{v} = 0$. Thus, $\vec{v}\in (V^\perp)^\perp\implies V\subseteq (V^\perp)^\perp$. Using the previous part, we have $\dim V + \dim V^\perp = n\implies \dim V = n - \dim V^\perp$. On the other hand, we also have $\dim V^\perp + \dim (V^\perp)^\perp = n \implies \dim (V^\perp)^\perp = n - \dim V^\perp$, so $\dim V = \dim (V^\perp)^\perp\implies V = (V^\perp)^\perp$ by Problem Set 3 Problem 1.\qedhere
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Let $A$ be a $m\times n$ matrix. Then
+    \begin{enumerate}
+        \item $N\left(A^\top\right) = ((C(A))^\perp$.
+        \item $\left(N\left(A^\top\right)\right)^\perp = C(A)$.
+        \item $\dim C(A) = \dim C\left(A^\top\right)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item See last class.
+        \item $\left(N\left(A^\top\right)\right)^\perp = \left(\left(C(A\right)\right)^\perp)^\perp = C(A)$.
+        \item We have
+        \begin{align*}
+            \dim C(A) &= n - \dim N(A) \\
+            &= n - \dim N\left(\left(A^\top\right)^\top\right) \\
+            &= n - \dim \left(C\left(A^\top\right)\right)^\perp \\
+            &= n - \left(n - \dim C\left(A^\top\right)\right) \\
+            &= \dim C\left(A^\top\right).\qedhere
+        \end{align*} 
+    \end{enumerate}    
+\end{proof}
+
+In particular, the last part implies that the rank of $A$ is equal to its row rank.
+\end{document}

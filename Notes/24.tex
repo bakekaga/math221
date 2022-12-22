@@ -1,0 +1,83 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+\subsection{Day 24: 10/19/22}
+\subsubsection{Directional Derivatives, Partial Derivatives, Gradients}
+
+Let $U\subseteq \RR^n$ be open, $\vf : U\to \RR^n$, $\va\in U$, $\vec{v}\in \RR^n$. To study the rate of change of $\vf$ at $\va$ in the direction $\vec{v}$, we introduce the function $\vg : I\to \RR^m$, $I\subseteq \RR$, $\vg\parens{t} = \vf\parens{\va + t\vec{v}}$.
+
+Since $U$ is open, there exists $\rho > 0$ such that $B_\rho\parens{\va}\in U$. Thus, $\vg\parens{t}$ makes sense if $t\in \RR$ such that
+\begin{align*}
+    &\va + t\vec{v}\in B_\rho\parens{\va} \\
+    &\iff \norm{\va + t\parens{\vec{v}} - \va} < \rho \\
+    &\iff \abs{t}\norm{\vec{y}} < \rho \\
+    &\iff t\in \smhat{I} = \begin{cases}
+        \parens{-\frac{\rho}{\norm{\vec{v}}}, \frac{\rho}{\norm{\vec{v}}}} & \vec{v} \neq \vec{0} \\
+        (-\infty, \infty) & \vec{v} = \vec{0} \\
+    \end{cases}
+\end{align*}
+
+Thus $\vg$ makes sense on the open interval $\smhat{I}$ containing $t = 0$. Then the rate of change of $\vg = (g_1, \ldots , g_n)^\top$ at $t = 0$ is
+\begin{align*}
+    \lim_{t\to 0} \frac{\vg(t) - \vg(0)}{t} &= \begin{pmatrix}
+        \lim_{t\to 0} \frac{\vg_1(t) - \vg_1(0)}{t} \\
+        \vdots \\
+        \lim_{t\to 0} \frac{\vg_n(t) - \vg_n(0)}{t}
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        g_1'(0) \\
+        \vdots \\
+        g_n'(0)
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        \mathcal{D}g_1(0) \\
+        \vdots \\
+        \mathcal{D}g_n(0)
+    \end{pmatrix} \\
+    &= \mathcal{D}\vg(0),
+\end{align*}
+where the last step is from Problem Set 9. Writing the previous LHS in terms of $\vf$, we can define the following:
+
+\begin{definition}[Directional Derivatives]
+    Let $U\subseteq \RR^n$ be open, $\vf : U\to \RR^m$, $\va\in U$, $\vec{v}\in \RR^n$. We define
+    \[\mathcal{D}_{\vec{v}}\vf\parens{\va} = \lim_{t\to 0} \frac{\vf\parens{\va + t\vec{v}} - \vf\parens{\va}}{t}\]
+    when it exists, in which case we call it the \vocab{directional derivative} of $\vf$ at $\va$ in the direction of $\vec{v}$.
+\end{definition}
+
+\begin{theorem}
+    Let $U\subseteq \RR^n$ be open, $\vf : U \to \RR^m$. If $\vf$ is differentiable at $\va\in U$, then $\mathcal{D}_{\vec{v}}\vf\parens{\va}$ exists for all $\vec{v}\in \RR^n$ and
+    \[\mathcal{D}_{\vec{v}}\vf\parens{\va} = \mathcal{D}\vf\parens{\va}\vec{v}.\]
+\end{theorem}
+
+\begin{proof}
+    \textbf{Case 1:} $\vec{v} = \vec{0}$. Then $\lim_{t\to 0} \frac{\vf\parens{\va + t\vec{v}} - \vf\parens{\va}}{t} = \lim_{t\to 0} \vec{0} = \vec{0}$, so $\mathcal{D}_{\vec{0}}\vf\parens{\va} = \vec{0}$. On the other hand, $\mathcal{D}\vf\parens{\va}\vec{0} = \vec{0} = \mathcal{D}_{\vec{0}}\vf\parens{\va}$ so we're done.
+
+    \textbf{Case 2:} $\vec{v} \neq \vec{0}$. Let $\varepsilon > 0$ be arbitrary. From the differentiability of $\vf$ at $\va$ with $\frac{\varepsilon}{\norm{\vec{v}}}$ in place of $\varepsilon$, we know there exists $\delta' > 0$ such that
+    \[\frac{\norm{\vf\parens{\vx} - \vf\parens{\va} - \mathcal{D}\vf\parens{\va}\parens{\vx - \va}}}{\norm{\vx - \va}} < \frac{\varepsilon}{\norm{\vec{v}}}\]
+    for all $\vx\in U$ with $0 < \norm{\vx - \va} < \delta'$. Denote this by $\spadesuit$. Since $\va \in U$ and $U$ is open, there exists $\rho > 0$ such that $B_\rho\parens{\va} \subseteq U$. Let $\delta = \frac{\min\braces{\delta', \rho}}{\norm{\vec{v}}}$. For all $t\in \RR$ with $0 < \abs{t} < \delta$, we then conveniently have that $\vx = \va + t\vec{v}\in U$ and $0 < \norm{\vx - \va} < \delta'$. This is because $\norm{\vx - \va} = \norm{\parens{\va + t\vec{v}} - \va} = \abs{t}\norm{\vec{v}}\neq 0$ and $< \delta\norm{\vec{v}} \le \delta', \rho$ and thus $\vx\in B_\rho\parens{\va}\subseteq U$. In particular, this means that $\spadesuit$ applies for all $0 < \abs{t} < \delta$, so plugging this in, we get
+    \begin{align*}
+        &\frac{\norm{\vf\parens{\va + t\vec{v}} - \vf\parens{\va} - \mathcal{D}\vf\parens{\va}\parens{\va + t\vec{v} - \va}}}{\norm{\va + t\vec{v} - \va}} < \frac{\varepsilon}{\norm{\vec{v}}} \\
+        &\implies \frac{\norm{\vf\parens{\va + t\vec{v}} - \vf\parens{\va} - \mathcal{D}\vf\parens{\va}t\vec{v}}}{\abs{t}\cancel{\norm{\vec{v}}}} < \frac{\varepsilon}{\cancel{\norm{\vec{v}}}} \\
+        &\implies \norm{\frac{\vf\parens{\va + t\vec{v}} - \vf\parens{\va}}{t} - \mathcal{D}\vf\parens{\va}\vec{v}} < \varepsilon
+    \end{align*}
+    for all $0 < \abs{t} < \delta$, so we have
+    \[\lim_{t\to 0} \frac{\vf\parens{\va + t\vec{v}} - \vf\parens{\va}}{t} = \mathcal{D}\vf\parens{\va}\vec{v} \implies \mathcal{D}_{\vec{v}}\vf\parens{\va} = \mathcal{D}\vf\parens{\va}\vec{v}\]
+    as desired.
+\end{proof}
+
+Thus, when $\vf$ is differentiable at a point, every directional derivative from that point exists; the converse is not true, as we will see in Problem Set 9.
+
+\begin{definition}[Partial Derivatives]
+    Let $U\subseteq \RR^n$, $\vf : U\to \RR^m$, $\va\in U$. For every $j \in \braces{1, \ldots , n}$ we define $\mathcal{D}_j\vf\parens{\va} = \mathcal{D}_{\vec{e}_j}\vf\parens{\va}$ when it exists, and call it the $j$th \vocab{partial derivative} of $\vf$ at $\va$.
+\end{definition}
+
+Note that the $j$th partial derivative at $\va$ is equal to $\lim_{t\to 0} \frac{\vf\parens{\va + t\vec{e}_j} - \vf\parens{\va}}{t}$; in particular, this is equivalent to taking the (single-variable) derivative of $\vf$ at $\va$ holding all components except $x_j$ fixed.
+
+\begin{theorem}
+    With the same assumptions as the previous theorem, $\mathcal{D}_j\vf\parens{\va}$ exists for all $j\in \braces{1, \ldots , n}$ and is the $j$th column of $\mathcal{D}\vf\parens{\va}$. Moreover, for every $\vec{v} = (v_1, \ldots , v_n)^\top\in \RR^n$, we have
+    \[\mathcal{D}_{\vec{v}} \vf\parens{\va} = v_1 \mathcal{D}_1\vf\parens{\va} + \ldots + v_n\mathcal{D}_n\vf\parens{\va},\]
+    i.e. the directional derivative can be expressed as a linear combination of the partial derivatives.
+\end{theorem}
+
+Be careful to note that the converse is false, i.e. all directional derivatives can exist at a point without the derivative existing at that point! We will see this in Problem Set 9.
+\end{document}

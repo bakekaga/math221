@@ -1,0 +1,82 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 35: 11/14/22}
+
+\subsubsection{Inverse of a Matrix}
+
+\begin{definition}
+    Let $A$ be an $n\times n$ matrix. $A$ is called \vocab{invertible} if there exists an $n\times n$ matrix $B$ satisfying $AB = I$ and $BA = I$. In this case, we call $B$ the \vocab{inverse} of $A$ and is usually denoted by $A^{-1}$.
+\end{definition}
+
+\begin{proposition}
+    Let $A$ be an $n\times n$ matrix. Define the $n\times n$ matrix $C = (c_{ij})$ by the formula $c_{ij} = (-1)^{i + j}\det A_{ji}$. Then $AC = \parens{\det A} I$ and $CA = \parens{\det A} I$.
+\end{proposition}
+
+\begin{proof}
+    Let's show that $CA = \parens{\det A}I$. Let $i, j\in \braces{1, \ldots , n}$. Then the $(i, j)$-th entry of $CA$ is
+    \[\sum_{k = 1}^n c_{ik}a_{kj} = \sum_{k = 1}^n \parens{(-1)^{i + k}\det A_{ki}} a_{kj} = \sum_{k = 1}^n (-1)^{k + i}a_{kj}\det A_{ki}.\]
+    However, this is a cofactor expansion of $A^{(i, \vec\alpha_j)}$ on the $i$th column, where $\vec\alpha_j$ is the $j$th column of $A$, so the sum is equal to $\det A^{(i, \vec\alpha_j)} = \begin{cases} \det A & i = j \\ 0 & i \neq j \end{cases}$, since when $i = j$ it will just be $A$ and when $i\neq j$ there will be two identical columns. Thus, $CA = \parens{\det A}I$ as desired. The proof of $AC = \parens{\det A}I$ is similar using a cofactor expansion along a row instead.
+\end{proof}
+
+\begin{definition}
+    Given an $n\times n$ matrix $A$, the $n\times n$ matrix $C$ from the previous proposition is denoted $\adj A$ and is called the \vocab{adjugate matrix}.
+\end{definition}
+
+\begin{theorem}
+    If $A$ is an $n\times n$ matrix then $A$ is invertible if and only if $\det A \neq 0$, and in this case $A^{-1} = \frac{1}{\det A}\adj A$ and $\det \parens{A^{-1}} = \frac{1}{\det A}$.
+\end{theorem}
+
+\begin{proof}
+    We prove both directions separately.
+    
+    $(\implies)$: Since $A$ is invertible,
+    \begin{align*}
+        &AA^{-1} = I \\
+        &\implies \det \parens{AA^{-1}} = \det I \\
+        &\implies \parens{\det A}\parens{\det A^{-1}} = 1 \\
+        &\implies \det A \neq 0, \det A^{-1} = \frac{1}{\det A}.
+    \end{align*}
+
+    $(\impliedby)$: From the previous proposition,
+    \begin{align*}
+        &A\parens{\adj A} = \parens{\det A}I && \parens{\adj A}A = \parens{\det A}I \\
+        &\overset{\det A \neq 0}{\implies} A\parens{\frac{1}{\det A}\adj A} = I && \parens{\frac{1}{\det A}\adj A} = I \\
+        &\implies A\text{ is invertible} && A^{-1} = \frac{1}{\det A}\adj A
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{remark}
+    If $A$ is an invertible $n\times n$ matrix and $\vec{b}\in \RR^n$ then we can solve
+    \[A\vx = \vec{b} \implies A^{-1}\parens{A\vx} = A^{-1}\vec{b} \implies \vx = A^{-1}\vec{b}.\]
+\end{remark}
+
+\begin{theorem}
+    If $A$ is an $n\times n$ matrix, then the following statements are all equivalent to each other:
+    \begin{enumerate}
+        \item $A$ is invertible.
+        \item $\det A\neq 0$.
+        \item $\rref A = I$.
+        \item $N(A) = \braces{\vec{0}}$.
+        \item $C(A) = \RR^n$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    First, we've already shown that $1 \iff 2$ in the previous theorem, and we know that $4 \iff 5$ by the Rank-Nullity Theorem. Let's show $3\implies 4$ now. Well, if we have $\rref A = I$, then 
+    \begin{align*}
+        N(A) &= \set*{\vx \in \RR^n \mid A\vx = \vec{0}} \\
+        &= \set*{\vx \in \RR^n \mid \rref A\vx = \vec{0}} \\
+        &= N(\rref A) = N(I) \\
+        &= \set*{\vx \in \RR^n \mid I\vx = \vec{0}} \\
+        &= \set*{\vx \in \RR^n \mid \vx = \vec{0}} = \braces{\vec{0}}
+    \end{align*}
+    as desired. Next, we'll show $5\implies 3$. If $A$ is an $n\times n$ and $\rank A = n$, then every column of $A$ and therefore $\rref A$ is a pivot column, so $\rref A = I$ since there is the same number of rows and columns. Then, we'll show $1\implies 4$. Since $A$ is invertible by assumption, we get that
+    \begin{align*}
+        N(A) &= \set*{\vx\in \RR^n \mid A\vx = \vec{0}} \\
+        &= \set*{\vx\in \RR^n \mid \vx = A^{-1}\vec{0}} \\
+        &= \braces{\vec{0}}
+    \end{align*}
+    as desired. Finally, we'll show $3\implies b$. By performing row reduction from $A$ to $\rref A$, we see that $\det A$ is the product of all the nonzero inverses of all row scaling factors times $\det \parens{\rref A}$ with sign based on the parity of the number of row scaling factors. Since none of these terms are $0$, this product does not equal $0$.
+\end{proof}
+\end{document}

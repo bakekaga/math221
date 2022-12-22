@@ -1,0 +1,157 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 3}
+\subsection{Problem 1}
+\begin{claim}
+    Use the basis theorem to prove that if $V, W$ are subspaces of $\RR^n$ with $V \subseteq W$ and $\dim V = \dim W$, then $V = W$. 
+\end{claim}
+
+\begin{soln}
+    First, suppose that $V$ is the trivial subspace, i.e. it is the subspace only consisting of $\vec{0}$. In that case, $0 = \dim V = \dim W$, so $W$ must be the trivial subspace as well, and in particular $V = W$.
+
+    Next, suppose that $V$ is nontrivial; then let $\dim V = \dim W > 0$, and by the first part of the Basis Theorem on $V$, $V$ has a basis $\{\vec{v}_1, \ldots , \vec{v}_{\dim V}\}$. However, since this is a set of linearly independent vectors in $W$, the Basis Theorem on $W$ implies that there is a basis $\vec{u}_1, \ldots , \vec{u}_{\dim W}$ of $W$ such that $\vec{v}_1 = \vec{u}_1, \ldots , \vec{v}_{\dim V} = \vec{u}_{\dim W}$. However, since $\dim V = \dim W$, it follows that these two bases are in fact the same set of vectors; thus, $\vec{v}_1, \ldots , \vec{v}_{\dim V}$ is also a basis of $W$, so by the definition of the basis $V = \vspan\{\vec{v}_1, \ldots , \vec{v}_{\dim V}\} = W$ as desired. 
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Prove, for $\vec{v}_1, \ldots , \vec{v}_N \in \RR^n$, that
+    \[\vec{v}_1, \ldots , \vec{v}_N\text{ are l.d. }\iff \dim \vspan\braces{\vec{v}_1, \ldots , \vec{v}_N} \le N - 1.\]
+\end{claim}
+
+\begin{soln}
+    First, observe that 
+    \[\dim \vspan\{\vec{v}_1, \ldots , \vec{v}_N\} = 0\iff \vspan\{\vec{v}_1 , \ldots , \vec{v}_N\} = \{\vec{0}\} \iff \{\vec{v}_1, \ldots , \vec{v}_N\} = \{\vec{0}\}.\]
+    Thus, suppose henceforth that $\dim \vspan\{\vec{v}_1, \ldots , \vec{v}_N\} > 0\iff \{\vec{v}_1, \ldots , \vec{v}_N\}\neq \{\vec{0}\}$, i.e. the concept of a basis makes sense. We will now prove the two directions separately.
+    
+    $(\implies)$: Suppose that $\vec{v}_1 , \ldots , \vec{v}_N$ are linearly dependent. We must then have $\dim\vspan\{\vec{v}_1 , \ldots , \vec{v}_N\}\neq N$ because otherwise $\vec{v}_1 , \ldots , \vec{v}_N$ would have to be linearly independent according to the theorem we showed in class (part (a) of 5.7 in the book). Note further that $\dim\vspan\{\vec{v}_1 , \ldots , \vec{v}_N\}$ cannot be greater than $N$ due to the Linear Dependence Lemma; thus, $\dim\vspan\{\vec{v}_1 , \ldots , \vec{v}_N\}\le N - 1$ as desired.
+    
+    $(\impliedby)$: Suppose that we have $\dim\vspan\{\vec{v}_1, \ldots , \vec{v}_N\} \le N - 1$. Then if $\vec{v}_1, \ldots , \vec{v}_N$ were linearly independent, both conditions would be satisfied for $\vec{v}_1, \ldots , \vec{v}_N$ to be a basis of $\vspan\{\vec{v}_1, \ldots , \vec{v}_N\}$; however, this would imply that $\dim\vspan\{\vec{v}_1, \ldots , \vec{v}_N\} = N$, contradiction! Thus, $\vec{v}_1, \ldots , \vec{v}_N$ must be linearly dependent.
+    
+    Since we have shown both directions, we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Use Gaussian Elimination (Stage 1 suffices) to express the solution set of the following homogeneous system as the span of one vector:
+    \[\left\{\begin{aligned}
+        &x_1 + 2x_2 + 3x_3 = 0, \\
+        &x_1 + 4x_2 + 3x_3 = 0, \\
+        &2x_1 + 5x_2 + 6x_3 = 0.
+    \end{aligned}\right.\]
+\end{claim}
+
+\begin{soln}
+    We begin with the system
+    \[\left\{\begin{aligned}
+        &x_1 + 2x_2 + 3x_3 = 0 \\
+        &x_1 + 4x_2 + 3x_3 = 0 \\
+        &2x_1 + 5x_2 + 6x_3 = 0
+    \end{aligned}\right.\]
+    Subtracting $-1$ times the first equation from the second and $-2$ times the first equation from the third, we get
+    \[\left\{\begin{aligned}
+        x_1 &+ 2x_2 + 3x_3 = 0 \\
+        &+ 2x_2 = 0 \\
+        &+ x_2 = 0
+    \end{aligned}\right.\]
+    Swapping the second and third equations, we get
+    \[\left\{\begin{aligned}
+        x_1 &+ 2x_2 + 3x_3 = 0 \\
+        &+ x_2 = 0 \\
+        &+ 2x_2 = 0
+    \end{aligned}\right.\]
+    We can then subtract $2$ times the second equation from the third to get
+    \[\left\{\begin{aligned}
+        x_1 &+ 2x_2 + 3x_3 = 0 \\
+        &+ x_2 = 0 \\
+        &0 = 0
+    \end{aligned}\right.\]
+    so we can just ignore the third equation now. Plugging in $x_2 = 0$ into the first equation, it then follows that the vector $(x_1, x_2, x_3) = t\left(1, 0, -\frac{1}{3}\right)$ is our solution set for all $t\in \RR$. In particular, the solution set of this system is $\boxed{\vspan\left\{\left(1, 0, -\frac{1}{3}\right)\right\}}$.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Suppose $\vec{x}, \vec{y} \in \RR^n$. Prove that it is possible to write $\vec{x} = \vec{x}^\top + \vec{x}^\perp$, where $\vec{x}^\top$ is parallel to $\vec{y}$ (i.e., $\vec{x}^\top = \lambda\vec{y}$ for some $\lambda \in \RR$) and $\vec{x}^\perp$ is orthogonal to $\vec{y}$.
+\end{claim}
+
+\begin{soln}
+     First, suppose that $\vec{y} = \vec{0}$. Observe that $\vec{x}^\perp = \vec{x}$ is orthogonal to $\vec{y}$ because the zero vector is orthogonal with all vectors, and $\vec{x}^\top = \vec{0}$ is of the form $\lambda\vec{y}$, which is $\vec{0}$ for all $\lambda\in \RR$. In particular, we have found $\vec{x}^\perp, \vec{x}^\top$ that are respectively orthogonal and parallel to $\vec{y}$ and furthermore add to $\vec{x}$, so this case is resolved.
+
+     Now, suppose that $\vec{y} \neq \vec{0}$. In that case, recall that during the first problem set, we found that $\vec{x} - \lambda \vec{y}$ is orthogonal with $\vec{y}$ if and only if $\lambda = \frac{\vec{x} \cdot \vec{y}}{\norm{\vec{y}}^2}$. Thus, consider $\vec{x}^\perp = \vec{x} - \frac{\vec{x} \cdot \vec{y}}{\norm{\vec{y}}^2}\vec{y}$ and $\vec{x}^\top = \frac{\vec{x} \cdot \vec{y}}{\norm{\vec{y}}^2}\vec{y}$; then $\vec{x}^\perp, \vec{x}^\top$ are respectively orthogonal and parallel to $\vec{y}$ and furthermore add to $\vec{x}$, so we're done.
+
+     We've found a way to construct $\vec{x}^\perp$ and $\vec{x}^\top$ that are respectively orthogonal and parallel to $\vec{y}$ and add to $\vec{x}$ in both cases, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Suppose $\vec{x}, \vec{y} \in \RR^n$. Prove that the above decomposition is unique, i.e., prove that if $\vec{x} = \vec{u} + \vec{v} = \vec{u}^* + \vec{v}^*$ with $\vec{u}, \vec{u}^*$ parallel to $\vec{y}$ and $\vec{v}, \vec{v}^*$ orthogonal to $\vec{y}$, then $\vec{u} = \vec{u}^*$ and $\vec{v} = \vec{v}^*$.
+\end{claim}
+
+\begin{soln}
+    First, suppose that $\vec{y} \neq \vec{0}$. If $\vec{x}^\perp = \lambda \vec{y}$ for some $\lambda\in \RR$, then we showed that $\vec{x}^\top = \vec{x} - \vec{x}^\perp = \vec{x} - \lambda\vec{y}$ is orthogonal to $\vec{y}$ if and only if $\lambda = \frac{\vec{x} \cdot \vec{y}}{\norm{\vec{y}}^2}$. In particular, this value of $\lambda$ is fixed as long as $\vec{x}$ and $\vec{y}$ are, so $\vec{x}^\perp$ and $\vec{x}^\top$ are unique.
+
+    Next, suppose that $\vec{y} = \vec{0}$. In that case, if we have $\vec{x}^\perp = \lambda \vec{y}$ for some $\lambda\in \RR$, then necessarily $\vec{x}^\perp = \vec{0}$ which is obviously fixed. However, that means that $\vec{x}^\top = \vec{x} - \vec{x}^\perp = \vec{x} - \lambda\vec{y} = \vec{x}$, which is unique given a fixed $\vec{x}$.
+    
+    We've shown that $\vec{x}^\perp$ and $\vec{x}^\top$ are unique in both cases, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Let us construct the “floor” function using suprema. We want to take as input a real number $t$ and return as output an integer $m$ with the property $m \le t < m + 1$. Let $t \in \RR$. Prove that if $n, m \in \ZZ$, $n \le t < n + 1$, and $m \le t < m + 1$, then $n = m$.
+\end{claim}
+
+\begin{soln}
+    First, suppose that $m < n$. Since $m, n\in \ZZ$, this means that $m + 1\le n\le t$, which contradicts our assumption that $t < m + 1$. On the other hand, suppose that $m > n$. This means that $n + 1\le m\le t$, which contradicts our assumption that $t < n + 1$. Thus, $m = n$.
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Let us construct the “floor” function using suprema. We want to take as input a real number $t$ and return as output an integer $m$ with the property $m \le t < m + 1$. Let $t \in \RR$, $S = \set*{m \in \ZZ \mid m \le t}$. Prove that $S$ is nonempty and bounded above.
+\end{claim}
+
+\begin{soln}
+    First, I claim that the empty set is bounded below. To show this, we must be able to find some $k\in \RR$ such that $k\le x$ for all $x\in \emptyset$. However, since $\emptyset$ contains no elements, this statement is true for any $k\in \RR$. Thus, $\emptyset$ is bounded below.
+    
+    Now I claim that $S$ is not bounded below, which will show that it cannot be the empty set. Suppose we did have some lower bound $k\in \RR$ such that $k\le x$ for all $x\in S$. In that case, $k - 1 < k \le x \le t$ for all $x\in S$, so in particular $k - 1 < t\implies k - 1 \in S$ but $k - 1 < k$, so $S$ cannot have a lower bound as desired.
+    
+    Finally, by definition of $S$ we know that $t$ is an upper bound of the set; thus, $S$ is both nonempty and bounded above.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Let us construct the “floor” function using suprema. We want to take as input a real number $t$ and return as output an integer $m$ with the property $m \le t < m + 1$. Let $t \in \RR$, $S = \set*{m \in \ZZ \mid m \le t}$. Prove that $\max S$ exists, and that it also satisfies $\max S \le t < \max S + 1$.
+\end{claim}
+
+\begin{soln}
+    Since $\RR$ is complete, the previous problem implies that $K = \sup S$ exists. According to the definition of the supremum, we must have $K\le K'$ for all upper bounds $K'$ of $S$; in particular, this means that $K - 1$ is not an upper bound of $S$ because $K - 1 < K$, i.e. there exists an $m\in S$ such that $K - 1 < m \implies K < m + 1$. This means that $m$ must be an upper bound of $S$ because if we had some $x\in S\subseteq \ZZ$ such that $x > m$, then $x \ge m + 1 > K$, contradicting the fact that $K$ is an upper bound of $S$. Thus, $m$ is an upper bound of $S$ that is contained within $S$, meaning that $m = \max S$ exists. Furthermore, we cannot have $t \ge \max S + 1$ because otherwise then $\max S + 1\in S\implies \max S\ge \max S + 1$, contradiction! Thus, we get $\max S \le t < \max S + 1$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Suppose $a, b \in \RR$ and $a < b$. Prove that $(a,b) \cap \QQ \neq \emptyset$ by showing there exists $x \in \QQ$ with $a < x < b$.
+\end{claim}
+
+\begin{soln}
+    Since $b - a > 0$, the Archimedian Property guarantees that there exists $n\in \NN$ such that $n > \frac{1}{b - a}\implies \frac{1}{n} < b - a$. Denote this fact by $\spadesuit$. If $b$ is rational, then $\spadesuit \implies a < b - \frac{1}{n} < b$ and $b, \frac{1}{n}\in \QQ\implies b - \frac{1}{n}\in \QQ$; if $a$ is rational, then $\spadesuit \implies a < a + \frac{1}{n} < b$ and $a, \frac{1}{n}\in \QQ\implies a + \frac{1}{n}\in \QQ$, and in either case we're done. Thus, henceforth assume that $a, b\in \RR\setminus \QQ$.
+    
+    According to $\spadesuit$, there exists some $n\in \NN$ such that $nb - na > 1\implies \lfloor nb\rfloor > \lfloor na\rfloor$. Also, since $na, nb\not\in \ZZ$, we must have $\lfloor na \rfloor < na$ and $\lfloor nb \rfloor < nb$, so we must necessarily have $na < \lfloor nb\rfloor$ because otherwise $\lfloor nb\rfloor \in\ZZ < na\implies \lfloor nb\rfloor \le \lfloor na\rfloor$, contradiction. Finally, this implies that $na < \lfloor nb \rfloor < nb\implies a < \frac{\lfloor nb \rfloor}{n} < b$. In particular, $\frac{\lfloor nb \rfloor}{n}$ is a rational number because $\lfloor nb\rfloor , n \in \ZZ$, so we're done.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Suppose $a, b \in \RR$ and $a < b$. Prove that $(a,b) \cap (\RR \setminus \QQ) \neq \emptyset$ by showing there exists $z \in \RR \setminus \QQ$ with $a < z < b$.
+\end{claim}
+
+\begin{soln}
+    Observe that all rational numbers can be expressed as 2 times a rational number; this is because if $x \in \QQ = \frac{m}{n}$ with $m, n\in \ZZ$, then $\frac{x}{2} = \frac{m}{2n}$ is rational too because $m, 2n\in \ZZ$. According to the previous problem, there exists a rational number $2x$ such that $\sqrt{2}a < 2x < \sqrt{2}b\implies a < \sqrt{2}x < b$, but Problem 9 from the first problem set implies that $\sqrt{2}b$ is irrational so we're done. 
+\end{soln}
+\eject
+\end{document}

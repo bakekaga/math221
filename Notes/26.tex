@@ -1,0 +1,50 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 26: 10/24/22}
+\subsubsection{Chain Rule}
+
+Recall from single-variable calculus that if we have $f, g : \RR \to \RR$, $g$ is differentiable at $a\in \RR$ and $f$ is differentiable at $g(a)\in \RR$, then $(f\circ g)'(a) = f'(g(a))g'(a)$. To get some intuition for this, we can use the idea of the derivative being a linear approximation for a function, i.e. that 
+\[g(\begingroup\color{blue}a\endgroup \begingroup\color{red}+ h\endgroup) \approx g(\begingroup\color{blue}a\endgroup) + g'(\begingroup\color{blue}a\endgroup)\begingroup\color{red}h\endgroup\implies f(g(a + h)) \approx f(\begingroup\color{blue}g(a)\endgroup + \begingroup\color{red}g'(a)h\endgroup) \approx f(\begingroup\color{blue}g(a)\endgroup) + f'(\begingroup\color{blue}g(a)\endgroup)\begingroup\color{red}g'(a)h\endgroup.\]
+
+\begin{theorem}[Chain Rule]
+    Let $U\subseteq \RR^n$, $\vg : U\to \RR^m$ be differentiable at $\va\in U$, $\vg(U)\subseteq V\subseteq \RR^m$, and $\vf : V \to \RR^p$ be differentiable at $\vg\parens{\va}\in V$. Then $\vf\circ \vg : U\to \RR^p$ is differentiable at $\va$ with
+    \[\underbrace{\mathcal{D}\parens{\vf\circ \vg}\parens{\va}}_{p\times n\text{ matrix}} = \underbrace{\mathcal{D}\vf\parens{\vg\parens{\va}}}_{p\times m\text{ matrix}}\underbrace{\mathcal{D}\vg\parens{\va}}_{m\times n\text{ matrix}}.\]
+\end{theorem}
+
+For component notation, suppose that $\vg = (g_1, \ldots , g_m)^\top$ and $\vf = (f_1, \ldots , f_p)^\top$. Also, let the inputs of $\vg$ and $\vf$ be $(x_1, \ldots , x_n)^\top$ and $(y_1, \ldots , y_m)^\top$, respectively; then for every $i = 1, \ldots , p$ and $j = 1, \ldots , n$ this means that
+\begin{align*}
+    &\mathcal{D}_j\parens{\vf\circ \vg}_i\parens{\va} = \sum_{k = 1}^m \mathcal{D}_k f_i\parens{\vg\parens{\va}}\mathcal{D}_j g_k\parens{\va} \\
+    &\iff \pdv{}{x_j}\parens{\vf\circ \vg}_i\parens{\va} = \sum_{k = 1}^m \pdv{}{y_k}f_i\parens{\vg\parens{\va}}\pdv{}{x_j}g_k\parens{\va}.
+\end{align*}
+
+\begin{proof}
+    Let $\varepsilon > 0$ be arbitrary. From the differentiability of $\vf$ at $\vg\parens{\va}$, with $\frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}$ in place of $\varepsilon$ (we will see what to replace $\Box$ with later), there exists a $\delta_1 > 0$ such that for all $\vy\in V$ with $0 < \norm{\vy - \vg\parens{\va}} < \delta_1$,
+    \begin{align*}
+        &\tfrac{\norm{\vf\parens{\vy} - \vf\parens{\vg\parens{\va}} - \mathcal{D}\vf\parens{\vg\parens{\va}}\parens{\vy - \vg\parens{\va}}}}{\norm{\vy - \vg\parens{\va}}} < \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup} \\
+        &\implies \norm{\vf\parens{\vy} - \vf\parens{\vg\parens{\va}} - \mathcal{D}\vf\parens{\vg\parens{\va}}\parens{\vy - \vg\parens{\va}}} < \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\norm{\vy - \vg\parens{\va}}.
+    \end{align*}
+    Applying the same idea with $\vg$, there exists a $\delta_2 > 0$ such that for all $\vx\in U$ with $0 < \norm{\vx - \vg\parens{\va}} < \delta_2$,
+    \[\norm{\vg\parens{\vx} - \vg\parens{\va} - \mathcal{D}\vg\parens{\va}\parens{\vx - \va}} < \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\norm{\vx - \va}.\]
+    In particular, we get that
+    \begin{align*}
+        \norm{\vg\parens{\vx} - \vg\parens{\va}} &\le \norm{\vg\parens{\vx} - \vg\parens{\va} - \mathcal{D}\vg\parens{\va}\parens{\vx - \va}} + \norm{\mathcal{D}\vg\parens{\va}\parens{\vx - \va}} \\
+        &\le \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\norm{\vx - \va} + \norm{\mathcal{D}\vg\parens{\va}\parens{\vx - \va}} \\
+        &< \varepsilon\norm{\vx - \va} + \norm{\mathcal{D}\vg\parens{\va}}\norm{\vx - \va} \\
+        &= \parens{\varepsilon + \norm{\mathcal{D}\vg\parens{\va}}}\norm{\vx - \va}.
+    \end{align*}
+    This implies that $\norm{\vg\parens{\vx} - \vg\parens{\va}} 
+ <\delta_1$ if $\norm{\vx - \va} < \frac{\delta_1}{\varepsilon + \norm{\mathcal{D}\vg\parens{\va}}}$, so if we take $\delta = \min\braces{\delta_2, \frac{\delta_1}{\varepsilon + \norm{\mathcal{D}\vg\parens{\va}}}}$, then for every $\vx\in V$ with $0 < \norm{\vx - \va} < \delta$, we have
+    \begin{align*}
+        &\norm{\vf\parens{\vg\parens{\vx}} - \vf\parens{\vg\parens{\va}} - \mathcal{D}\vf\parens{\vg\parens{\va}}\mathcal{D}\parens{\vg\parens{\va}}\parens{\vx - \va}} \\
+        &= \Big\lVert\vf\parens{\vg\parens{\vx}} - \vf\parens{\vg\parens{\va}} - \begingroup\color{blue}\mathcal{D}\vf\parens{\vg\parens{\va}}\parens{\vg\parens{\vx} - \vg\parens{\va}}\endgroup \\
+        &+ \begingroup\color{blue}\mathcal{D}\vf\parens{\vg\parens{\va}}\parens{\vg\parens{\vx} - \vg\parens{\va}} \endgroup - \mathcal{D}\vf\parens{\vg\parens{\va}}\parens{\mathcal{D}\vg\parens{\va}\parens{\vx - \va}}\Big\rVert \\
+        &\le \norm{\vf\parens{\vg\parens{\vx}} - \vf\parens{\vg\parens{\va}} - \mathcal{D}\vf\parens{\vg\parens{\va}}\parens{\vg\parens{\vx} - \vg\parens{\va}}} \\
+        &+ \norm{\mathcal{D}\vf\parens{\vg\parens{\va}}}\norm{\vg\parens{\vx} - \vg\parens{\va} - \mathcal{D}\vg\parens{\va}\parens{\vx - \va}} \\
+        &\le \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\norm{\vg\parens{\vx} - \vg\parens{\va}} + \norm{\mathcal{D}\vf\parens{\vg\parens{\va}}}\frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\norm{\vx - \va} \\
+        &\le \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\parens{\varepsilon + \norm{\mathcal{D}\vg\parens{\va}}}\norm{\vx - \va} + \norm{\mathcal{D}\vf\parens{\vg\parens{\va}}}\frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\norm{\vx - \va} \\
+        &= \frac{\varepsilon}{\begingroup\color{red}1 + \Box\endgroup}\parens{\varepsilon + \norm{\mathcal{D}\vg\parens{\va}} + \norm{\mathcal{D}\vf\parens{\vg\parens{\va}}}}\norm{\vx - \va} \\
+        &< \varepsilon\norm{\vx - \va}
+    \end{align*}
+    by plugging in $\Box = \varepsilon + \norm{\mathcal{D}\vg\parens{\va}} + \norm{\mathcal{D}\vf\parens{\vg\parens{\va}}}$!
+\end{proof}
+\end{document}

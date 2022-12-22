@@ -1,0 +1,71 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 10: 9/14/22}
+
+\subsubsection{Rank-Nullity Theorem}
+\begin{definition}
+    Suppose $A$ is a $m\times n$ matrix. Then:
+    \begin{enumerate}
+        \item The \vocab{column space} $C(A)\subseteq \RR^m$ of $A$ is the span of the column vectors $\vec{\alpha}_1, \ldots , \vec{\alpha}_n\in \RR^m$.
+        \item The \vocab{null space} $N(A)$ of $A$ is $\{\vec{x}\in \RR^n : A\vec{x} = \vec{0}\}$.
+        \item The \vocab{rank} of $A$ is $\rank(A) = \dim C(A)$.
+        \item The \vocab{row-rank} of $A$ is $\text{row-rank}(A) = \dim C(A^\top)$.
+        \item The \vocab{nullity} of $A$ is $\text{nullity}(A) = \dim N(A)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    If $A$ is a $m\times n$ matrix, then the null space of $A$ is a subspace of $\RR^n$.
+\end{proposition}
+\begin{proof}
+    Problem set 4; essentially just show it satisfies both subspace conditions.
+\end{proof}
+
+Here are some null space interpretations:
+\begin{enumerate}
+    \item Observe that 
+    \begin{align*}
+        &\vec{x} = (x_1, \ldots , x_n)^\top \in N(A) \\
+        &\iff A(x_1, \ldots , x_n)^\top = \vec{0} \\
+        &\iff x_1\vec{\alpha}_1 + \ldots + x_n\vec{\alpha}_n = \vec{0}.
+    \end{align*}
+    Thus, the null space is closely related with linear (in)dependence.
+    \item If $\vec{\alpha}_1, \ldots , \vec{\alpha}_n$ are linearly dependent, then $x_1\vec{\alpha}_1 + \ldots + x_n\vec{\alpha})n = \vec{0}$ for some $x_1, \ldots , x_n\in \RR$ such that $(x_1, \ldots , x_n)^\top \neq \vec{0}$. This occurs if and only if $A\vec{x} = \vec{0}$ for some $\vec{x}\in \RR^n\neq 0$, if and only if $N(A)$ is nontrivial.
+    \item Negating both statements, $\vec{\alpha}_1, \ldots , \vec{\alpha}_n$ are linearly independent if and only if $N(A)$ is trivial.
+\end{enumerate}
+Moving onto column space interpretations:
+\begin{enumerate}
+    \item Observe that
+    \begin{align*}
+        C(A) &= \vspan\{\vec{\alpha}_1, \ldots , \vec{\alpha}_n\} \\
+        &= \{x_1\vec{\alpha}_1 + \ldots + x_n\vec{\alpha}_n : x_1, \ldots , x_n\in \RR\} \\
+        &= \{A(x_1, \ldots , x_n)^\top : (x_1, \ldots , x_n)^\top \in \RR^n\} \\
+        &= \{A\vec{x} : \vec{x}\in \RR^n\}.
+    \end{align*}
+    \item We have $\vec{\alpha}_1, \ldots , \vec{\alpha}_n$ linearly dependent if and only if $\dim\vspan\{\vec{\alpha}_1, \ldots , \vec{\alpha}_n\} \le n - 1 \iff \dim C(A) \le n - 1$.
+    \item We have $\vec{\alpha}_1 , \ldots , \vec{\alpha_n}$ linearly independent if and only if $\dim \vspan\{\vec{\alpha}_1, \ldots , \vec{\alpha}_n\}\ge n\iff \dim C(A) = n$. Note that we cannot have $\dim C(A) > n$ because there cannot be $n + 1$ linearly independent vectors in $\vspan\{\vec{\alpha}_1, \ldots , \vec{\alpha}_n\}$ due to the Linear Dependence Lemma.
+\end{enumerate}
+
+Some of these properties generalize into the following:
+\begin{theorem}[Rank-Nullity Theorem]
+    If $A$ is a $m\times n$ matrix, then $\dim C(A) + \dim N(A) = \rank (A) + \text{nullity}(A) = n$.
+\end{theorem}
+\begin{proof}
+    For a preliminary sanity check, consider what happens when $\dim N(A) = 0$. In that case, the column vectors must be linearly independent, but then that means that $\dim C(A) = n$; hence $\dim N(A) + \dim C(A) = n$ so this statement is not totally absurd.
+    
+    On the other hand, suppose that $\dim N(A) = n = \dim \RR^n\iff N(A) = \RR^n$ because $N(A)\subseteq \RR^n$ and Problem Set 3 Problem 1. This is equivalent to $A\vec{x} = \vec{0}$ for all $\vec{x}\in \RR^n$; in particular, $\vec{\rho}_j = A\vec{e}_j = \vec{0}$ for all $j\in \{1, \ldots , n\}$, which means that
+    \[A = O\implies C(A) = \vspan\{\vec{0}, \ldots , \vec{0}\} = \{\vec{0}\}\implies \dim C(A) = 0.\]
+    Thus, $\dim N(A) + \dim C(A) = n$.
+
+    Finally, suppose that $0 < \dim N(A) < n$. Let $\dim N(A) = k$ and $\vec{v}_1, \ldots , \vec{v}_{k} \in N(A)$ be a basis for $N(A)$. Then $\vec{v}_1, \ldots , \vec{v}_{k} \in \RR^n$ are linearly independent by definition, so by part (b) of the Basis Theorem, we can extend $\vec{v}_1, \ldots , \vec{v}_{k}$ into $\vec{v}_1, \ldots , \vec{v}_{k}, \vec{v}_{k + 1}, \ldots , \vec{v}_n$, a basis of $\RR^n$. On the other hand, we have $C(A) = \{A\vec{x} : \vec{x}\in \RR^n\}$ from our earlier property, which is equal to $\{A(c_1\vec{v}_1 + \ldots + c_n\vec{v}_n) : c_1,\ldots , c_n\in \RR\} = \{c_1A\vec{v}_1 + \ldots + c_nA\vec{v}_n : c_1,\ldots , c_n\in \RR\}$ because $\vec{v}_1 , \ldots , \vec{v}_n$ span $\RR^n$. According to the definition of the null space, this simplifies to $\{c_{k + 1}A\vec{v}_{k + 1} + \ldots + c_nA\vec{v}_n : c_{k + 1}, \ldots , c_n\in \RR\} = \vspan\{A\vec{v}_{k + 1} , \ldots , A\vec{v}_n\}$.
+    
+    It now suffices to show that the $n - k$ vectors $A\vec{v}_{k + 1}, \ldots , A\vec{v}_n$ will be a basis of $C(A)$, since that would imply $\dim C(A) + \dim N(A) = (n - k) + k = n$. Suppose the contrary; then $b_{k + 1}A\vec{v}_{k + 1} + \ldots + b_nA\vec{v}_n = \vec{0}$ for $b_{k + 1}, \ldots , b_n \in \RR$ such that $(b_{k + 1}, \ldots , b_n)^\top \neq \vec{0}$. This occurs if and only if
+    \begin{align*}
+        &A(b_{k + 1}\vec{v}_{k + 1} + \ldots + b_n\vec{v}_n) = \vec{0} \\
+        &\iff b_{k + 1}\vec{v}_{k + 1} + \ldots + b_n\vec{v}_n\in N(A) \\
+        &\iff b_{k + 1}\vec{v}_{k + 1} + \ldots + b_n\vec{v}_n = a_1\vec{v}_1 + \ldots + a_k\vec{v}_k && (a_1, \ldots , a_k\in \RR) \\
+        &\iff (-a_1)\vec{v}_1 + \ldots + (-a)\vec{v}_k + b_{k + 1}\vec{v}_{k + 1} + \ldots + b_n\vec{v}_n = \vec{0},
+    \end{align*}
+    where $(-a_1, \ldots , -a_k, b_{k + 1}, \ldots , b_n)^\top \neq \vec{0}$. Thus, $\vec{v}_1, \ldots , \vec{v}_n$ are linearly dependent, contradicting the fact that they were a basis of $\RR^n$, so we're done.
+\end{proof}
+\end{document}

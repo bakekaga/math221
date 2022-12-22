@@ -1,0 +1,74 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 13: 9/21/22}
+\subsubsection{Orthogonal Complements}
+\begin{definition}
+    Let $V$ be a subspace of $\RR^n$. Then the \vocab{orthogonal complement} $V^\perp$ of $V$ is defined as $\{\vec{x}\in \RR^n : \vec{x}\cdot \vec{v} = 0\forall \vec{v}\in V\}$.
+\end{definition}
+
+\begin{proposition}
+    $V^\perp$ is a subspace of $\RR^n$.
+\end{proposition}
+\begin{proof}
+    Can just check subspace conditions, but will be proved more directly later on.
+\end{proof}
+
+Some examples of $V^\perp$:
+\begin{enumerate}
+    \item $(\RR^n)^\perp = \{\vec{x} \in \RR^n :  \vec{x}\cdot \vec{v} = 0\forall \vec{v}\in \RR^n\} = \{\vec{0}\}$.
+    \item $\{\vec{0}\}^\perp = \{\vec{x} \in \RR^n :  \vec{x}\cdot \vec{0} = 0\} = \RR^n$.
+    \item Let $V = \vspan\{\vec{v}_1, \ldots , \vec{v}_m\}$. Then $V^\perp = \{\vec{x} \in \RR^n :  \vec{x}\cdot \vec{v} = 0\forall \vec{v}\in V\}$. Problem Set 5 will show that this set is equal to
+    \begin{align*}
+    &\{\vec{x} \in \RR^n : \vec{x}\cdot \vec{v}_1 = \vec{x}\cdot \vec{v}_2 = \cdots = \vec{x}\cdot \vec{v}_m = 0\} \\
+    &=\left\{\vec{x}\in \RR^n : (\vec{v}_1^\top, \ldots , \vec{v}_m^\top)^\top \vec{x} = (0, \ldots , 0)^\top \right\} \\
+    &= N\left(\begin{pmatrix}
+        \vec{v}_1^\top \\
+        \vdots \\
+        \vec{v}_m^\top
+    \end{pmatrix}\right).
+    \end{align*}Incidentally, this shows that $V^\perp$ is a subspace since null spaces are subspaces.
+\end{enumerate}
+
+\begin{theorem}
+    Let $A$ be a $m\times n$ matrix. Then $N(A^\top) = (C(A))^\perp$.
+\end{theorem}
+\begin{proof}
+    Denote the columns of $A$ by $\vec{\alpha}_1, \ldots , \vec{\alpha}_n\in \RR^m$. Then
+    \begin{align*}
+        (C(A))^\perp &= (\vspan\{\vec{\alpha}_1, \ldots , \vec{\alpha}_n\})^\perp \\
+        &= N((\vec{\alpha}_1^\top, \ldots, \vec{\alpha}_m^\top)^\top) \\
+        &= N(A^\top).\qedhere
+    \end{align*}
+\end{proof}
+
+\begin{proposition}
+    Suppose $W$ is a subspace of $\RR^n$ with $W^\perp = \{\vec{0}\}$. Then $W = \RR^n$.
+\end{proposition}
+
+\begin{proof}
+    Note that $W$ must be nontrivial because we've already established that $\{0\}^\perp = \RR^n\neq \{\vec{0}\}$; thus, we can pick a basis $\vec{w}_1, \ldots , \vec{w}_k$ for $W$. Then by definition we have $W^\perp = (\vspan\{\vec{w}_1, \ldots , \vec{w}_k\})^\perp = N((\vec{w}_1^\top, \ldots, \vec{w}_k^\top)^\top)$, so 
+    \begin{align*}
+    &0 = \dim\{\vec{0}\} = \dim W^\perp \\
+    &= \dim N((\vec{w}_1^\top, \ldots, \vec{w}_k^\top)^\top) \\
+    &= n - \dim C((\vec{w}_1^\top, \ldots, \vec{w}_k^\top)^\top) \\
+    &\ge n - k
+    \end{align*}
+    because $C((\vec{w}_1^\top, \ldots, \vec{w}_k^\top)^\top)$ is a subspace of $\RR^k$, so its dimension is $\le k$ by the Basis Theorem. Thus, we have $k\ge n$. However, $k = \dim W \le n$ because $W$ is a subspace of $\RR^n$, so in fact $k = n\implies \dim W = \dim \RR^n\implies W = \RR^n$ because $W$ is a subspace of $\RR^n$ and Problem Set 3.
+\end{proof}
+
+\begin{theorem}
+    Suppose $V$ is a subspace of $\RR^n$. Then
+    \begin{enumerate}
+        \item $V \cap V^\perp = \{\vec{0}\}$.
+        \item $\dim V + \dim V^\perp = n$.
+        \item $(V^\perp)^\perp = V$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $\vec{x}\in V\cap V^\perp$. Then $\norm{x}^2 = \vec{x}\cdot \vec{x} = 0$ by definition of $V^\perp$, so $\vec{x} = \vec{0}$, hence $V\cap V^\perp = \{\vec{0}\}$.
+        \item For next class.
+        \item For next class. \qedhere
+    \end{enumerate}
+\end{proof}
+\end{document}

@@ -1,0 +1,64 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 32: 11/7/22}
+
+Recall that:
+\begin{itemize}
+    \item $\vec\xi$ is positive definite iff $\Hessf{\vec\xi} > 0$ for all $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$.
+    \item $\vec\xi$ is negative definite iff $\Hessf{\vec\xi} < 0$ for all $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$.
+    \item $\vec\xi$ is positive semidefinite if $\Hessf{\vec\xi} \ge 0$ for all $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$.
+    \item $\vec\xi$ is negative semidefinite if $\Hessf{\vec\xi} \le 0$ for all $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$.
+    \item $\vec\xi$ is indefinite if $\Hessf{\vec\xi} > 0$ for some $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$ and $\Hessf{\vec\xi} < 0$ for other $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$.
+\end{itemize}
+
+Furthermore, since $\Hess_{f, \va} : \RR^n\to \RR$ is a polynomial and therefore continuous, and since $\mathbf{S}^{n - 1} = \set*{\vx \in \RR^n \mid \norm\vx = 1}$ is closed and bounded, it follows that $\Hess_{f, \va} |_{\mathbf{S}^{n - 1}} : \mathbf{S}^{n - 1} \to \RR$ attains a minimum $\mu_*$ and maximum $\mu^*$ on $\mathbf{S}^{n - 1}$.
+
+\begin{proposition}
+    $\Hess_{f, \va} |_{\mathbf{S}^{n - 1}} : \mathbf{S}^{n - 1} \to \RR$ is:
+    \begin{itemize}
+        \item positive definite if and only if $\mu_* > 0$ (semi if the inequality isn't strict).
+        \item negative definite if and only if $\mu^* < 0$ (semi if the inequality isn't strict).
+        \item indefinite if and only if $\mu_* < 0 < \mu^*$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    We'll only prove the positive definite case since the others are similar.
+
+    $(\implies)$: Since $\mu_*$ is a minimum of $\Hess_{f, \va}$ on $\mathbf{S}^{n - 1}$, there exists some $\vec\xi_*\in \mathbf{S}^{n - 1}$ so that $\mu_* = \Hessf{\vec\xi_*}$. Furthermore, because $\mu_*\in \mathbf{S}^{n - 1}\implies \norm{\mu_*} = 1\implies \mu_*\neq \vec{0}$ and by assumption we know that $\Hess_{f, \va}$ is positive definite, we have $\mu_* = \Hessf{\vec\xi_*} > 0$.
+
+    $(\impliedby)$: Let $\vec\xi\in \RR^n\setminus\braces{\vec{0}}$ be arbitrary. Define $\hat{\xi} = \frac{1}{\norm{\vec\xi}} \vec\xi$, so that $\norm{\hat{\xi}} = 1\implies \hat{\xi}\in \mathbf{S}^{n - 1}$ and therefore $\Hessf{\hat{\xi}} \ge \mu_* > 0$. This means that we have
+    \begin{align*}
+        \Hessf{\vec\xi} &= \parens{\nabla^2 f\parens{\va}\vec\xi} \cdot \vec\xi \\
+        &= \norm{\vec\xi}^2 \parens{\nabla^2 f\parens{\va}\frac{\vec\xi}{\norm{\vec\xi}}} \cdot \frac{\vec\xi}{\norm{\vec\xi}} \\
+        &= \norm{\vec\xi}^2 \Hessf{\hat{\xi}} \\
+        &> 0,
+    \end{align*}
+    so we're done.
+\end{proof}
+
+Now we just need one ingredient to prove the second derivative test, a generalization of the MVT for $m$ differentiations:
+
+\begin{theorem}[Taylor's Theorem]
+    Let $f : (a - r, a + r)\to \RR$ be $m$($\in \NN$)-times differentiable. For every $x\in (a - r, a + r)$, there exists $\theta\in (0, 1)$ such that
+    \[f(x) = \sum_{k = 0}^{m - 1} \frac{1}{k!}f^{(k)}(a)\cdot (x - a)^{k} + \frac{1}{m!}f^{(m)}\parens{a + \theta(x - a)}\cdot (x - a)^m.\]
+\end{theorem}
+
+\begin{proof}
+    Fix $x\in (a - r, a + r)$, assuming WLOG $x > a$ since $x = a$ is trivial. Recall our original strategy to prove the MVT was to subtract some linear function from our function in order to invoke Rolle's Theorem; we'll now do similar with a polynomial function instead of a linear function. Define
+    \[Q = \frac{f(x) - \sum_{k = 0}^{m - 1} \frac{1}{k!}f^{(k)}(a)\cdot (x - a)^k}{(x - a)^{m}},\]
+    which is the analogous to the slope $\frac{f(x) - f(a)}{x - a}$ that we used before for MVT. Consider the auxiliary function $g : (a - r, a + r) \to \RR$ defined by
+    \[g(t) = f(x) - \sum_{k = 0}^{m - 1} \frac{1}{k!}f^{(k)}(a)(t - a)^k - Q(t - a)^m.\]
+    Note that $g$ is $f$ minus a polynomial in $t$ (which is differentiable arbitrarily many times), so $g$ is also $m$-times differentiable. Consider differentiating $g$ $\ell\in \braces{0, 1, \ldots , m - 1}$ times at $a$; then all of the terms in $\sum_{k = 0}^{m - 1} \frac{1}{k!}f^{(k)}(a)(t - a)^k$ disappear except for when $k = \ell$ because for $k < \ell$ they simply turn into $0$, and for $k > \ell$ each term is ultimately multiplied by $(a - a)^{k - \ell} = 0$, whereas for $k = \ell$ we end up with $\frac{1}{\ell!}f^{(\ell)}(a)\parens{\ell!(t - a)^0} = f^{(\ell)}(a)$ by the Power Rule. In particular, this means that
+    \begin{align*}
+        g^{(\ell)}(a) &= f^{(\ell)}\parens{a} - f^{(\ell)}\parens{a} - 0 = 0, \\
+        g^{(m)}(t) &= f^{(m)}(t) - Qm!.
+    \end{align*}
+    Moreover, by our choice of $Q$ we have $g(x) = 0$ and we've already established that $g(a) = f(a) - f(a) = 0$, so Rolle's Theorem on $[a, x]$ gives an $x_1\in (a_1, x)$ so that $g'(x_1) = 0$. Then, applying Rolle's Theorem on $[a, x_1]$ for $g'$, we get a point $x_2\in (a, x_1)$ such that $g''(x_2) = 0$. Repeating this process, we eventually get to some $x_m\in (a, x)$ such that $g^{(m)}(x_m) = 0$. However, we've shown that $g^{(m)}(x_m) = f^{(m)}(x_m) - Qm!$, so $Q = \frac{1}{m!}f^{(m)}(x_m)$. Plugging in our value of $Q$, we end up with
+    \begin{align*}
+        \frac{f(x) - \sum_{k = 0}^{m - 1} \frac{1}{k!}f^{(k)}(a)\cdot (x - a)^k}{(x - a)^{m}} &= \frac{1}{m!}f^{(m)}(x_m) \\
+        f(x) &= \sum_{k = 0}^{m - 1} \frac{1}{k!}f^{(k)}(a)\cdot (x - a)^k + \frac{1}{m!}f^{(m)}(x_m)\cdot (x - a)^m,
+    \end{align*}
+    so the result follows by choosing $\theta = \frac{x_m - a}{x - a}\in (0, 1)$.
+\end{proof}
+\end{document}

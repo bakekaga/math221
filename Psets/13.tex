@@ -1,0 +1,361 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 13}
+\subsection{Problem 1}
+\begin{claim}
+    Suppose $A, B$ are $n \times n$ matrices and $AB = I$. Prove that then $\det A \neq 0$ and $B = \parens{\det A}^{-1}\adj A$. (In particular, $AB = I \implies BA = I$ and $B$ is the unique inverse $\parens{\det A}^{-1}\adj A$).
+\end{claim}
+
+\begin{soln}
+    First, observe that $AB = I\implies \det A\det B = \det I = 1$, so $\det A \neq 0$ and in particular $A$ is invertible with $A^{-1} = \parens{\det A}^{-1}\adj A$. Thus,
+    \begin{align*}
+        &AB = I = AA^{-1} \\
+        &\implies A^{-1}AB = A^{-1}AA^{-1} \\
+        &\implies B = A^{-1} = \parens{\det A}^{-1}\adj A
+    \end{align*}
+    as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    If $A, B$ are, respectively, $m \times n$ and $n \times p$ matrices, prove that $\parens{AB}^\top = B^\top A^\top$.
+\end{claim}
+
+\begin{soln}
+    Let $\vec{\alpha}_1^\top, \ldots , \vec{\alpha}_n^\top$ and $\vec{\beta}_1, \ldots , \vec{\beta}_n$ be the row vectors of $A$ and column vectors of $B$, respectively. Then for each $i\in \braces{1, \ldots , m}, j\in \braces{1, \ldots , p}$, the $(i, j)$-th entry of $AB$ is $\vec{\alpha}_i^\top\cdot\vec{\beta}_j$, so the $(j, i)$-th entry of $(AB)^\top$ is the same value. On the other hand, for each $i\in \braces{1, \ldots , m}, j\in \braces{1, \ldots , p}$, the $(j, i)$-th entry of $B^\top A^\top$ is $\vec{\beta}_j^\top\cdot \vec{\alpha}_i$ since the columns of $B$ and $A$ are the respective rows of $B^\top$ and $A^\top$. Since $\parens{AB}^\top$ and $B^\top A^\top$ are the same dimensions ($m\times p$) and share the same entries, they must be equal.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    If $A, B$ are, respectively, $m \times n$ and $n \times p$ matrices, prove that $m = n = p$ and $A, B$ invertible implies that $AB$ invertible and $\parens{AB}^{-1} = B^{-1}A^{-1}$.
+\end{claim}
+
+\begin{soln}
+    Since $A$ and $B$ are invertible, it follows that $(AB)\parens{B^{-1}A^{-1}} = AIA^{-1} = I$, so by problem 1 $AB$ is invertible with inverse $(AB)^{-1} = B^{-1}A^{-1}$.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+     Let $A = \parens{a_{ij}}$ be an $n \times n$ matrix with $\det A \neq 0$, and $\vec{b} = \parens{b_1, \ldots , b_n}^\top \in \RR^n$. Prove that the solution $\vx = \parens{x_1, . . . , x_n}^\top = A^{-1}\vec{b}$ of the system $A\vx = \vec{b}$ is given by the formula
+    \[x_i = \frac{\det A^{\parens{i, \vec{b}}}}{\det A}, i = 1, \ldots , n .\]
+\end{claim}
+
+\begin{soln}
+    Since $A^{-1} = \frac{1}{\det A}\adj A$, it follows that
+    \begin{align*}
+        x_i &= \frac{1}{\det A}\parens{(-1)^{i + 1}\det A_{1i}, (-1)^{i + 2}\det A_{2i}, \ldots , (-1)^{i + n}\det A_{ni}}^\top \cdot \vec{b} \\
+        &= \frac{1}{\det A}\sum_{k = 1}^n \parens{(-1)^{i + k}\det A_{ki}}b_k \\
+        &= \frac{1}{\det A}\sum_{k = 1}^n (-1)^{i + k}b_k\det A_{ki}.
+    \end{align*}
+    However, the summation is a cofactor expansion of $A^{\parens{i, \vec{b}}}$ on the $i$th column, so in fact $x_i = \frac{\det A^{\parens{i, \vec{b}}}}{\det A}$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    In lecture we used row operations to reduce $\parens{A|I}$ to $\parens{\rref A|A^{-1}}$ in case
+    \[A = \begin{pmatrix}
+        1 & 4 & 3 \\
+        1 & 4 & 5 \\
+        2 & 5 & 1
+    \end{pmatrix}.\]
+    We’ve also previously computed $\det A = 6$. Compute $A^{-1}$ again with $\parens{\det A}^{-1} \adj A$.
+\end{claim}
+
+\begin{soln}
+    We compute $A^{-1}$:
+    \begin{align*}
+        \frac{1}{\det A}\adj A &= \frac{1}{6}\begin{pmatrix}
+            (-1)^{1 + 1}\det A_{11} & (-1)^{1 + 2}\det A_{21} & (-1)^{1 + 3}\det A_{31} \\
+            (-1)^{2 + 1}\det A_{12} & (-1)^{2 + 2}\det A_{22} & (-1)^{2 + 3}\det A_{32} \\
+            (-1)^{3 + 1}\det A_{13} & (-1)^{3 + 2}\det A_{23} & (-1)^{3 + 3}\det A_{33}
+        \end{pmatrix} \\
+        &= \frac{1}{6}\begin{pmatrix}
+            \det \begin{pmatrix} 4 & 5 \\ 5 & 1 \end{pmatrix} & -\det \begin{pmatrix} 4 & 3 \\ 5 & 1 \end{pmatrix} & \det \begin{pmatrix} 4 & 3 \\ 4 & 5 \end{pmatrix} \\
+            -\det \begin{pmatrix} 1 & 5 \\ 2 & 1 \end{pmatrix} & \det \begin{pmatrix} 1 & 3 \\ 2 & 1 \end{pmatrix} & -\det \begin{pmatrix} 1 & 3 \\ 1 & 5 \end{pmatrix} \\
+            \det \begin{pmatrix} 1 & 4 \\ 2 & 5 \end{pmatrix} & -\det \begin{pmatrix} 1 & 4 \\ 2 & 5 \end{pmatrix} & \det \begin{pmatrix} 1 & 4 \\ 1 & 4 \end{pmatrix}
+        \end{pmatrix} \\
+        &= \frac{1}{6}\begin{pmatrix}
+            -21 & 11 & 8 \\
+            9 & -5 & -2 \\
+            -3 & 3 & 0
+        \end{pmatrix} \\
+        &= \boxed{\begin{pmatrix}
+            -\frac{7}{2} & \frac{11}{6} & \frac{4}{3} \\
+            \frac{3}{2} & -\frac{5}{6} & -\frac{1}{3} \\
+            -\frac{1}{2} & \frac{1}{2} & 0
+        \end{pmatrix}}.
+    \end{align*}
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Calculate the inverse $A^{-1}$ of $A$, if $A$ is the $4 \times 4$ matrix $\begin{pmatrix}
+        1 & 1 & 1 & 1 \\
+        0 & 1 & 1 & 1 \\
+        1 & 0 & 2 & 3 \\
+        0 & 0 & 1 & 2
+    \end{pmatrix}$.
+\end{claim}
+
+\begin{soln}
+    Observe that
+    \begin{align*}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+            0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+            1 & 0 & 2 & 3 & 0 & 0 & 1 & 0 \\
+            0 & 0 & 1 & 2 & 0 & 0 & 0 & 1
+        \end{array}} &\xrightarrow{R_3\to R_3 - R_1}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+            0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+            0 & -1 & 1 & 2 & -1 & 0 & 1 & 0 \\
+            0 & 0 & 1 & 2 & 0 & 0 & 0 & 1
+        \end{array}} \\
+        &\xrightarrow[R_3\to R_3 + R_2]{R_1\to R_1 - R_2}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 0 & 0 & 0 & 1 & -1 & 0 & 0 \\
+            0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 2 & 3 & -1 & 1 & 1 & 0 \\
+            0 & 0 & 1 & 2 & 0 & 0 & 0 & 1
+        \end{array}} \\
+        &\xrightarrow{R_3\to \frac{1}{2}R_3}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 0 & 0 & 0 & 1 & -1 & 0 & 0 \\
+            0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 1 & \frac{3}{2} & -\frac{1}{2} & \frac{1}{2} & \frac{1}{2} & 0 \\
+            0 & 0 & 1 & 2 & 0 & 0 & 0 & 1
+        \end{array}} \\
+        &\xrightarrow[R_4\to R_4 - R_3]{R_2\to R_2 - R_3}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 0 & 0 & 0 & 1 & -1 & 0 & 0 \\
+            0 & 1 & 0 & -\frac{1}{2} & \frac{1}{2} & \frac{1}{2} & -\frac{1}{2} & 0 \\
+            0 & 0 & 1 & \frac{3}{2} & -\frac{1}{2} & \frac{1}{2} & \frac{1}{2} & 0 \\
+            0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} & -\frac{1}{2} & -\frac{1}{2} & 1
+        \end{array}} \\
+        &\xrightarrow{R_4\to 2R_4}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 0 & 0 & 0 & 1 & -1 & 0 & 0 \\
+            0 & 1 & 0 & -\frac{1}{2} & \frac{1}{2} & \frac{1}{2} & -\frac{1}{2} & 0 \\
+            0 & 0 & 1 & \frac{3}{2} & -\frac{1}{2} & \frac{1}{2} & \frac{1}{2} & 0 \\
+            0 & 0 & 0 & 1 & 1 & -1 & -1 & 2
+        \end{array}} \\
+        &\xrightarrow[R_3\to R_3 - \frac{3}{2}R_4]{R_2\to R_2 + \frac{1}{2}R_4}
+        \parens{\begin{array}{@{}c c c c | c c c c@{}}
+            1 & 0 & 0 & 0 & 1 & -1 & 0 & 0 \\
+            0 & 1 & 0 & 0 & 1 & 0 & -1 & 1 \\
+            0 & 0 & 1 & 0 & -2 & 2 & 2 & -3 \\
+            0 & 0 & 0 & 1 & 1 & -1 & -1 & 2
+        \end{array}}.
+    \end{align*}
+    Since $\rref A = I$, it follows that we have
+    \[A^{-1} = \boxed{\begin{pmatrix}
+        1 & -1 & 0 & 0 \\
+        1 & 0 & -1 & 1 \\
+        -2 & 2 & 2 & -3 \\
+        1 & -1 & -1 & 2
+    \end{pmatrix}}.\]
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Suppose $A, B, C$ are $n \times n$ matrices, with $C$ is invertible and $B = C^{-1}AC$. Prove that $\lambda \in \RR$ is an eigenvalue of $A$ if and only if it is an eigenvalue of $B$.
+\end{claim}
+
+\begin{soln}
+    We prove the two directions separately.
+    
+    $(\implies)$: If $\lambda$ is an eigenvalue of $A$, then there exists $\vec{v}\in \RR^n$ such that $A\vec{v} = \lambda\vec{v}$. Thus,
+    \begin{align*}
+        &B = C^{-1}AC \\
+        \implies& BC^{-1} = C^{-1}A \\
+        \implies& BC^{-1}\vec{v} = C^{-1}A\vec{v} \\
+        \implies& BC^{-1}\vec{v} = C^{-1}\lambda\vec{v} \\
+        \implies& B\parens{C^{-1}\vec{v}} = \lambda\parens{C^{-1}\vec{v}}.
+    \end{align*}
+    Since $C^{-1}\vec{v}$ is a vector in $\RR^n$, this implies that $\lambda$ is an eigenvalue of $B$ too.
+    
+    $(\impliedby)$: If $\lambda$ is an eigenvalue of $B$, then there exists $\vec{v}\in \RR^n$ such that $B\vec{v} = \lambda\vec{v}$. Thus,
+    \begin{align*}
+        &C^{-1}AC = B \\
+        \implies& AC = CB \\
+        \implies& AC\vec{v} = CB\vec{v} \\
+        \implies& AC\vec{v} = C\lambda \vec{v} \\
+        \implies& A\parens{C\vec{v}} = \lambda \parens{C\vec{v}}.
+    \end{align*}
+    Since $C\vec{v}$ is a vector in $\RR^n$, this implies that $\lambda$ is an eigenvalue of $A$ too.
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Find all eigenvalues and all corresponding eigenvectors of $\begin{pmatrix}1 & 1 \\ 0 & 1\end{pmatrix}$.
+\end{claim}
+
+\begin{soln}
+    Observe that $\det\parens{\begin{pmatrix}1 & 1 \\ 0 & 1\end{pmatrix} - \begin{pmatrix}\lambda & 0 \\ 0 &\lambda\end{pmatrix}} = \det\begin{pmatrix} 1 - \lambda & 1 \\ 0 & 1 - \lambda\end{pmatrix} = \parens{1 - \lambda}^2.$ This equals $0$ if and only if $\lambda = 1$, so $\begin{pmatrix}1 & 1 \\ 0 & 1\end{pmatrix}$ only has one eigenvalue $\lambda = 1$ and corresponding eigenvectors 
+    \begin{align*}
+        N\parens{\begin{pmatrix}
+            0 & 1 \\
+            0 & 0
+        \end{pmatrix}} \setminus\braces{\vec{0}} &= \set*{\begin{pmatrix} x_1 \\ x_2\end{pmatrix} \in \RR^2\mid \begin{pmatrix}
+            0 & 1 \\
+            0 & 0
+        \end{pmatrix}\begin{pmatrix} x_1 \\ x_2\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+        &= \set*{\begin{pmatrix} x_1 \\ x_2\end{pmatrix} \in \RR^2 \mid \begin{pmatrix} x_2 \\ 0\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+        &= \vspan\braces{\begin{pmatrix}
+            1 \\ 0
+        \end{pmatrix}} \setminus \braces{\vec{0}}.
+    \end{align*}
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Find all eigenvalues and all corresponding eigenvectors of $A = \begin{pmatrix}
+        2 & 0 & 1 \\
+        0 & 2 & 0 \\
+        1 & 0 & 2
+    \end{pmatrix}$.
+\end{claim}
+
+\begin{soln}
+    Observe that
+    \begin{align*}
+    \det\parens{\begin{pmatrix}2 & 0 & 1 \\ 0 & 2 & 0 \\ 1 & 0 & 2\end{pmatrix} - \begin{pmatrix}\lambda & 0 & 0 \\ 0 & \lambda & 0 \\ 0 & 0 &\lambda\end{pmatrix}} &= \det\begin{pmatrix} 2 - \lambda & 0 & 1 \\ 0 & 2 - \lambda & 0 \\ 1 & 0 & 2 - \lambda\end{pmatrix} \\
+    &= (-1)^{2 + 2}\parens{2 - \lambda}\det\begin{pmatrix}
+        2 - \lambda & 1 \\
+        1 & 2 - \lambda
+    \end{pmatrix} \\
+    &= \parens{2 - \lambda}\parens{\parens{2 - \lambda}^2 - 1} \\
+    &= \parens{2 - \lambda}\parens{1 - \lambda}\parens{3 - \lambda}.
+    \end{align*}
+    This means that $A$ has 3 eigenvalues $\lambda = 1, 2, 3$. To find the eigenvectors corresponding to $\lambda = 1$, observe that
+    \begin{align*}
+    N\parens{\begin{pmatrix}
+        1 & 0 & 1 \\
+        0 & 1 & 0 \\
+        1 & 0 & 1
+    \end{pmatrix}} \setminus\braces{\vec{0}} &= \set*{\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} \in \RR^3\mid \begin{pmatrix}
+        1 & 0 & 1 \\
+        0 & 1 & 0 \\
+        1 & 0 & 1
+    \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+    &= \set*{\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} \in \RR^3\mid \begin{pmatrix}
+        1 & 0 & 1 \\
+        0 & 1 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+    &= \vspan\braces{\begin{pmatrix}
+        1 \\
+        0 \\
+        -1
+    \end{pmatrix}}\setminus \braces{\vec{0}}.
+    \end{align*}
+
+    To find the eigenvectors corresponding to $\lambda = 2$, observe that
+    \begin{align*}
+    N\parens{\begin{pmatrix}
+        0 & 0 & 1 \\
+        0 & 0 & 0 \\
+        1 & 0 & 0
+    \end{pmatrix}} \setminus\braces{\vec{0}} &= \set*{\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} \in \RR^3\mid \begin{pmatrix}
+        0 & 0 & 1 \\
+        0 & 0 & 0 \\
+        1 & 0 & 0
+    \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+    &= \set*{\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} \in \RR^3\mid \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & 1
+    \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+    &= \vspan\braces{\begin{pmatrix}
+        0 \\
+        1 \\
+        0
+    \end{pmatrix}}\setminus \braces{\vec{0}}.
+    \end{align*}
+
+    To find the eigenvectors corresponding to $\lambda = 3$, observe that
+    \begin{align*}
+    N\parens{\begin{pmatrix}
+        -1 & 0 & 1 \\
+        0 & -1 & 0 \\
+        1 & 0 & -1
+    \end{pmatrix}} \setminus\braces{\vec{0}} &= \set*{\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} \in \RR^3\mid \begin{pmatrix}
+        -1 & 0 & 1 \\
+        0 & -1 & 0 \\
+        1 & 0 & -1
+    \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+    &= \set*{\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} \in \RR^3\mid \begin{pmatrix}
+        1 & 0 & -1 \\
+        0 & 1 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \\ x_3\end{pmatrix} = \vec{0}}\setminus \braces{\vec{0}} \\
+    &= \vspan\braces{\begin{pmatrix}
+        1 \\
+        0 \\
+        1
+    \end{pmatrix}}\setminus \braces{\vec{0}}.
+    \end{align*}
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Let $M$ be an $n \times n$ matrix and $p : \RR^n \to \RR$ be the function defined by $p\parens{\vx} = M\vx \cdot \vx$. Prove that $p$ is $C^2$ with $\nabla p\parens{\vx} = \parens{M + M^\top}\vx$, $\nabla^2p\parens{\vx} = M + M^\top$, and $\Hess_{p,\vx}\parens{\vec\xi} = 2p\parens{\vec\xi}$.
+\end{claim}
+
+\begin{soln}
+    Let $M = (m)_{ij}$ and $\vx = \parens{x_1, \ldots , x_n}^\top$; then
+    \begin{align*}
+        p\parens{\vx} &= M\vx\cdot \vx \\
+        &= \parens{M\parens{x_1, \ldots , x_n}^\top} \cdot \parens{x_1, \ldots , x_n}^\top \\
+        &= \parens{\sum_{j = 1}^n m_{1j}x_{j}, \ldots , \sum_{j = 1}^n m_{nj}x_{j}}^\top \cdot \parens{x_1, \ldots , x_n}^\top \\
+        &= \boxed{\sum_{i = 1}^n\sum_{j = 1}^n m_{ij}x_jx_i}.
+    \end{align*}
+    In particular, since this is a polynomial, it is obviously $C^2$. I will now show that $\nabla p\parens{\vx} = (M + M^\top)\vx$; for each $k, i, j \in \braces{1, \ldots , n}$, we have
+    \[\pdv{}{x_k}\parens{m_{ij}x_jx_i} =
+    \begin{cases}
+        0 & i, j \neq k \\
+        m_{kj}x_j & i = k, j \neq k \\
+        m_{ik}x_i & i \neq k, j = k \\
+        2m_{kk} x_k & i = j = k
+    \end{cases},\]
+    so
+    \begin{align*}
+        \pdv{}{x_k}\parens{\sum_{i = 1}^n\sum_{j = 1}^n m_{ij}x_jx_i} &= \parens{\sum_{j = 1}^n m_{kj}x_j - m_{kk}x_k} \\
+        &+ \parens{\sum_{i = 1}^n m_{ik}x_i - m_{kk}x_k} \\
+        &+ 2m_{kk}x_k \\
+        &= \sum_{i = 1}^n \parens{m_{ik} + m_{ki}} x_i,
+    \end{align*}
+    but this is the dot product of the $k$th row of $M + M^\top$ with $\vx$, so we get $\nabla p\parens{\vx} = (M + M^\top)\vx$. Next, I will show that $\nabla^2p\parens{x} = M + M^\top$. Recalling our earlier computation of the $k$th partial derivative of $m_{ij}x_jx_i$, we have
+    \begin{align*}
+        &\pdv{}{x_{k_1}, x_{k_2}} \parens{m_{ij}x_jx_i} = 
+        \begin{cases}
+            m_{k_1k_2} & i = k_1, j = k_2 \\
+            m_{k_2k_1} & i = k_2, j = k_1 \\
+            0 & \text{otherwise}
+        \end{cases} \\
+        &\implies \pdv{}{x_{k_1}, x_{k_2}}\parens{\sum_{i = 1}^n\sum_{j = 1}^n m_{ij}x_jx_i} = m_{k_1k_2} + m_{k_2k_1} \\
+        &\implies \nabla^2p\parens{\vx} = M + M^\top.
+    \end{align*}
+    Finally, we have
+    \begin{align*}
+        \Hess_{p,\vx}\parens{\vec\xi} &= \parens{\nabla^2p\parens{\vx}\vec\xi}\cdot\vec\xi \\
+        &= \parens{(M + M^\top)\vec\xi}\cdot \vec\xi \\
+        &= \parens{M\vec\xi}\cdot \vec\xi + \parens{M^\top\vec\xi}\cdot \vec\xi,
+    \end{align*}
+    but since
+    \[\parens{M^\top\vec\xi}\cdot \vec\xi = \sum_{i = 1}^n\sum_{j = 1}^n m_{ji}x_jx_i = \sum_{i = 1}^n\sum_{j = 1}^n m_{ij}x_jx_i = \parens{M\vec\xi}\cdot \vec\xi,\]
+    we have $\Hess_{p, \vx}\parens{\vec\xi} = 2\parens{M\vec\xi}\cdot \vec\xi = 2p\parens{\vec\xi}$ as desired.
+\end{soln}
+\eject
+
+\end{document}

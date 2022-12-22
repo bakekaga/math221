@@ -1,0 +1,48 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 8: 9/9/22}
+
+Suppose $V$ is a nontrivial subspace of $\RR^n$. Recall that $\vec{v}_1, \ldots , \vec{v}_q \in V$ form a basis of $V$ if:
+\begin{enumerate}[(i)]
+    \item $\vec{v}_1, \ldots , \vec{v}_q$ are linearly independent.
+    \item $\vec{v}_1, \ldots , \vec{v}_q$ span $V$.
+\end{enumerate}
+
+\begin{theorem}[Uniqueness of bases]
+    Let $V$ be a nontrivial subspace of $\RR^n$. If $\vec{v}_1, \ldots , \vec{v}_p\in V$ are a basis of $V$ and so is $\vec{w}_1, \ldots , \vec{w}_q\in V$ is another basis of $V$, then $p = q$.
+\end{theorem}
+
+\begin{proof}
+    We have $\vec{v}_1, \ldots , \vec{v}_p\in V = \vspan\{\vec{w}_1, \ldots , \vec{w}_q\}$ and since $\vec{v}_1, \ldots , \vec{v}_p$ are linearly independent, we must have that $p\le q$ by the Linear Dependence Lemma. The identical argument can be made by swapping the $\vec{v}$s and $\vec{w}$s, so $q\le p$. Thus, $p = q$ as desired.
+\end{proof}
+
+\begin{definition}[Dimension]
+    Suppose $V$ is a subspace of $\RR^n$. If $V$ is trivial, we define $\dim V = 0$. If $V$ is nontrivial, we define $\dim V$ to be the number of vectors in a basis for $V$.
+\end{definition}
+
+Note that this is well-defined because there is always at least one basis by the Basis Theorem, and furthermore that any two bases have the same number of vectors as we just showed.
+
+\begin{example}
+    $\vec{e}_1, \ldots , \vec{e}_n$ form a basis for $\RR^n$, so $\dim \RR^n = n$.
+\end{example}
+
+\begin{theorem}
+    $V$ is a nontrivial subspace of $\RR^n$ with $\dim V = k$. if $\vec{v}_1, \ldots , \vec{v}_k\in V$, then $\vec{v}_1, \ldots , \vec{v}_k$ are linearly independent if and only if they span $V$.
+\end{theorem}
+
+\begin{proof}
+    $(\implies)$: It suffices to show that $V\subseteq \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$; we've already shown that $\vspan\{\vec{v}_1, \ldots , \vec{v}_k\}\subseteq V$ in the previous problem set. Let $\vec{v} \in V$ be arbitrary. Suppose FTSOC that $\vec{v}\not\in \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$. By our proposition from last time, this means that $\vec{v}_1, \ldots , \vec{v}_k , \vec{v}$ are linearly independent. However, $\dim V = k$, so there exists a basis $\{\vec{w}_1, \ldots , \vec{w}_k\}$ for $V$; thus, $\vec{v}_1, \ldots , \vec{v}_k, \vec{v}\in \vspan \{\vec{w}_1, \ldots , \vec{w}_k\}$,  which by the Linear Dependence Lemma implies that $\vec{v}_1, \ldots , \vec{v}_k, \vec{v}$ are linearly dependent, contradiction! Thus all $\vec{v}\in V$ must satisfy $\vec{v}\in \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$.
+
+    $(\impliedby)$: Suppose FTSOC that $\vec{v}_1, \ldots , \vec{v}_k$ were linearly dependent. Therefore there exists some $j\in \{1, \ldots , k\}$ such that $\vec{v}_j = d_1\vec{v}_1 + \ldots + d_{j - 1}\vec{v}_{j - 1} + d_{j + 1}\vec{v}_{j + 1} + \ldots + d_k\vec{v}_k$. This seems like $\vec{v}_1, \ldots , \vec{v}_{j - 1}, \vec{j + 1}, \ldots , \vec{v}_k$ would be enough to be a basis of $V$, but this would contradict its dimension being $k$ and not $k - 1$; we will now show that. Let $\vec{w}_1, \ldots , \vec{w}_k\in V$ be a basis of $V$. For each $i = 1, \ldots , k$, we know that $\vec{w}_i \in V = \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$ by assumption. In particular, $\vec{w}_i \in V = \vspan\{\vec{v}_1, \ldots , \vec{v}_k\}$ by assumption, i.e.
+    \begin{align*}
+        \vec{w}_i &= c_{1i}\vec{v}_1 + \ldots + c_{(j - 1)i}\vec{v}_{j - 1} + \mathbf{c_{ji}\vec{v}_j} + c_{(j + 1)i}\vec{v}_{j + 1} + \ldots + c_{ki}\vec{v}_k \\
+        &= c_{1i}\vec{v}_1 + \ldots + c_{(j - 1)i}\vec{v}_{j - 1} \\
+        &+ c_{ji}(d_1\vec{v}_1 + \ldots + d_{j - 1}\vec{v}_{j - 1} + d_{j + 1}\vec{v}_{j + 1} + \ldots + d_k\vec{v}_k) \\
+        &+ c_{(j + 1)i}\vec{v}_{j + 1} + \ldots + c_{ki}\vec{v}_k \\
+        &= (c_{1i} + d_1c_{ji})\vec{v}_1 + \ldots + (c_{(j - 1)i} + d_{j - 1}c_{ji})\vec{v}_{j - 1} \\
+        &+ (c_{(j + 1)i} + d_{j + 1}c_{ji})\vec{v_{j + 1}} + \ldots + (c_{ki} + d_kc_{ji})\vec{v}_k \\
+        &\in \vspan\{\vec{v}_1, \ldots , \vec{v}_{j - 1}, \vec{v}_{j + 1}, \ldots , \vec{v}_k\},
+    \end{align*}
+    so we've shown that $\vec{w}_1, \ldots , \vec{w}_k\in \vspan\{\vec{v}_1, \ldots , \vec{v}_{j - 1}, \vec{v}_{j + 1}, \ldots , \vec{v}_k\}$, so $\vec{w}_1, \ldots , \vec{w}_k$ must be linearly dependent by the Linear Dependence Lemma, which contradicts that they're a basis for $V$.
+\end{proof}
+\end{document}

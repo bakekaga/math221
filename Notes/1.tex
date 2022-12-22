@@ -1,0 +1,51 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 1: 8/22/22}
+First, note the grading scheme: 60\% exams (2 midterms + final), 40\% problem sets. Also, Oct 7 is the drop out date.
+
+\subsubsection{Mathematical Induction}
+We define $\NN = \{1, 2, \ldots \}$ and $\ZZ = \{\ldots , -2, -1, 0, 1, 2, \ldots \}$. Let's prove something with \vocab{mathematical induction}:
+
+\begin{example}
+    Prove for all $n\in \NN$ that $1 + 2 + \ldots + n = \frac{n(n + 1)}{2}$.
+\end{example}
+
+\begin{proof}
+    We wish to show that $1 + 2 + \ldots + n = \frac{n(n + 1)}{2}$ using induction. We can verify this for small values of $n$. For example, $1 = \frac{1 \cdot 2}{2}$, $1 + 2 = \frac{2\cdot 3}{2}$, and so on. However, this does not work as a proof. Therefore, we should use the technique of induction, which allows us to check every case with two steps. In induction, we first prove a \vocab{base case}.
+
+    \textbf{Base Case:} The smallest $n$ we care about is $n = 1$. However, we've already checked this.
+
+    Next, let's show the \vocab{inductive step}, which involves assuming the desired statement is true for some value $k$, and then proving the statement for $k + 1$.
+
+    \textbf{Inductive Step:} Assume the desired statement is true for some value $n = k\in \NN$, i.e. that $1 + 2 + \ldots + k = \frac{k(k + 1)}{2}$; this is the \vocab{inductive hypothesis}. Then using this, we will prove that the same statement is true for the subsequent value $k + 1$. Observe that
+    \begin{align*}
+        &1 + 2 + \ldots + (k + 1) \\
+        &= 1 + 2 + \ldots + k + (k + 1) \\
+        &= \frac{k(k + 1)}{2} + (k + 1) = \frac{k(k + 1) + 2(k + 1)}{2} \\
+        &= \frac{(k + 2)(k + 1)}{2},
+    \end{align*}
+    so the desired statement is true for $n = k + 1$, and this completes the inductive step. Therefore, by mathematical induction, the desired statement is true for all values $n\in \NN$.
+\end{proof}
+
+What happens by proving the base case and the inductive step is a proof for all natural numbers. The idea is that once we prove the base case, we can invoke the inductive step to prove the next number, and then the next number, and so on.
+
+\begin{example}
+    Prove that for all $n\in \NN$, we have
+    \[\frac{1}{1\cdot 2} + \frac{1}{2\cdot 3} + \ldots + \frac{1}{n(n + 1)} = \frac{n}{n + 1}.\]
+\end{example}
+
+\begin{proof}
+    Denote the statement above by $P(n)$. We will show that $P(n)$ is true for all $n\in \NN$ by induction on $n$.
+    
+    \textbf{Base Case:} $P(1)$. This asserts that $\frac{1}{1\cdot 2} = \frac{1}{1 + 1,}$ which is clearly true.
+    
+    \textbf{Inductive Step:} Assume $P(k)$ is true for some $k$. Note that
+    \begin{align*}
+        &\frac{1}{1\cdot 2} + \frac{1}{2\cdot 3} + \ldots + \frac{1}{(k + 1)(k + 2)} \\
+        &=\frac{1}{1\cdot 2} + \frac{1}{2\cdot 3} + \ldots + \frac{1}{k(k + 1)} + \frac{1}{(k + 1)(k + 2)} \\
+        &=\frac{k}{k + 1} + \frac{1}{(k + 1)(k + 2)} = \frac{k^2 + 2k + 1}{(k + 1)(k + 2)} \\
+        &=\frac{(k + 1)^2}{(k + 1)(k + 2)} = \frac{k + 1}{k + 2},
+    \end{align*}
+    thereby completing the inductive step as we've shown $P(k + 1)$. Thus, by induction, $P(n)$ is true for all values of $n\in \NN$.
+\end{proof}
+\end{document}

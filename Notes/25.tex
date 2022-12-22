@@ -1,0 +1,83 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 25: 10/21/22}
+\begin{theorem}
+    With the same assumptions as the previous theorem, $\mathcal{D}_j\vf\parens{\va}$ exists for all $j\in \braces{1, \ldots , n}$ and is the $j$th column of $\mathcal{D}\vf\parens{\va}$. Moreover, for every $\vec{v} = (v_1, \ldots , v_n)^\top\in \RR^n$, we have
+    \[\mathcal{D}_{\vec{v}} \vf\parens{\va} = v_1 \mathcal{D}_1\vf\parens{\va} + \ldots + v_n\mathcal{D}_n\vf\parens{\va},\]
+    i.e. the directional derivative can be expressed as a linear combination of the partial derivatives.
+\end{theorem}
+\begin{proof}
+    Observe that $\mathcal{D}_j\vf\parens{\va} = \mathcal{D}_{\vec{e}_j}\vf\parens{\va} = D\vf\parens{\va}\vec{e}_j$ by the last theorem of the previous lecture; in particular, multiplying a matrix by $\vec{e}_j$ gives its $j$th column of $\mathcal{D}\vf\parens{\va}$, so the first part is done, and thus we have
+    \[\mathcal{D}\vf\parens{\va} = \parens{\mathcal{D}_1\vf\parens{\va}, \ldots , \mathcal{D}_n\vf\parens{\va}}.\]
+    Take any vector $\vec{v} = \parens{v_1, \ldots , v_n}^\top\in \RR^n$; then
+    \begin{align*}
+        \mathcal{D}_{\vec{v}}\vf\parens{\va} &= \mathcal{D}\vf\parens{\va}\vec{v} \\
+        &= \parens{\mathcal{D}_1\vf\parens{\va}, \ldots , \mathcal{D}_n\vf\parens{\va}}\begin{pmatrix} v_1 \\ \vdots \\ v_n\end{pmatrix} \\
+        &= v_1\mathcal{D}_1\vf\parens{\va} + \ldots + v_n\mathcal{D}_n\vf\parens{\va}
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{remark}
+    Let $U\subseteq \RR^n$, $\vf = \parens{f_1, \ldots , f_m}^\top : U \to \RR^m$. If $\vf$ is differentiable at $\va\in U$ (which is why $U$ must be open, otherwise $\vf$ may not be differentiable at edge), then $\mathcal{D}_j\vf_i\parens{\va}$ exists for all $i \in \braces{1, \ldots , n}, j\in \braces{1, \ldots , m}$ and $\mathcal{D}\vf\parens{\va} = \begin{pmatrix}
+        \mathcal{D}_1\vf_1\parens{\va} & \cdots & \mathcal{D}_n\vf_1\parens{\va} \\
+        \vdots & \ddots & \vdots \\
+        \mathcal{D}_1\vf_m\parens{\va} & \cdots & \mathcal{D}_n\vf_m\parens{\va}
+    \end{pmatrix}.$
+\end{remark}
+
+From now on, denote $\mathcal{D}_j\vf\parens{\va} = \pdv{}{x_j}\vf\parens{\va}$ for $j = 1, \ldots , n$.
+
+\begin{definition}
+    Let $U\subseteq \RR^n$. If $f : U\to \RR$, then $\mathcal{D}f\parens{\va}$ is a $1\times n$ matrix, and we can denote $\parens{\mathcal{D} f\parens{\va}}^\top = \nabla f\parens{\va}\in \RR^n$ and call it the \vocab{gradient vector} of $f$ at $\va$. In particular, we have
+    \[\nabla f\parens{\va} = \begin{pmatrix}
+        \pdv{}{x_1}f\parens{\va} \\ \vdots \\ \pdv{}{x_n}f\parens{\va}
+    \end{pmatrix}.\]
+\end{definition}
+
+\begin{proposition}
+    Let $U\subseteq \RR^n$ be open, $f : U \to \RR$ be differentiable at $\va\in U$. If $f$ attains its maximum at $\va$, i.e. $\max\set*{f\parens{\vx} \mid \vx\in U} = f\parens{\va}$, then $\nabla f\parens{\va} = \vec{0}$.
+\end{proposition}
+
+\begin{proof}
+    Fix $j\in \braces{1, \ldots , m}$. Consider $g_j\parens{t} = f\parens{\va + t\vec{e}_j}$. Since $\va\in U$ and $U$ is open, there exists $\rho > 0$ such that $B_\rho\parens{\va}\subseteq U$, i.e. $g_j\parens{t}$ makes sense for all $t\in (-\rho, \rho)$, i.e. we can simply study the single variable function $g : (-\rho, \rho) \to \RR$.
+    \begin{claim}
+        $g_j$ attains its maximum at $t = 0$.
+    \end{claim}
+    \begin{proof}
+        Observe that
+        \[\set*{g_j\parens{t} \mid t\in (-\rho, \rho)} = \set*{f\parens{\va + t\vec{e}_j} \mid t \in (-\rho, \rho)} \subseteq \set*{f\parens{\vx} \mid \vx \in U},\] so
+        \[\sup\set*{g_j\parens{t} \mid t\in (-\rho, \rho)}\le \sup\set*{f\parens{\vx} \mid \vec{x}\in U} = \max\set*{f\parens{\vx} \mid \vx \in U} = f\parens{\va}\]
+        by assumption. However, $f\parens{\va} = g_j\parens{0} \in \set*{g_j\parens{t} \mid t\in (-\rho,\rho)}$, so we get the desired result.
+    \end{proof}
+
+    \begin{claim}
+        $g_j$ is differentiable at $t = 0$ with $g_j'(0) = \mathcal{D}_jf\parens{\va} = \parens{\pdv{}{x_j}f\parens{\va}}$.
+    \end{claim}
+    \begin{proof}
+        This is a computation we did last time.
+    \end{proof}
+
+    Combining these two claims, we get $\mathcal{D}_j f\parens{\va} = g'_j(0) = 0$. This is true for all $j\in \braces{1, \ldots , n}$ so $\nabla \vf\parens{\va} = \vec{0}$.
+\end{proof}
+
+The gradient is useful because it gives the direction of the fastest rate of change of $f$ when we start from $\va$, and its magnitude gives the actual rate of change; we can characterize this formally as follows:
+
+\begin{lemma}
+    Let $U\subseteq \RR^n$ be open, $f : U \to \RR$ differentiable at $\va\in U$. Then
+    \begin{enumerate}
+        \item $\max\set*{\mathcal{D}_{\vec{v}} f \parens{\va} \mid \vec{v}\in \RR^n, \norm{\vec{v}} = 1} = \norm{\nabla f\parens{\va}}$.
+        \item If $\nabla f\parens{\va} = \vec{0}$, then all the $\vec{v}$s attain the max. If $\nabla f\parens{\va} \neq \vec{0}$, then the max is attained if and only if $\vec{v} = \frac{1}{\norm{\nabla f\parens{\va}}}\nabla f\parens{\va}$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    We deal with the cases of $\nabla f\parens{\va} = 0, \neq 0$ separately.
+    
+    \textbf{Case 1:} $\nabla f\parens{\va} = \vec{0}$. For all $\vec{v}\in \RR^n$ satisfying $\norm{\vec{v}} = 1$, we have $\mathcal{D}_{\vec{v}}f\parens{\va} = \mathcal{D}f\parens{\va}\vec{v} = \nabla f\parens{\va} \cdot \vec{v} = 0$ since $\nabla f\parens{\va} = 0$, which implies both parts.
+
+    \textbf{Case 2:} $\nabla f\parens{\va} \neq \vec{0}$. For all $\vec{v}\in \RR^n$ satisfying $\norm{\vec{v}} = 1$, we have $\mathcal{D}_{\vec{v}}f\parens{\va} = \mathcal{D}f\parens{\va}\vec{v} = \nabla f\parens{\va} \cdot \vec{v} \le \abs{\nabla f\parens{\va} \cdot \vec{v}} \le \norm{f\parens{\va}}$ by Cauchy-Schwartz. Next, take $\vec{v} = \frac{1}{\norm{\nabla f\parens{\va}}} \nabla f\parens{\va}\in \RR^n$. Then $\norm{\vec{v}} = \norm{\frac{1}{\norm{\nabla f\parens{\va}}} \nabla f\parens{\va}} = \frac{\norm{\nabla f\parens{\va}}}{\norm{\nabla f\parens{\va}}} = 1$; thus, $\mathcal{D}_{\vec{v}}f\parens{\va} = \mathcal{D}f\parens{\va}\vec{v} = \nabla f\parens{\va} \cdot \vec{v} = \nabla f\parens{\va}\cdot \parens{\frac{1}{\norm{\nabla f\parens{\va}}}\nabla f\parens{\va}} = \frac{\norm{\nabla f\parens{\va}}^2}{\norm{\nabla f\parens{\va}}} = \norm{\nabla f\parens{\va}}$, so the first part is complete as we've shown the maximum exists and is attainable.
+
+    Now we need to show the $\implies$ direction of part two; suppose that $\vec{v}$ obtains the maximum, i.e. $\mathcal{D}_{\vec{v}} f\parens{\va} = \norm{\nabla f\parens{\va}}$, $\norm{\vec{v}} = 1$. Then $\norm{\nabla f\parens{\va} + \vec{v}}^2 = \norm{\nabla f\parens{\va}}^2 + 2\nabla f\parens{\va} \cdot \vec{v} + \norm{\vec{v}}^2 = \norm{\nabla f\parens{\va}}^2 + 2\norm{\nabla f\parens{\va}}\norm{\vec{v}} + \norm{\vec{v}}^2 = \parens{\norm{\nabla f\parens{\va}} + \norm{\vec{v}}}^2$, so in particular we've achieved the equality case of the Triangle and thus Cauchy-Schwartz Inequality. Since both vectors are not $\vec{0}$, we then there exists some $\lambda > 0$ such that $\vec{v} = \lambda\nabla f\parens{\va}\implies 1 = \norm{\vec{v}} = \lambda\norm{\nabla f\parens{\va}}\implies \lambda = \frac{1}{\norm{\nabla f\parens{\va}}}\implies \vec{v} = \frac{1}{\norm{\nabla f\parens{\va}}}\nabla f\parens{\va}$ as desired.
+\end{proof}
+\end{document}

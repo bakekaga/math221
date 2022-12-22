@@ -1,0 +1,77 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 30: 11/2/22}
+\subsubsection{Higher Order Partial Derivatives}
+
+\begin{theorem}
+    Let $U\subseteq \RR^n$ be open, $\vf : U \to \RR^m$. If $\mathcal{D}_i\mathcal{D}_j\vf$ and $\mathcal{D}_j\mathcal{D}_i\vf$ exist on $B_\rho\parens
+    \va \subseteq U$ and $\mathcal{D}_i\mathcal{D}_j\vf$ and $\mathcal{D}_j\mathcal{D}_i\vf$ are continuous at $\va$, then $\mathcal{D}_i\mathcal{D}_j\vf\parens{\va} = \mathcal{D}_j\mathcal{D}_i\vf\parens{\va}$.
+\end{theorem}
+
+\begin{proof}
+    WLOG, assume $m = 1$ and $i\neq j$ since we can break things into components and otherwise there's nothing to check, respectively. I claim that the following is sufficient:
+
+    \begin{claim}
+        \[\lim_{h\to 0} \frac{f\parens{\va + h\vec{e}_i + h\vec{e}_j} - f\parens{a + h\vec{e}_j} - f\parens{a + h\vec{e}_i} + f\parens{\va}}{h^2} = \mathcal{D}_i\mathcal{D}_jf\parens{\va}.\]
+        Refer to the numerator's expression as $\spadesuit$.
+    \end{claim}
+
+    This is because the expression on the LHS is symmetric wrt $i$ and $j$, so swapping them gives that the LHS equals $\mathcal{D}_i\mathcal{D}_jf\parens{\va}$, which implies the desired result. Now let's prove this claim:
+
+    \begin{proof}
+        Let $\varepsilon > 0$ be arbitrary. From the continuity of $\mathcal{D}_i\mathcal{D}_jf\parens{\va}$, there exists $\delta_0$ such that $\abs{\mathcal{D}_i\mathcal{D}_jf\parens{\vx} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}} < \varepsilon$ for all $\vx\in B_\rho\parens{\va}$ with $\norm{\vx - \va} < \delta_0$. Let $\delta = \frac{1}{2}\min\braces{\rho, \delta_0}$.
+
+        \begin{claim}
+        \label{subclaim1}
+            For all $h, h'\in (-\delta, \delta)$, we have $\va + h\vec{e}_i + h'\vec{e}_j\in B_{\min\braces{\rho, \delta_0}}\parens{\va}$.
+        \end{claim}
+
+        \begin{proof}
+            We have
+            \begin{align*}
+                \norm{\parens{\va + h\vec{e}_i + h'\vec{e}_j} - \va} &= \norm{h\vec{e}_i + h'\vec{e}_j} \\
+                &\le \abs{h} + \abs{h'} \\
+                &< \delta + \delta \\
+                &= 2\delta \\
+                &= \min\braces{\rho, \delta_0}.\qedhere
+            \end{align*}
+        \end{proof}
+
+        Back to the original problem: fix $0 < \abs{h} < \delta$. Consider the function $g : (-\delta, \delta) \to \RR$ given by
+        \[g(t) = f\parens{\va + h\vec{e}_i + t\vec{e}_j} - f\parens{\va + t\vec{e}_j},\]
+        which is well-defined by Claim \ref{subclaim1}. Then we obviously have
+        \begin{align*}
+            g(0) &= f\parens{\va + h\vec{e}_i} - f\parens{\va}, \\
+            g(h) &= f\parens{\va + h\vec{e}_i + h\vec{e}_j} - f\parens{\va + h\vec{e}_j},
+        \end{align*}
+        so in fact $\spadesuit = g(h) - g(0)$. Since the $j$ direction is the only one that is modified as $t$ changes, we have that
+        \[g'(t) = \mathcal{D}_jf\parens{\va + h\vec{e}_i + t\vec{e}_j} - \mathcal{D}_jf\parens{\va + t\vec{e}_j}.\]
+        By the Mean Value Theorem, there exists $\theta\in (0, 1)$ such that
+        \begin{align*}
+            \spadesuit &= g(h) - g(0) \\
+            &= g'(0 + \theta(h - 0))(h - 0) \\
+            &= g'(\theta h) \cdot h \\
+            &= \parens{\mathcal{D}_jf\parens{\va + h\vec{e}_j + \theta h\vec{e}_j} - \mathcal{D}_jf\parens{\va + \theta h \vec{e}_j}}h.
+        \end{align*}
+        Considering the auxiliary function $\tilde{g} : (-\delta, \delta) \to \RR$ given by $\tilde{g}(t) = \mathcal{D}_jf\parens{\va + t\vec{e}_j + \theta h\vec{e}_j}$ (which is well-defined by Claim \ref{subclaim1}), we clearly have
+        \begin{align*}
+            \tilde{g}(0) &= \mathcal{D}_jf\parens{\va + \theta h \vec{e}_j} \\
+            \tilde{g}(h) &= \mathcal{D}_jf\parens{\va + h\vec{e}_i + \theta h \vec{e}_j} \\
+            \tilde{g}'(t) &= \mathcal{D}_i\mathcal{D}_jf\parens{\va + t\vec{e}_i + \theta h \vec{e}_j}
+        \end{align*}
+        By the Mean Value Theorem again, there exists $\xi \in (0, 1)$ such that
+        \begin{align*}
+            \frac{\spadesuit}{h^2} &= \frac{g(h) - g(0)}{h^2} \\
+            &= \frac{\tilde{g}(h) - \tilde{g}(0)}{h} \\
+            &= \tilde{g}'\parens{\xi h} \\
+            &= \mathcal{D}_i\mathcal{D}_j f\parens{\va + \xi h\vec{e}_i + \theta h \vec{e}_j}.
+        \end{align*}
+        Therefore, we have that
+        \begin{align*}
+            &\abs{\frac{\spadesuit}{h^2} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}} \\
+            &= \abs{\mathcal{D}_i\mathcal{D}_jf\parens{\va + \xi h\vec{e}_i + \theta h \vec{e}_j} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}}.
+        \end{align*}
+        Taking $\vx = \va + \xi h\vec{e}_i + \theta h \vec{e}_j$, we have $\vx \in B_{\min\braces{\rho, \delta_0}}\parens{\va}$ by applying Claim \ref{subclaim1} to $\xi h, \theta h$ (since $\xi, \theta\in (0, 1)$), which means we can apply the definition of continuity of $f$ to get that $\abs{\mathcal{D}_i\mathcal{D}_jf\parens{\va + \xi h\vec{e}_i + \theta h \vec{e}_j} - \mathcal{D}_i\mathcal{D}_jf\parens{\va}} < \varepsilon$ as desired.
+    \end{proof}
+\end{proof}
+\end{document}

@@ -1,0 +1,73 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 3: 8/26/22}
+
+\begin{definition}[Orthogonality]
+    We say $\vec{x}, \vec{y}\in \RR^n$ are \vocab{orthogonal} when $\vec{x}\cdot\vec{y} = 0$.
+\end{definition}
+Note that if $\vec{x}, \vec{y}\in \RR^n$ are orthogonal, then
+\[\norm{\vec{x} + \vec{y}}^2 = \norm{\vec{x}}^2 + 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 = \norm{\vec{x}}^2 + \norm{\vec{y}}^2\]
+since $\vec{x}\cdot \vec{y} = 0$. For now, we will assume the \vocab{Cauchy-Schwartz Inequality}, which states that $\abs{\vec{x}\cdot \vec{y}} \le \norm{\vec{x}} \norm{\vec{y}}$ for $\vec{x}, \vec{y}\in \RR^n$. The proof will be provided later. Given this theorem, we can take two vectors $\vec{x}, \vec{y}\in \RR^n$, both assumed to be nonzero. Then we know that 
+\begin{align*}
+    &\abs{\vec{x}\cdot \vec{y}}\le \norm{\vec{x}} \norm{\vec{y}} \\
+    &\iff \frac{\abs{\vec{x}\cdot \vec{y}}}{\norm{\vec{x}} \norm{\vec{y}}}\le 1 \\
+    &\iff \abs{\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{x}} \norm{\vec{y}}}}\le 1 \\
+    &\iff -1\le \frac{\vec{x}\cdot \vec{y}}{\norm{\vec{x}} \norm{\vec{y}}}\le 1.
+\end{align*}
+Recall that the cosine function is bijective from $[0, \pi]$ to $[-1, 1]$. Thus there exists exactly one $\theta\in [0, \pi]$ such that $\cos\theta = \frac{\vec{x}\cdot \vec{y}}{\norm{\vec{x}} \norm{\vec{y}}}$. We will call this $\theta$ the \vocab{angle} between $\vec{x}$ and $\vec{y}$. We pick the cosine function specifically rather than say, $f(x):= x^2 - 1$ on $[0, \sqrt{2}]\to [-1, 1]$, because this definition makes sense in two dimensions. In particular, observe that if $\vec{x}$ and $\vec{y}$ are orthogonal, then
+\[\cos\theta = \frac{\vec{x}\cdot \vec{y}}{\norm{\vec{x}} \norm{\vec{y}}} = 0\iff \theta = 90^\circ.\]
+Here's an example of an application of Cauchy-Schwartz:
+
+\begin{theorem}[Triangle Inequality]
+    Suppose $\vec{x}, \vec{y}\in \RR^n$. Then
+    \[\norm{\vec{x} + \vec{y}}\le \norm{\vec{x}} + \norm{\vec{y}}.\]
+\end{theorem}
+
+\begin{proof}
+    We have
+    \begin{align*}
+        \norm{\vec{x} + \vec{y}}^2 &= \norm{\vec{x}}^2 + 2\vec{x}\cdot \vec{y} + \norm{\vec{y}}^2 \\
+        &\le \norm{\vec{x}}^2 + 2\abs{\vec{x}\cdot \vec{y}} + \norm{\vec{y}}^2 \\
+        &\le \norm{\vec{x}}^2 + 2\norm{\vec{x}} \norm{\vec{y}} + \norm{\vec{y}}^2 \\
+        &=(\norm{\vec{x}} + \norm{\vec{y}})^2,
+    \end{align*}
+    so $\norm{\vec{x} + \vec{y}} \le \norm{\vec{x}} + \norm{\vec{y}}$.
+\end{proof}
+
+Let's now prove Cauchy-Schwartz:
+\begin{theorem}[Cauchy-Schwartz Inequality]
+    Suppose $\vec{x}, \vec{y}\in \RR^n$. Then
+    \[\abs{\vec{x}\cdot \vec{y}}\le \norm{\vec{x}} \norm{\vec{y}}.\]
+    Moreover, equality holds if and only if $\vec{x} = \lambda\vec{y}$ or $\vec{y} = \lambda\vec{x}$ for $\lambda\in \RR$.
+\end{theorem}
+
+\begin{proof}
+    Denote the theorem by $\spadesuit$.
+    
+    First, suppose that $\vec{y} = \vec{0}$. Then $\vec{x}\cdot \vec{y} = \vec{x}\cdot (0, \ldots , 0) = 0$ and $\norm{\vec{y}} = \norm{\vec{0}} = 0$ so $\abs{\vec{x}\cdot \vec{y}} = 0$ and $\norm{\vec{x}} \norm{\vec{y}} = 0$, so $\spadesuit$ is true.
+
+    Next, suppose that $\vec{y}\neq \vec{0}$. Consider $t\in \RR$, and view $\norm{\vec{x} + t\vec{y}}^2$ as a function of $t$. The claim is that $\norm{\vec{x} + t\vec{y}}^2$ attains its minimum value when $t = -\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{y}}^2}$. To prove this, observe that
+    \begin{align*}
+        \norm{\vec{x} + t\vec{y}}^2&= \norm{\vec{x}}^2 + 2\vec{x} \cdot (t\vec{y}) + \norm{t\vec{y}}^2 \\
+        &= \norm{\vec{y}}^2t^2 + (2\vec{x} \cdot \vec{y})t + \norm{\vec{x}}^2,
+    \end{align*}
+    which is a quadratic expression in $t$ with positive leading coefficient $\norm{\vec{y}}^2$, i.e. its minimum exists and is obtained at the value
+    \[t = \frac{-(2\vec{x}\cdot \vec{y})}{2(\norm{\vec{y}}^2)} = -\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{y}}^2},\]
+    while the minimum value itself is 
+    \[\norm{\vec{x} + t\vec{y}}^2 = -\frac{(2\vec{x}\cdot \vec{y})^2}{4(\norm{\vec{y}}^2)} + \norm{\vec{x}}^2 = \norm{\vec{x}}^2 - \frac{(\vec{x}\cdot \vec{y})^2}{\norm{\vec{y}}^2}.\]
+    Thus our claim is proven. We know from the claim that $\norm{\vec{x}}^2 - \frac{(\vec{x}\cdot \vec{y})^2}{\norm{\vec{y}}^2}$ is the minimum value of $\norm{\vec{x} + t\vec{y}}^2$ over all $t\in \RR$, but $\norm{\vec{x} + t\vec{y}}^2\ge 0$ for all $t$, so 
+    \begin{align*}
+        \norm{\vec{x}}^2 - \frac{(\vec{x}\cdot \vec{y})^2}{\norm{\vec{y}}^2}\ge 0\iff \norm{\vec{x}}^2 \norm{\vec{y}}^2 - (\vec{x}\cdot \vec{y})^2 \ge 0 \iff \abs{\vec{x}\cdot \vec{y}}\le \norm{\vec{x}} \norm{\vec{y}} && (\diamondsuit)
+    \end{align*}
+    which is $\spadesuit$ as desired. Now let's look at the equality case:
+
+    $(\impliedby)$: If $\vec{x} = \lambda\vec{y}$ or $\vec{y} = \lambda\vec{x}$ for $\lambda\in \RR$ (WLOG the latter), then by plugging in to $\vec{x}\cdot \vec{y}$, we get
+    \[\abs{\vec{x}\cdot \vec{y}} = \abs{\vec{x}\cdot \lambda\vec{x}} = \abs{\lambda\vec{x}\cdot \vec{x}} = \abs{\lambda} \norm{\vec{x}}^2 = \norm{\vec{x}} \norm{\vec{y}}.\]
+    
+    $(\implies)$: If the equality holds, then there are two cases. If $\vec{y} = \vec{0}$, then we're done because $\vec{y} = \vec{0} = 0\vec{x}$, so $\vec{y} = \lambda\vec{x}$ for $\lambda = 0$. If $\vec{y}\neq \vec{0}$, then equality has to have held throughout the previous chain of inequalities $(\diamondsuit)$ so $\norm{\vec{x}}^2 - \frac{(\vec{x}\cdot \vec{y})^2}{\norm{\vec{y}}^2} = 0$, but this equals $\norm{\vec{x} + t\vec{y}}^2$ for $t = -\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{y}}^2}$, implying that
+    \[\norm{\vec{x} + \left(-\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{y}}^2}\right)\vec{y}}^2 = 0\iff \vec{x} + \left(-\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{y}}^2}\right)\vec{y} = \vec{0}\iff \vec{x} = \lambda \vec{y}\]
+    for $\lambda = \frac{\vec{x} \cdot \vec{y}}{\norm{\vec{y}}^2}$ as desired.
+\end{proof}
+
+Geometrically, we can think of the function $f(t) = \vec{x} + t\vec{y}$ as the parallel line to the vector $\vec{y}$ through the point $\vec{x}$; this is due to the parallelogram law. Then Cauchy-Schwartz tells us that the point on that line closest to $\vec{y}$ is achieved when $t = -\frac{\vec{x}\cdot \vec{y}}{\norm{\vec{y}}^2}$, with the distance from $\vec{y}$ being $\sqrt{\norm{\vec{x}}^2 - \frac{(\vec{x}\cdot \vec{y})^2}{\norm{\vec{y}}^2}}$.
+\end{document}

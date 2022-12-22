@@ -1,0 +1,152 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Problem Set 8}
+\subsection{Problem 1}
+\begin{claim}
+    If $U \subseteq \RR^n$ is open and $\va \in U$, prove that $\va$ is an accumulation point of $U$. This can fail when $U$ isn’t open: show that $0$ isn’t an accumulation point of $\ZZ$.
+\end{claim}
+
+\begin{soln}
+    First, if $U\subseteq \RR^n$ is open and $\va\in U$, then by definition there exists a $\rho > 0$ such that $B_\rho\parens{\va}\subseteq U$. Since $\rho > 0$, this means that all vectors $\vx$ satisfying $\norm{\vx - \va} = \frac{\rho}{2}$ (for instance, any vector obtained by increasing one of the components of $\va$ by $\frac{\rho}{2}$) lie within $B_\rho\parens{\va}\cap U$, so in particular we have $\parens{B_\rho\parens{\va} \setminus \braces{\va}} \cap U \neq \emptyset$ because clearly $\norm{\va - \va} \neq \frac{\rho}{2}$. Then, for any $R > \rho$ we have $B_\rho\parens{\va}\subseteq B_R\parens{\va}$, so we get $\emptyset\neq \parens{B_\rho\parens{\va} \setminus \braces{\va}} \cap U\subseteq \parens{B_R\parens{\va} \setminus \braces{\va}} \cap U\implies \parens{B_R\parens{\va} \setminus \braces{\va}} \cap U\neq \emptyset$; on the other hand, for any $R < \rho$ we also have $B_R\parens{\va}\subseteq B_\rho\parens{\va}$, so we get $\parens{B_R\parens{\va} \setminus \braces{\va}} \cap U\subseteq \parens{B_\rho\parens{\va} \setminus \braces{\va}} \cap U\neq \emptyset\implies \parens{B_R\parens{\va} \setminus \braces{\va}} \cap U\neq \emptyset$. Thus, $\va$ is an accumulation point of $U$.
+
+    Next, observe that $0$ isn't an accumulation point of $\ZZ$ because for $0 < \rho < 1$ we have $B_\rho(0) \setminus \braces{0}= (-\rho, \rho)\setminus \braces{0} \subseteq (-1, 1) \setminus \braces{0}$, which clearly contains no integers.
+\end{soln}
+\eject
+
+\subsection{Problem 2}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$, $f : A \to \RR^m$, but $\va \in \RR^n$ is not an accumulation point of $A$. Show that every $\vy \in \RR^m$ would then satisfy our ``definition” of $\limv{a} f(x) = \vy$.
+\end{claim}
+
+\begin{soln}
+    If $\va$ is not an accumulation point, then there exists $\delta > 0$ such that $A \cap \parens{B_\delta\parens{\va}\setminus \braces{\va}}= \emptyset$. This means that for any $\varepsilon > 0$ and $\vy\in \RR^m$, we have $\vf\parens{\vx}\in B_\varepsilon\parens{\vy}$ for all $\vx\in A\cap \parens{B_\delta\parens{\va} \setminus \braces{\va}} = \emptyset$, so by the geometric definition of limits we have $\limv{a} f(x) = \vy$.
+\end{soln}
+\eject
+
+\subsection{Problem 3}
+\begin{claim}
+    Let $A \subseteq \RR^n$, $\vf : A \to \RR^m$, $a \in A$. If $\va$ is an accumulation point of $A$, prove that $\vf$ is continuous at a provided $\limv{a} \vf\parens{\vx} = \vf\parens{\va}$. If $\va$ is not an accumulation point of $A$, prove that $\vf$ is continuous at $\va$ (no matter what!).
+\end{claim}
+
+\begin{soln}
+    First, if $\va$ is an accumulation point and $\limv{a}\vf\parens{\vx} = \vf\parens{\va}$, then by definition of the limit we know that for all $\varepsilon > 0$, there exists $\delta > 0$ such that $\vf\parens{\vx}\in B_\varepsilon\parens{\vf\parens{\va}}$ for all $\vx\in A\cap \parens{B_\delta\parens{\va}\setminus \braces{\va}}$. On the other hand, we clearly have $\va\in A \cap B_\delta\parens{\va}$ since $\norm{\vf\parens{\va} - \vf\parens{\va}} = 0 < \delta$ and $\va\in A$, whereas we also have $\vf\parens{\va}\in B_\varepsilon\parens{\vf\parens{\va}}$ since $\norm{\vf\parens{\va} - \vf\parens{\va}} = 0 < \varepsilon$, so in fact $\vf\parens{\vx}\in B_\varepsilon\parens{\vf\parens{\va}}$ for all $\vx\in A\cap B_\delta\parens{\va}$. Thus, by definition, $\vf$ must be continuous at $\va$.
+
+    Next, if $\va$ is not an accumulation point then by definition there exists a $\delta_1 > 0$ such that $A\cap B_{\delta_1}\parens{\va}\setminus\braces{\va} = \emptyset$. In particular, for any $\varepsilon > 0$, we have $\vf\parens{\vx}\in B_\varepsilon\parens{\vf\parens{\va}}$ for all $\vx\in A\cap B_{\delta_1}\parens{\va} = \emptyset$, so $\vf$ is continuous at $\va$.
+\end{soln}
+\eject
+
+\subsection{Problem 4}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$, $\vg : A \to \RR^m$, $\va \in \RR^n$ is an accumulation point of $A$, and $\limv{a} \vg\parens{\vx} = \vy \neq \vec{0}$. Prove that there exists a $\sigma > 0$ such that $\vg\parens{x} \neq \vec{0}$ for every $\vx \in A \cap B_\sigma\parens{\va} \setminus \braces{\va}$.
+\end{claim}
+
+\begin{soln}
+    Since $\limv{a}\vg\parens{\vx} = \vy$, we know that for any $\varepsilon \in \parens{0, \norm{\vec{y}}}$ (which is a nonempty interval because $\vy \neq \vec{0}$), there must exist a $\delta > 0$ such that $\vg\parens{\vx}\in B_\varepsilon\parens{\vy}$ for all $\vx\in A\cap \parens{B_\delta\parens{\va} \setminus \braces{\va}}$; in particular, since
+    \[\vg\parens{\vx}\in B_\varepsilon\parens{\vy}\implies \norm{\vg\parens{\vx} - \vy} < \varepsilon < \norm{\vy}\implies \vg\parens{\vx} \neq \vec{0},\]
+    any such $\delta$ satisfies the conditions of a desired $\sigma$.
+\end{soln}
+\eject
+
+\subsection{Problem 5}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$, $\vg : A \to \RR^m$ is continuous at $\va \in A$, and $\vg\parens{\va} \neq \vec{0}$. Prove that there exists a $\sigma > 0$ such that $\vg\parens{\vx} \neq \vec{0}$ for every $\vx \in A \cap B_\sigma\parens{\va}$.
+\end{claim}
+
+\begin{soln}
+    Since $\vg\parens{\vx}$ is continuous at $\va$, we know that for any $\varepsilon \in \parens{0, \norm{\vg\parens{\va}}}$ (which is a nonempty interval because $\vg\parens{\va} \neq \vec{0}$), there must exist a $\delta > 0$ such that $\vg\parens{\vx}\in B_\varepsilon\parens{\vg\parens{\va}}$ for all $\vx\in A\cap B_\delta\parens{\va}$; in particular, since
+    \[\vg\parens{\vx}\in B_\varepsilon\parens{\vg\parens{\va}}\implies \norm{\vg\parens{\vx} - \vg\parens{\va}} < \varepsilon < \norm{\vg\parens{\va}}\implies \vg\parens{\vx} \neq \vec{0},\]
+    any such $\delta$ satisfies the conditions of a desired $\sigma$.
+\end{soln}
+\eject
+
+\subsection{Problem 6}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$, $\vf : A \to \RR^m$. Let $B = A \cap B_\sigma\parens{\va}$. Explain these facts briefly: (i) if $\va \in A$ and $\vf|_B$ is continuous at $\va$, then so is $\vf$; (ii) if $\va$ is an accumulation point of $A$ and $\limv{a} \vf|_B\parens{\vx} = \vy$, then $\limv{a} \vf\parens{\vx} = \vy$.
+\end{claim}
+
+\begin{soln}
+    \begin{enumerate}[(i)]
+        \item If $\vf |_B$ is continuous at $\va$, then for any $\varepsilon > 0$ there exists $\delta_1 > 0$ such that $\vf\parens{\vx} \in B_\varepsilon\parens{\vf\parens{\va}}$ for all $\vx\in B\cap B_{\delta_1}\parens{\va} = \parens{A\cap B_\sigma\parens{\va}}\cap B_{\delta_1}\parens{\va} = A \cap B_{\min\braces{\sigma, \delta_1}}\parens{\va}$. In particular, for any $\varepsilon > 0$ this means that there exists $\delta = \min\braces{\sigma, \delta_1} > 0$ such that $\vf\parens{\vx} \in B_\varepsilon\parens{\vf\parens{\va}}$ for all $\vx\in A\cap B_\delta\parens{\va}$, so $\vf$ is continuous at $\va$.
+        
+        \item Using the same logic as the previous part, we know that for any $\varepsilon > 0$ there exists $\delta_1 > 0$ such that $\vf\parens{\vx} \in B_\varepsilon\parens{\vy}$ for all $\vx\in B\cap \parens{B_{\delta_1}\parens{\va}\setminus\braces{\va}} = \parens{A\cap B_\sigma\parens{\va}}\cap \parens{B_{\delta_1}\parens{\va}\setminus\braces{\va}} = A \cap \parens{B_{\min\braces{\sigma, \delta_1}}\parens{\va}\setminus\braces{\va}}$, so we can take $\delta = \min\braces{\sigma, \delta_1} > 0$ so that $\vf\parens{\vx}\in B_\varepsilon\parens{\vy}$ for all $\vx\in A\cap \parens{B_\delta\parens{\va}\setminus\braces{\va}}$, whence $\limv{a}\vf\parens{\vx} = \vy$.
+    \end{enumerate}
+\end{soln}
+\eject
+
+\subsection{Problem 7}
+\begin{claim}
+    Give examples from single variable calculus where (i), (ii) fail at $\va$ when $B$ isn’t of the form $A \cap B_\sigma\parens{a}$.
+\end{claim}
+
+\begin{soln}
+    \begin{enumerate}[(i)]
+        \item Consider the function $f(x) = \begin{cases}
+            0 & x > 1 \\
+            1 & x \le 1
+        \end{cases}$. For any $\varepsilon > 0$, we can take any $\delta > 0$ so that for all $x\in (-1, 1]\cap B_\delta(1) = (\max\braces{-1, 1 - \delta}, 1]\subseteq (-\infty, 1]$ we have $f|_{(-1, 1]}(x) = 1$. In particular, since $1 = f|_{(-1, 1]}(1) \in B_\varepsilon(f|_{(-1, 1]}(1))$, this means $f|_{(-1, 1]}(x) \in B_\varepsilon(f|_{(-1, 1]}(1))$ for all $x\in (-1, 1]\cap B_\delta(1)$ as well; thus, $f|_{(-1, 1]}$ is continuous at $1$.
+        
+        Next, take $\varepsilon < 1\implies 0 < 1 - \varepsilon$; then $B_\varepsilon(f(1)) = (1 - \varepsilon, 1 + \varepsilon)$, which in particular does not contain $0$. However, any $\delta > 0$ results in $\RR\cap B_\delta(1) = B_\delta(1)$ containing real numbers greater than $1$, and taking $f(x)$ for any of these $x\in (1, 1 + \delta)\subseteq B_\delta(1)$ returns $0\not\in B_\varepsilon(f(1))$, so $f$ is not continuous at $1$ on its general domain $\RR$.
+
+        \item Consider the function $f(x) = \begin{cases}
+            0 & x > 1 \\
+            1 & x \le 1
+        \end{cases}$. For any $\varepsilon > 0$, we can take any $\delta > 0$ so that for all $x\in (-1, 1]\cap \parens{B_\delta(1)\setminus\braces{1}} = (\max\braces{-1, 1 - \delta}, 1)\subseteq (-\infty, 1]$ we have $f|_{(-1, 1]}(x) = 1$. In particular, since $1 = f|_{(-1, 1]}(1) \in B_\varepsilon(1)$, this means $f|_{(-1, 1]}(x) \in B_\varepsilon(1)$ for all $x\in (-1, 1]\cap \parens{B_\delta(1)\setminus\braces{1}}$ as well; thus, $\lim_{x\to 1}f|_{(-1, 1]}(x) = 1$.
+        
+        Next, suppose that the limit of $f(x)$ at $1$ exists and equals some $y\in \RR$. Take $\varepsilon < \frac{1}{2}$; then $B_\varepsilon(y) = (y - \varepsilon, y + \varepsilon)$, which in particular cannot contain both $0$ and $1$ since the size of the interval is less than $2\varepsilon < 1$. However, any $\delta > 0$ results in $\RR\cap B_\delta(1) = B_\delta(1)$ containing real numbers both less than and greater than $1$, and thus $f(x)$ achieves both $0$ and $1$ for some $x\in B_\delta(1)$. However, we've established $0$ and $1$ cannot both be in $B_\varepsilon(y)$, so $\lim_{x\to 1} f(x)$ does not exist.
+    \end{enumerate}
+\end{soln}
+\eject
+
+\subsection{Problem 8}
+\begin{claim}
+    Suppose $A \subseteq \RR^n$, $a \in \RR^n$ is an accumulation point of $A$, and that $f,g,h : A \to \RR$ satisfy $f\parens{\vx} \le g\parens{\vx} \le h\parens{\vx}$ for every $\vx \in A \setminus \braces{\va}$. If $\limv{a} f\parens{\vx} = \limv{a} h\parens{\vx} = y$, then prove $\limv{a} g\parens{\vx} = y$ too using the $\varepsilon$-$\delta$ definition.
+\end{claim}
+
+\begin{soln}
+    If $\limv{a} f\parens{\vx} = \limv{a} h\parens{\vx} = y$, then for any $\varepsilon > 0$, there exists $\delta_1, \delta_2 > 0$ such that $f\parens{\vx}\in B_\varepsilon\parens{y} \iff \abs{f\parens{\vx} - y} < \varepsilon$ for all $\vx\in A\cap \parens{B_{\delta_1}\parens{\va} \setminus \braces{\va}}$ and $f\parens{\vx}\in B_\varepsilon\parens{y} \iff \abs{h\parens{\vx} - y} < \varepsilon$ for all $\vx\in A\cap \parens{B_{\delta_2}\parens{\va} \setminus \braces{\va}}$. In particular, taking $\delta = \min\braces{\delta_1, \delta_2}$, we know that for any $\vx\in A\cap \parens{B_\delta\parens{\va}\setminus \braces{\va}}$ we have $f\parens{\vx}, h\parens{\vx}\in (y - \varepsilon, y + \varepsilon)$, and since $f\parens{\vx}\le g\parens{\vx}\le h\parens{\vx}$, we get that $g\parens{\vx}\in (y - \varepsilon, y + \varepsilon)\iff \abs{g\parens{\vx} - y} < \varepsilon\iff g\parens{\vx}\in B_\varepsilon\parens{y}$ as well. Thus, $\limv{a} g\parens{\vx} = y$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 9}
+\begin{claim}
+    Consider the function $\vf : \RR^n \to \RR^n$ given by $\vf\parens{\vx} = \vx$. Prove for every $\va \in \RR^n$ that $\vf$ is continuous at $\va$ using the $\varepsilon$-$\delta$ definition. Then prove for every $\va \in \RR^n$ that $\vf$ is differentiable at $\va$ with $\mathcal{D}\vf\parens{\va} = I$, using the “limit” definition of differentiability.
+\end{claim}
+
+\begin{soln}
+    Let $\va\in \RR^n$. First, observe that for any $\varepsilon > 0$, we can pick $\delta = \varepsilon > 0$ so that $\vf\parens{\vx} = \vx\in B_\varepsilon\parens{\vf\parens{\va}} = B_\varepsilon\parens{\va}$ for every $\vx\in B_\delta\parens{\va} = B_\varepsilon\parens{\va}$, so $\vf$ is continuous at $\va$. Next, observe that
+    \begin{align*}
+    \limv{a} \frac{\norm{\vf\parens{\vx} - \vf\parens{\vec{a}} - I\parens{\vx - \vec{a}}}}{\norm{\vec{x} - \vec{a}}} &= \limv{a} \frac{\norm{\vx - \va - \parens{\vx - \va}}}{\norm{\vec{x} - \vec{a}}} \\
+    &= \limv{a} \frac{\norm{\vec{0}}}{\norm{\vx - \va}} \\
+    &= \limv{a} \frac{0}{\norm{\vx - \va}}.
+    \end{align*}
+    To compute this limit, simply note that for any $\varepsilon > 0$ we can pick any $\delta > 0$ to get $0 < \norm{\vx - \va} < \delta = \varepsilon \implies \norm{\frac{0}{\norm{\vx - \va}} - 0} = 0 < \delta$, so it follows that $\limv{a} \frac{0}{\norm{\vx - \va}} = 0$, whence $\mathcal{D}f\parens{\va} = I$ as desired.
+\end{soln}
+\eject
+
+\subsection{Problem 10}
+\begin{claim}
+    Consider the function $f : \RR^n \to \RR$ given by $f\parens{x} = \norm{\vx}^2$. Prove for every $\va \in \RR^n$ that $f$ is continuous at $\va$ using the $\varepsilon$-$\delta$ definition. Then prove for every $\va \in \RR^n$ that $f$ is differentiable at $\va$ with $\mathcal{D}f\parens{\va} = 2\va^\top$, using the “limit” definition of differentiability.
+\end{claim}
+
+\begin{soln}
+    Let $\va\in \RR^n, \varepsilon > 0$. Let $\delta = \min\braces{\frac{\varepsilon}{2\norm{a} + 1}, 1}$. Let $\vx\in \RR^n$ satisfy $\norm{\vx -\va} < \delta$. In that case, we get
+    \[2\norm{\va} + 1 \ge 2\norm{\va} + \delta > \norm{\va} + \parens{\norm{\va} + \norm{\vx - \va}} \ge \norm{\va} + \norm{\vx}\]
+    by the Triangle Inequality. On the other hand, the Triangle Inequality again implies that $\delta > \norm{\vx - \va} \ge \norm{\vx} - \norm{\va}$ and $\delta > \norm{\vx - \va} = \norm{\va - \vx} \ge \norm{\va} - \norm{\vx}$, so we get $\delta > \abs{\norm{\vx} - \norm{\va}}$. Finally, we obtain
+    \begin{align*}
+        \varepsilon &= \parens{2\norm{a} + 1}\frac{\varepsilon}{2\norm{a} + 1} \\
+        &\ge \parens{2\norm{a} + 1}\delta \\
+        &> \parens{\norm{\va} + \norm{\vx}}\abs{\norm{\vx} - \norm{\va}} \\
+        &= \abs{\norm{\vx}^2 - \norm{\va}^2}.
+    \end{align*}
+    Thus, $f$ is continuous at $\va$.  Next, observe that
+    \begin{align*}
+        \limv{a} \frac{\norm{f\parens{\vx} - f\parens{\vec{a}} - 2\va^\top\parens{\vx - \vec{a}}}}{\norm{\vec{x} - \vec{a}}} &= \limv{a} \frac{\norm{\norm{\vx}^2 - \norm{\va}^2 - 2\va \cdot \parens{\vx - \va}}}{\norm{\vec{x} - \vec{a}}} \\
+        &= \limv{a} \frac{\norm{\norm{\vx}^2 - 2\va\cdot \vx + \norm{\va}^2}}{\norm{\vx - \va}} \\
+        &= \limv{a} \frac{\norm{\norm{\vx - \va}^2}}{\norm{\vx - \va}} \\
+        &= \limv{a} \frac{\norm{\vx - \va}^2}{\norm{\vx - \va}}.
+    \end{align*}
+    To compute this limit, simply note that for any $\varepsilon > 0$ we can pick $\delta = \varepsilon$ to get $0 < \norm{\vx - \va} < \delta = \varepsilon \implies \norm{\frac{\norm{\vx - \va}^2}{\norm{\vx - \va}} - 0} = \norm{\vx - \va} < \varepsilon$, so it follows that $\limv{a} \frac{\norm{\vx - \va}^2}{\norm{\vx - \va}} = 0$, whence $\mathcal{D}f\parens{\va} = 2\va^\top$ as desired.
+\end{soln}
+\eject
+
+\end{document}

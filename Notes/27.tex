@@ -1,0 +1,99 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 27: 10/26/22}
+
+\begin{theorem}[Main Differentiability Criterion]
+    Let $U\subseteq \RR^n$, $\vf : U \to \RR^m$. Suppose
+    \begin{itemize}
+        \item (single-variable condition) $\mathcal{D}_1\vf, \ldots , \mathcal{D}_n\vf$ exist on $B_\rho\parens
+        \va\subseteq U$.
+        \item (multi-variable condition) $\mathcal{D}_1\vf, \ldots , \mathcal{D}_n\vf$ are all continuous at $\va$.
+    \end{itemize}
+    Then $\vf$ is differentiable at $\va$. In particular, this means that if all the partial derivatives of $\vf$ exist and are continuous at $\va$, then the derivative exists at $\va$ as well.
+\end{theorem}
+
+The proof will be deferred for later. We will now use this theorem to prove our prior assertion about the differentiability of constant and polynomial functions.
+
+\begin{definition}
+    A \vocab{monomial} on $\RR^n$ is a finite product of constants and coordinate functions ($x_i : \RR^n \to \RR$, $i = 1, \ldots , n$), e.g. $p\parens{\vx} = 2x_1^2x_2$. A \vocab{polynomial} on $\RR^n$ is a finite sum of monomials, e.g. $p\parens{\vx} = 2x_1^2x_2 + 7 + 5x_3^{10}$.
+\end{definition}
+
+\begin{theorem}
+    Every polynomial $p : \RR^n \to \RR$ is differentiable on $\RR^n$.
+\end{theorem}
+
+\begin{proof}
+    We will build up our proof from a polynomial's components.
+    \begin{claim}
+        Constant functions are differentiable on $\RR^n$.
+    \end{claim}
+    \begin{proof}
+        Take $p : \RR^n \to \RR$ so that $p\parens{\vx} = c$, a constant. Then for every $j = 1, \ldots , n$, we have $\mathcal{D}_jp\parens{\vx} = 0$ from single-variable calculus. Thus, $\mathcal{D}_1p\parens{\vx} = \ldots = \mathcal{D}_np\parens{\vx} = 0$, a constant, which is continuous on $\RR^n$, whence $p$ is differentiable on $\RR^n$.
+    \end{proof}
+    \begin{claim}
+        Coordinate functions are differentiable on $\RR^n$.
+    \end{claim}
+    \begin{proof}
+        Take $p : \RR^n \to \RR$ so that $p\parens{\vx} = x_i$. For every $j = 1, \ldots , n$, we have $\mathcal{D}_jp\parens{\vx} = \begin{cases}
+            0 & j \neq i \\
+            1 & j = 1
+        \end{cases}$ from single-variable calculus. Thus, $\mathcal{D}_1p, \ldots , \mathcal{D}_np$ are all constants, so they are continuous on $\RR^n$, whence $p$ is differentiable on $\RR^n$.
+    \end{proof}
+    From here, observe that monomials are by definition finite products of constant and coordinate functions, so they must also be differentiable by the product rule; similarly, polynomials are finite sums of monomials, so they must also be differentiable by the sum rule.
+\end{proof}
+
+\begin{example}
+    Let $U = \set*{\parens{x, y}^\top \mid y \neq 0}$, $f : U \to \RR$, and $f\parens{x, y}^\top = \frac{x^2 + y^2}{y^3}$.
+\end{example}
+To justify the differentiability of $f$ on $U$, observe that:
+\begin{enumerate}
+    \item the numerator and denominator are polynomials, which are differentiable on $\RR^2$.
+    \item the denominator is nonzero on $U$.
+    \item so the entire function is differentiable on $U$ by the quotient rule.
+\end{enumerate}
+Incidentally, we have
+\[\mathcal{D}_1f\parens{x, y}^\top = \frac{2x}{y^3}, \mathcal{D}_2f\parens{x, y}^\top = \frac{2y\cdot y^3 - \parens{x^2 + y^2}\cdot 3y^2}{y^6} = \frac{-3x^2 + y^2}{y^4}.\]
+\begin{example}
+    Let $\vf : \RR^2 \to \RR^2$, $\vf\begin{pmatrix}
+        x \\ y
+    \end{pmatrix} = \begin{pmatrix}
+        e^{x + y} \\ \cos\parens{xy}
+    \end{pmatrix}$.
+\end{example}
+To justify the differentiability of $\vf$ on $\RR^2$, observe that:
+\begin{enumerate}
+    \item We can break $\vf$ into $f_1 : \RR^2\to \RR$ defined by $f_1\begin{pmatrix}
+        x \\ y
+    \end{pmatrix} = e^{x + y}$ and $f_2 : \RR^2 \to \RR$ defined by $f_2\begin{pmatrix}
+        x \\ y
+    \end{pmatrix} = \cos\parens{xy}$.
+    \item Note that $f_1$ is the composition of $t\to e^t$ and $\begin{pmatrix}
+        x \\ y
+    \end{pmatrix}\to x + y$, which are both differentiable because of single-variable calculus and since polynomials are, respectively. Thus, $f_1$ is differentiable by the chain rule.
+    \item Note that $f_2$ is the composition of $t\to \cos t$ and $\begin{pmatrix}
+        x \\ y
+    \end{pmatrix}\to xy$, which are both differentiable because of single-variable calculus and since monomials are, respectively. Thus, $f_1$ is differentiable by the chain rule.
+    \item Thus, $\vf$ is also differentiable on $\RR^2$ by our criterion.
+\end{enumerate}
+Incidentally, we have
+\[\mathcal{D}_1\vf\begin{pmatrix}
+    x \\ y
+\end{pmatrix} = \begin{pmatrix}
+    e^{x + y} \\ -y\sin(xy)
+\end{pmatrix}, \mathcal{D}_2\vf\begin{pmatrix}
+    x \\ y
+\end{pmatrix} = \begin{pmatrix}
+    e^{x + y} \\ -x\sin(xy)
+\end{pmatrix}.\]
+\begin{definition}
+    Let $U\subseteq \RR^n$ be open, $\vf : U \to \RR^m$. We say $\vf$ is $C^1$ on $U$ (i.e. is continuous and differentiable) if its partial derivatives $\mathcal{D}_1\vf, \ldots , \mathcal{D}_n\vf$ exist and are continuous on $U$.
+\end{definition}
+\begin{example}
+    Let $\vf : \RR^2 \to \RR$, $\vf\begin{pmatrix}
+        x \\ y
+    \end{pmatrix} = e^{x + y}$. Why is this $C^1$ on $\RR^2$?
+\end{example}
+This function is the composition of $t\to e^t$ with $\begin{pmatrix}
+    x \\ y
+\end{pmatrix}\to x + y$, which are both continuous by calculus and as polynomials, respectively, so $\mathcal{D}_1f$ is continuous on $\RR^2$; likewise $\mathcal{D}_2$ is also continuous, so $f$ is $C^1$ on $\RR^2$.
+\end{document}

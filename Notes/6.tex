@@ -1,0 +1,122 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\subsection{Day 6: 9/2/22}
+
+We will now show the inductive step of the Underdetermined System Lemma.
+
+\begin{proof}[Proof, cont'd]
+    \textbf{Inductive Step}: Assume $P(k)$ is true for some $k\ge 1$, i.e. that every homogeneous underdetermined system with $k$ equations has a nontrivial solution. Consider now any homogeneous underdetermined system with $k + 1$ equations:
+    \[\left\{\begin{aligned}
+        &a_{11}x_1 + \ldots + a_{1n}x_n = 0 \\
+        &\phantom{hey guys}\vdots \\
+        &a_{(k + 1)1}x_1 + \ldots + a_{(k + 1)n}x_n = 0
+    \end{aligned}\right.\]
+    Note that there are $n$ unknowns and $n > m + 1$ since the system is underdetermined. By Stage 1 of Gaussian Elimination, there are two options: we either have
+    \[\left\{\begin{aligned}
+        &\boxed{0}\,x_1 + \ldots + a_{1n}x_n = 0 \\
+        &\phantom{hey guys}\vdots \\
+        &\boxed{0}\,x_1 + \ldots + a_{(k + 1)n}x_n = 0
+    \end{aligned}\right.\]
+    or
+    \[\left\{\begin{aligned}
+        &\boxed{1}\,x_1 + \ldots + \tilde{a}_{1n}x_n = 0 \\
+        &\boxed{0}\,x_1 + \ldots + \tilde{a}_{2n}x_n = 0 \\
+        &\phantom{hey guys}\vdots \\
+        &\boxed{0}\,x_1 + \ldots + \tilde{a}_{(k + 1)n}x_n = 0
+    \end{aligned}\right.\]
+    Note that in the first case, clearly $(x_1, x_2, \ldots , x_n) = (1, 0, \ldots , 0)$ is a nontrivial solution, so we're done. In the second case, consider the following new system:
+    \[\left\{\begin{aligned}
+        &\tilde{a}_{22}x_2 + \ldots + \tilde{a}_{2n}x_n = 0 \\
+        &\phantom{hey guys}\vdots \\
+        &\tilde{a}_{(k + 1)2}x_2 + \ldots + \tilde{a}_{(k + 1)n}x_n = 0
+    \end{aligned}\right.\]
+    Note that this new system is homogeneous and underdetermined ($k$ equations with $n - 1$ unknowns, $k < n - 1$), so the inductive hypothesis tells us that it must have a nontrivial solution $(x_2^*, \ldots , x_n^*)$. Since the coefficients of $x_1$ are all $0$ apart from the first, it follows that we only need to deal with making the first equation valid, so it turns out that the solution vector $(x_1, x_2, \ldots , x_n) = (-\tilde{a}_{12}x_2^* - \ldots - \tilde{a}_{1n}x_n^*, x_2^*, \ldots , x_n^*)$ is nontrivial, proving $P(k + 1)$. Thus, by induction $P(k)$ is true for all $k\in \NN$.
+\end{proof}
+
+\subsubsection{Real Analysis Lecture 1}
+
+Here is a motivating example for the concept of a supremum.
+\begin{example}
+    Consider the set $S = (-\infty , 1) = \{x\in \RR : x < 1\}$.
+\end{example}
+
+Note that this set does not have a maximum because $x$ can never equal 1. We rectify this with the supremum, and state that $\sup S = 1$.
+
+\begin{definition}[Upper and Lower Bounds]
+    Suppose $S \subseteq \RR$.
+    \begin{enumerate}
+        \item We say that $S$ is \vocab{bounded above} if there exists a $K\in \RR$ such that $x \le K$ for all $x\in S$ (we call such a $K$ an \vocab{upper bound} of $S$).
+        \item We say that $S$ is \vocab{bounded below} if there exists a $k\in \RR$ such that $x\ge k$ for all $x\in S$ (we call such a $k$ a \vocab{lower bound} of $S$).
+        \item We say that $S$ is \vocab{bounded} if it is bounded above and below.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Maximum]
+    Suppose $S\subseteq \RR$. If there exists a $K\in \RR$ such that
+    \begin{enumerate}[(i)]
+        \item $K$ is an upper bound of $S$, and
+        \item $K\in S$,
+    \end{enumerate}
+    then we say that $\max S = K$. Otherwise we say $\max S$ does not exist.
+\end{definition}
+
+\begin{definition}[Supremum]
+    Suppose $S\subseteq \RR$. If there exists a $K\in \RR$ such that
+    \begin{enumerate}[(i)]
+        \item $K$ is an upper bound of $S$, and
+        \item $K\le K'$ for all upper bounds $K'$ of $S$,
+    \end{enumerate}
+    then we say that $\sup S = K$. Otherwise we say $\sup S$ does not exist.
+\end{definition}
+
+Heuristically, the supremum of $S$ is the \textbf{least upper bound} of $S$; another way to state the second condition is that for any $\epsilon > 0$, there exists $x\in S$ such that $x > \sup S - \epsilon$, i.e. $\sup S - \epsilon$ is not an upper bound. Similar definitions exist for the \vocab{infimum} and \vocab{minimum}.
+
+\begin{proposition}[Uniqueness of supremum]
+    Suppose $S\subseteq \RR$. If $K_1, K_2$ both satisfy the definition of the supremum of $S$, must $K_1 = K_2$?
+\end{proposition}
+
+\begin{proof}
+    Since $K_1$ satisfies (i) and $K_2$ satisfies (ii), $K_1\le K_2$. On the other hand, $K_2$ satisfies (ii) and $K_1$ satisfies (i), so $K_2\le K_1$. Thus $K_1 = K_2$.
+\end{proof}
+
+\begin{proposition}
+    Suppose $S\subseteq \RR$ with $\max S = K$. Then $\sup S = K$ too.
+\end{proposition}
+
+\begin{proof}
+    We need to verify that $K$ satisfies the two conditions for it to be the supremum. The first one is given to us by the definition of the maximum. The second is given because if we consider any other upper bound $K'$ of $S$, then $x\le K'$ for all $x\in S$. In particular, $x = \max S = K$ also satisfies this inequality, so $K \le K'$ as desired.
+\end{proof}
+
+Similar properties hold for the infimum and minimum. Going back to the example $S = \{x \in \RR : x < 1\}$, let's prove that its supremum is $1$ and that its maximum does not exist.
+
+\begin{example}
+    Let $S = \{x\in \RR : x < 1\}$. Then
+    \begin{enumerate}
+        \item $\sup S = 1$.
+        \item $\max S$ does not exist.
+    \end{enumerate}
+\end{example}
+
+\begin{proof}
+    The first property will lend itself to the second.
+    \begin{enumerate}
+        \item We need to verify both conditions for the supremum. The first follows because we have $x < 1\implies x \le 1$ so $1$ is an upper bound of $S$. For the second condition, pick any upper bound $K'$ of $S$, and assume FTSOC that $K' < 1$. Consider the number $x = \frac{1 + K'}{2}$ (the midpoint). Note that $x\in S$ because $x = \frac{1 + K'}{2} < \frac{1 + 1}{2}$. On the other hand, $x = \frac{1 + K'}{2} > \frac{K' + K'}{2} = K'$. Thus, $x$ is an element of $S$ that is strictly bigger than $K'$, so $K'$ cannot be an upper bound, contradiction.
+        \item If the maximum existed, it would be equal to the supremum $1$ but $1$ is not in $S$ so we're done.\qedhere
+    \end{enumerate}
+\end{proof}
+
+Here is an axiom about $\RR$ we will be assuming:
+\begin{theorem}[Completeness of $\RR$]
+    If $S\subseteq \RR$ is nonempty and bounded above, then $\sup S$ exists.
+\end{theorem}
+
+We can use this to prove the following:
+\begin{proposition}[Archimedean Principle]
+    $\NN$ is not bounded above.
+\end{proposition}
+
+\begin{proof}
+    Suppose FTSOC that $\NN$ is bounded above; then since $\NN$ is obviously nonempty, by the completeness of $\RR$ we must have some $K\in \RR$ that is the supremum of $\NN$. Using the upper bound property, this means that $n \le K$ for all $n\in \NN$. But since $n\in \NN\implies n + 1\in \NN$, we must also have $n + 1\le K\implies n\le K - 1$ for all $n\in \NN$. However, if $K - 1$ is an upper bound of $\NN$, this contradicts the supremum condition that $K$ is the least upper bound. Thus, $\NN$ is unbounded as desired.
+\end{proof}
+\end{document}

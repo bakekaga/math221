@@ -1,0 +1,96 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Chapter 4}
+\subsection{Day 39: 11/28/22}
+\subsubsection{Contraction Mapping Principle}
+
+First, we define the notion of a contraction:
+
+\begin{definition}
+    Given a mapping $f : E\to \RR^n$, where $E\subseteq \RR^n$, we say that $f$ is a \vocab{contraction} if there is a constant $\theta \in (0, 1)$ such that
+    \[\norm{f\parens{\vx} - f\parens{\vy}} \le \theta\norm{\vx - \vy}\]
+    for all $\vx, \vy\in E$.
+\end{definition}
+
+Here's why this is useful:
+\begin{theorem}
+    Let $A$ be a closed subset of $\RR^n$ and $f$ a contraction mapping of $A$ into $A$. Then $f$ has a fixed point, i.e. there exists $\vx\in A$ such that $\vf\parens{\vx} = \vx$.
+\end{theorem}
+
+\begin{proof}
+    We will provide a constructive proof. Choose an arbitrary $\vx^{(0)}\in A$; define the $A$-valued sequence $\braces{\vseq{x}}_{k = 1, 2, \ldots}$ by $\vseq{x} = \vf\parens{\vx^{(k - 1)}} \in A$ for $k \in \NN$.
+
+    \begin{claim}
+        For every integer $k\ge 0$, we have
+        \[\norm{\vx^{(k + 1)} - \vseq{x}} \le \theta^k\norm{\vx^{(1)} - \vx^{(0)}}.\]
+    \end{claim}
+
+    \begin{proof}
+        We induct on $k$.
+
+        \textbf{Base Case:} When $k = 0$, we clearly have equality since $\theta^0 = 1$.
+
+        \textbf{Inductive Step:} Assuming the assertion holds for some $k - 1 \ge 0$, we have
+        \begin{align*}
+            \norm{\vx^{(k + 1)} - \vseq{x}} &= \norm{\vf\parens{\vseq{x}} - \vf\parens{\vx^{(k + 1)}}} \\
+            &\le \theta \norm{\vseq{x} - \vx^{(k + 1)}} \\
+            &\le \theta \cdot \theta^{k - 1} \norm{\vx^{(1)} - \vx^{(0)}} \\
+            &=\theta^k\norm{\vx^{(1)} - \vx^{(0)}},
+        \end{align*}
+        which completes the induction.
+    \end{proof}
+
+    \begin{claim}
+        For all integers $\ell > k \ge 0$, we have
+        \[\norm{\vx^{\ell} - \vseq{x}} \le \frac{\theta^k}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}}.\]
+    \end{claim}
+
+    \begin{proof}
+        Rewrite $\vx^{\ell} - \vseq{x}$ to telescope as $\sum_{j = k}^{\ell - 1} \vx^{(j + 1)} - \vx^{(j)}$. By the Triangle Inequality, it follows that
+        \begin{align*}
+            \norm{\vx^{\ell} - \vseq{x}} &\le \sum_{j = k}^{\ell - 1} \norm{\vx^{(j + 1)} - \vx^{(j)}} \\
+            &\le \sum_{j = k}^{\ell - 1} \theta^j\norm{\vx^{(1)} - \vx^{(0)}} \\
+            &= \frac{\theta^k - \theta^\ell}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}} \\
+            &= \frac{\theta^k}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}}
+        \end{align*}
+        as desired.
+    \end{proof}
+
+    \begin{claim}
+        $\braces{\vseq{x}}_{k = 1, 2, \ldots}$ is bounded.
+    \end{claim}
+
+    \begin{proof}
+        We have for all $k \ge 1$
+        \begin{align*}
+            \norm{\vseq{x}} &\le \norm{\vseq{x} + \vx^{(0)}} + \norm{\vx^{(0)}} \\
+            &\le \frac{\theta^0}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}} + \norm{\vx^{(0)}} \\
+            &= \frac{1}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}} + \norm{\vx^{(0)}},
+        \end{align*}
+        which is a constant independent of $k$ as desired.
+    \end{proof}
+
+    Since $\braces{\vseq{x}}_{k = 1, 2, \ldots}$ is bounded, it follows by Bolzano-Weierstrass that there is a convergent subsequence $\braces{\vx^{(k_\ell)}}_{\ell = 1, 2, \ldots}$. Define $\vx = \lim_{\ell\to\infty} \vx^{(k_\ell)}$; we wish to show that $\vx\in A$ and that $\vf\parens{\vx} = \vx$.
+
+    \begin{claim}
+        $\limk \vseq{x} = \vx$ too.
+    \end{claim}
+
+    \begin{proof}
+        Let $\varepsilon > 0$ be arbitrary. From the convergence of $\vx^{(k_\ell)}$, we know there exists some $L\in \NN$ such that $\norm{\vx^{(k_\ell)} - \vx} < \frac{\varepsilon}{2}$ for all $\ell \ge L$. Since $0 < \theta < 1$, it follows that $\limk \theta^k = 0\implies \limk \frac{\theta^k}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}} = 0$; thus, we know there exists some $K\in \NN$ such that $\frac{\theta^k}{1 - \theta}\norm{\vx^{(1)} - \vx^{(0)}} < \frac{\varepsilon}{2}$.
+
+        Define $\mu = \max\braces{k + 1, L}$. For all $m \ge \mu$, we have
+        \[\norm{\vx^{(m)} - \vx} = \norm{\vx^{(m)} - \vx^{(k_m)}} + \norm{\vx^{(k_m)} - \vx} < \frac{\varepsilon}{2} + \varepsilon{2} = \varepsilon,\]
+        so $\lim_{m\to\infty} \vx^{(m)} = \vx\iff \limk \vseq{x} = \vx$ as desired.
+    \end{proof}
+
+    Since we've shown that $\braces{\vseq{x}}_{k = 1, 2, \ldots}$ is $A$-valued and convergent with limit $\vx$, this implies that $\vx\in \overline{A} = A$. By Problem Set 14 Problem 8, $\vf$ is continuous on $A$ and therefore at $\vx$, so
+    \begin{align*}
+        \vf\parens{\vx} &= \vf\parens{\limk \vseq{x}} && \parens{\vx = \limk \vseq{x}} \\
+        &= \limk \vf\parens{\vseq{x}} && \parens{\vf\text{ is continuous at }\vx} \\
+        &= \limk \vx^{(k + 1)} && \parens{\text{construction of }\vx^{(k + 1)}} \\
+        &= \limk \vseq{x} = \vx
+    \end{align*}
+    as desired.
+\end{proof}
+\end{document}

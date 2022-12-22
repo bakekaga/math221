@@ -1,0 +1,109 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\subsection{Day 37: 11/18/22}
+
+\begin{definition}
+    Let $A$ be an $n\times n$ matrix. If $\vec{v}\in \RR^n\setminus\braces{\vec{0}}$ satisfies $A\vec{v} = \lambda\vec{v}$ for some $\lambda\in \RR$, then $\vec{v}$ is an eigenvector of $A$ with eigenvalue $\lambda$.
+\end{definition}
+
+To find eigenvalues and eigenvectors, first solve $\det\parens{A - \lambda I} = 0$ for $\lambda$ to obtain \textit{all} eigenvalues. Then, for each eigenvalue $\lambda$ found, observe that
+\begin{align*}
+    &A\vec{v} = \lambda\vec{v} \\
+    &\iff A\vec{v} - \lambda\vec{v} = 0 \\
+    &\iff \parens{A - \lambda I}\vec{v} = 0;
+\end{align*}
+then the set of eigenvectors is $\boxed{N\parens{A - \lambda I}\setminus\braces{\vec{0}}}$.
+
+\subsubsection{Orthonormal Bases}
+\begin{definition}
+    We say that $\vec{u}_1, \ldots , \vec{u}_m\in \RR^n$ are \vocab{orthonormal} if $\vec{u}_i\vec{u}_j=\delta_{ij}$, where $\delta_{ij}$ is the Kronecker delta $\delta_{ij} = \begin{cases}1 & i = j \\ 0 & i \neq j\end{cases}$, for all $i, j\in \braces{1, \ldots , m}$.
+\end{definition}
+In particular, $\vec{u}_1, \ldots , \vec{u}_m$ are orthonormal if and only if all the vectors $\vec{u}_1, \ldots , \vec{u}_m$ have length $1$ and are pairwise orthogonal. The intuition behind orthonormal vectors is to essentially generalize the standard basis vectors.
+
+\begin{proposition}
+    Suppose $\vec{u}_1, \ldots , \vec{u}_m\in \RR^n$ are orthonormal. Then
+    \begin{enumerate}
+        \item $\vec{u}_1, \ldots , \vec{u}_m$ are linearly independent.
+        \item For every $\vx\in \RR^n$, we have
+        \[\vx - \sum_{i = 1}^m \parens{\vx\cdot \vec{u}_i}\vec{u}_i\in \parens{\vspan\braces{\vec{u}_1, \ldots , \vec{u}_m}}^\perp.\]
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Suppose $a_1\vec{u}_1 + \ldots + a_m\vec{u}_m = \vec{0}$ for some $a_1, \ldots , a_m\in \RR$. Fix $j\in \braces{1, \ldots , m}$. Then we have
+        \begin{align*}
+            &a_1\parens{\vec{u}_1\cdot \vec{u}_j} + \ldots + a_m\parens{\vec{u}_m\cdot \vec{u}_j} = \vec{0}\cdot\vec{u}_j \\
+            &\implies a_j = 0
+        \end{align*}
+        since $\vec{u}_i\cdot \vec{u}_j = \delta_{ij}$ by definition. Since $j$ was arbitrary, this means $a_1 = \ldots = a_m = 0$ so we're done.
+        \item Recall from Problem Set 5 that the statement we wish to show is equivalent to proving that $\parens{\vx - \sum_{i = 1}^m \parens{\vx\cdot \vec{u}_i}\vec{u}_i}\cdot \vec{u}_j = 0$ for all $j = 1, \ldots , m$. We can check this directly:
+        \begin{align*}
+            &\parens{\vx - \sum_{i = 1}^m \parens{\vx\cdot \vec{u}_i}\vec{u}_i}\cdot \vec{u}_j \\
+            &= \vx \cdot \vec{u}_j - \sum_{i = 1}^m \parens{\vx\cdot \vec{u}_i}\parens{\vec{u}_i\cdot \vec{u}_j} \\
+            &= \vx \cdot \vec{u}_j - \vx\cdot \vec{u}_j \\
+            &= 0
+        \end{align*}
+        as desired.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Suppose $\vec{u}_1, \ldots , \vec{u}_n\in \RR^n$ are orthonormal. Then
+    \begin{enumerate}
+        \item $\vec{u}_1, \ldots , \vec{u}_n$ form a basis of $\RR^n$.
+        \item For all $\vx\in \RR^n$, we have $\vx = \sum_{i = 1}^n \parens{\vx\cdot\vec{u}_i}\vec{u}_i$.
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    \begin{enumerate}
+        \item From the first part of the previous proposition, we know that $\vec{u}_1, \ldots , \vec{u}_n\in \RR^n$ are linearly independent, but since $n = \dim \RR^n$, they must be a basis of $\RR^n$ by a consequence of the Linear Dependence Lemma.
+        \item From the second part of the previous proposition, we know that
+        \[\vx - \sum_{i = 1}^n \parens{\vx\cdot \vec{u}_i}\vec{u}_i\in \parens{\vspan\braces{\vec{u}_1, \ldots , \vec{u}_n}}^\perp = \parens{\RR^n}^\perp = \braces{\vec{0}},\]
+        so we get the desired result.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    An $n\times n$ matrix with orthonormal column vectors $\vec{u}_1, \ldots , \vec{u}_n\in \RR^n$ is called an \vocab{orthogonal matrix}.
+\end{definition}
+
+\begin{proposition}
+    Let $Q$ be an $n\times n$ matrix. The following are equivalent:
+    \begin{enumerate}
+        \item $Q$ is orthogonal.
+        \item $Q^\top Q = I$.
+        \item $Q$ is invertible with inverse $Q^{-1} = Q^\top$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    First, we show $1\iff 2$. Let $\vec{u}_1, \ldots , \vec{u}_n$ be the columns of $Q$; then $Q^\top Q_{ij} = \vec{u}_i^\top \vec{u}_j = \vec{u}_i\cdot \vec{u}_j$, so $Q^\top Q = I\iff \vec{u}_i\cdot\vec{u}_j = \delta_{ij}\iff \vec{u}_1, \ldots , \vec{u}_n$ are orthonormal as desired.
+
+    Next, $3 \implies 2$ is trivial, so we now show $2\implies 3$. By Problem Set 13, we know that $Q^\top Q = I$ implies that $Q^\top$ is invertible with $\parens{Q^\top}^{-1} = Q$; by the definition of invertibility, this implies that $Q^{-1} = Q^\top$ as well.
+\end{proof}
+
+\subsubsection{Part II: Spectral Theorem}
+
+\begin{theorem}[Spectral Theorem]
+    Suppose $A$ is a symmetric $n\times n$ matrix. Then there exists an orthonormal basis of $\RR^n$ consisting of eigenvectors of $A$.
+\end{theorem}
+
+Here are two consequences:
+\begin{corollary}
+    If we call the orthonormal basis $\vec{u}_1, \ldots , \vec{u}_n\in \RR^n$ and the corresponding eigenvalues $\lambda_1, \ldots , \lambda_n\in \RR$, then $A = Q\Lambda Q^\top$, where $Q$ is the orthogonal matrix $(\vec{u}_1, \ldots , \vec{u}_n)$ and $\Lambda$ is the \vocab{diagonal matrix} defined by $\Lambda_{ij} = \begin{cases}
+        \lambda_i & i = j \\
+        0 & i \neq j
+    \end{cases}$.
+\end{corollary}
+
+\begin{corollary}
+    If we call the orthonormal basis $\vec{u}_1, \ldots , \vec{u}_n\in \RR^n$ and the corresponding eigenvalues $\lambda_1, \ldots , \lambda_n\in \RR$, then:
+    \begin{itemize}
+        \item $A\vx\cdot \vx \underbrace{>}_{(\ge)} 0$ for all $\vx\in \underbrace{\RR^n\setminus \braces{\vec{0}}}_{(\RR^n)}$ if and only if $\lambda_1, \ldots , \lambda_n \underbrace{>}_{(\ge)} 0$.
+        \item $A\vx\cdot \vx \underbrace{<}_{(\le)} 0$ for all $\vx\in \underbrace{\RR^n\setminus \braces{\vec{0}}}_{(\RR^n)}$ if and only if $\lambda_1, \ldots , \lambda_n \underbrace{<}_{(\le)} 0$.
+        \item $A\vx\cdot \vx > 0$ and $A\vx'\cdot \vx' < 0$ for some $\vx, \vx'\in \RR^n\setminus \braces{\vec{0}}$ if and only if some $\lambda_i > 0$ and some other $\lambda_j < 0$. 
+    \end{itemize}
+\end{corollary}
+\end{document}
